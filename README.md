@@ -14,6 +14,7 @@ Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida com
   - [🛠️ Qualidade de Código](#️-qualidade-de-código)
   - [📋 Pré-requisitos](#-pré-requisitos)
   - [🚀 Ambiente de Desenvolvimento](#-ambiente-de-desenvolvimento)
+  - [💡 Recomendações para uso de emulador Android no ambiente local](#-recomendações-para-uso-de-emulador-android-no-ambiente-local)
   - [☁️ Implantação (Deploy)](#️-implantação-deploy)
   - [🔗 Links Úteis](#-links-úteis)
   - [💡 Melhorias Futuras](#-melhorias-futuras)
@@ -111,12 +112,13 @@ O projeto utiliza um conjunto de ferramentas para garantir a consistência e a q
 
 ## 📋 Pré-requisitos
 
-Antes de começar, garanta que você tenha as seguintes ferramentas instaladas:
+Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em seu ambiente:
 
-  * **[Git](https://git-scm.com/)**: Para controle de versão do código.
-  * **[Node.js](https://nodejs.org/)**: Recomenda-se a versão 18.x ou superior.
-  * **[Expo CLI](https://docs.expo.dev/workflow/expo-cli/)**: `npm install -g expo-cli`
-  * **Um emulador de dispositivo móvel** (Android Studio ou Xcode) ou um dispositivo físico com o aplicativo Expo Go instalado.
+- **[Git](https://git-scm.com/):** Controle de versão do código.
+- **[Node.js](https://nodejs.org/):** Recomendado: versão 18.x ou superior.
+- **[Expo CLI](https://docs.expo.dev/workflow/expo-cli/):** Instale globalmente com `npm install -g expo-cli`.
+- **[Docker](https://www.docker.com/):** Necessário para rodar a API GraphQL e o MongoDB.
+- **Dispositivo para testes:** Você pode utilizar um dispositivo físico com o aplicativo Expo Go instalado **ou** um emulador de dispositivo móvel (Android Studio ou Xcode).
 
 ---
 
@@ -192,6 +194,30 @@ Para configurar e executar o projeto localmente, siga os passos abaixo:
     ```bash
     npm run dev:stop
     ```
+
+---
+
+## 💡 Recomendações para uso de emulador Android no ambiente local
+
+Embora o Android Studio **não seja obrigatório** para rodar o projeto, ele é recomendado para quem deseja desenvolver e testar no Android. 
+Para facilitar o uso do emulador sem precisar abrir o Android Studio toda vez, siga estas dicas:
+
+1. **Instale o Android Studio** e configure pelo menos um emulador (AVD).
+2. **Adicione as ferramentas do Android ao PATH** do seu sistema operacional para acessar o comando `emulator` pelo terminal.
+3. **Comandos úteis:**
+    - Liste os emuladores disponíveis:
+      ```bash
+      emulator -list-avds
+      ```
+    - Inicie um emulador específico (lembre-se que o terminal irá se bloquear até o emulador ser fechado):
+      ```bash
+      emulator -avd <nome-do-emulador>
+      ```
+4. Após iniciar o emulador, execute o projeto normalmente:
+    - Rode `npm run dev:mobile` ou `npm run dev`
+    - No terminal do Expo, pressione `a` para abrir o app no emulador Android.
+
+---
 
 ## ☁️ Implantação (Deploy)
 
