@@ -25,7 +25,7 @@ Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida com
 
 O documento contendo os requisitos e objetivos do desafio original da pós-tech está disponível para consulta. Este projeto implementa as funcionalidades propostas para uma aplicação mobile de gerenciamento financeiro.
 
-📌 [**POSTECH - Front-end - Tech Challenge - Fase 3**](./assets/POSTECH%2520-%2520Tech%2520Challenge%2520-%2520Fase%25203.pdf)
+📌 [**POSTECH - Front-end - Tech Challenge - Fase 3**](./assets/POSTECH%20-%20Tech%20Challenge%20-%20Fase%203.pdf)
 
 -----
 
@@ -191,7 +191,7 @@ Para mais detalhes sobre as opções de build e deploy com Expo, consulte a [doc
 ## 🔗 Links Úteis
 
   * **Bytebank API GraphQL (Backend)**: O código-fonte da API que serve como backend para este aplicativo está disponível em um [repositório separado](https://github.com/Brendhon/bytebank-api).
-  * **Bytebank PRO (Microfrontends)**: O projeto da fase anterior, que utiliza microfrontends, está disponível [aqui](https://www.google.com/search?q=https://github.com/Brendhon/bytebank-pro).
+  * **Bytebank PRO (Microfrontends)**: O projeto da fase anterior, que utiliza microfrontends, está disponível [aqui](https://github.com/Brendhon/bytebank-pro).
   * **Bytebank (Web)**: O projeto da fase 1, desenvolvido em Next.js, está disponível [aqui](https://github.com/Brendhon/Bytebank).
 
 -----
