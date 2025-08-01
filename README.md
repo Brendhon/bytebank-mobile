@@ -4,22 +4,22 @@ Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida com
 
 ## 📝 Sumário
 
-  - [📱 Bytebank Mobile – Gerenciamento Financeiro](https://www.google.com/search?q=%23-bytebank-mobile--gerenciamento-financeiro)
-      - [📝 Sumário](https://www.google.com/search?q=%23-sum%C3%A1rio)
-      - [📄 Desafio Original](https://www.google.com/search?q=%23-desafio-original)
-      - [🚀 URLs de Acesso](https://www.google.com/search?q=%23-urls-de-acesso)
-      - [✨ Visão Geral](https://www.google.com/search?q=%23-vis%C3%A3o-geral)
-      - [📦 Tecnologias](https://www.google.com/search?q=%23-tecnologias)
-      - [📁 Estrutura do Projeto](https://www.google.com/search?q=%23-estrutura-do-projeto)
-      - [🛠️ Qualidade de Código](https://www.google.com/search?q=%23%EF%B8%8F-qualidade-de-c%C3%B3digo)
-      - [📋 Pré-requisitos](https://www.google.com/search?q=%23-pr%C3%A9-requisitos)
-      - [🚀 Ambiente de Desenvolvimento](https://www.google.com/search?q=%23-ambiente-de-desenvolvimento)
-      - [☁️ Implantação (Deploy)](https://www.google.com/search?q=%23%EF%B8%8F-implanta%C3%A7%C3%A3o-deploy)
-      - [🔗 Links Úteis](https://www.google.com/search?q=%23-links-%C3%BAteis)
-      - [💡 Melhorias Futuras](https://www.google.com/search?q=%23-melhorias-futuras)
-      - [👥 Autor](https://www.google.com/search?q=%23-autor)
+- [📱 Bytebank Mobile – Gerenciamento Financeiro](#-bytebank-mobile--gerenciamento-financeiro)
+  - [📝 Sumário](#-sumário)
+  - [📄 Desafio Original](#-desafio-original)
+  - [🚀 URLs de Acesso](#-urls-de-acesso)
+  - [✨ Visão Geral](#-visão-geral)
+  - [📦 Tecnologias](#-tecnologias)
+  - [📁 Estrutura do Projeto](#-estrutura-do-projeto)
+  - [🛠️ Qualidade de Código](#️-qualidade-de-código)
+  - [📋 Pré-requisitos](#-pré-requisitos)
+  - [🚀 Ambiente de Desenvolvimento](#-ambiente-de-desenvolvimento)
+  - [☁️ Implantação (Deploy)](#️-implantação-deploy)
+  - [🔗 Links Úteis](#-links-úteis)
+  - [💡 Melhorias Futuras](#-melhorias-futuras)
+  - [👥 Autor](#-autor)
 
------
+---
 
 ## 📄 Desafio Original
 
@@ -27,14 +27,14 @@ O documento contendo os requisitos e objetivos do desafio original da pós-tech 
 
 📌 [**POSTECH - Front-end - Tech Challenge - Fase 3**](./assets/POSTECH%20-%20Tech%20Challenge%20-%20Fase%203.pdf)
 
------
+---
 
 ## 🚀 URLs de Acesso
 
   * **API GraphQL (Backend):** [https://bytebank-api.onrender.com/graphql](https://bytebank-api.onrender.com/graphql)
     > ⚠️ **Nota Importante sobre a API:** A API GraphQL está hospedada no Render utilizando o plano gratuito. Devido às limitações deste plano, a API pode demorar alguns segundos para responder na primeira requisição após um período de inatividade (quando o serviço "dorme"). As requisições subsequentes serão mais rápidas. Esta é uma limitação conhecida do plano gratuito do Render e não afeta a funcionalidade da aplicação.
 
------
+---
 
 ## ✨ Visão Geral
 
@@ -51,7 +51,7 @@ O **Bytebank Mobile** é uma aplicação completa para gerenciar suas finanças 
       * Upload de recibos e documentos relacionados à transação, armazenados de forma segura.
   * **Armazenamento em Nuvem**: Utiliza o MongoDB para dados transacionais (via API) e Firebase Storage para armazenamento de recibos.
 
------
+---
 
 ## 📦 Tecnologias
 
@@ -71,7 +71,7 @@ As seguintes tecnologias foram utilizadas na construção do Bytebank Mobile:
   * **Ferramentas de Qualidade**: ESLint, Prettier
   * **Monitoramento e Depuração**: [Flipper](https://fbflipper.com/)
 
------
+---
 
 ## 📁 Estrutura do Projeto
 
@@ -100,13 +100,13 @@ bytebank-mobile/
 └── tsconfig.json
 ```
 
------
+---
 
 ## 🛠️ Qualidade de Código
 
 O projeto utiliza um conjunto de ferramentas para garantir a consistência e a qualidade do código. **Prettier** e **ESLint** são configurados para formatar e analisar os arquivos, prevenindo a introdução de erros e inconsistências. Além disso, o **Flipper** é utilizado para monitorar o desempenho da aplicação, inspecionar a rede e depurar o estado dos componentes em tempo real, garantindo uma experiência de alta qualidade para o usuário.
 
------
+---
 
 ## 📋 Pré-requisitos
 
@@ -117,7 +117,7 @@ Antes de começar, garanta que você tenha as seguintes ferramentas instaladas:
   * **[Expo CLI](https://docs.expo.dev/workflow/expo-cli/)**: `npm install -g expo-cli`
   * **Um emulador de dispositivo móvel** (Android Studio ou Xcode) ou um dispositivo físico com o aplicativo Expo Go instalado.
 
------
+---
 
 ## 🚀 Ambiente de Desenvolvimento
 
@@ -126,7 +126,7 @@ Para configurar e executar o projeto localmente, siga os passos abaixo:
 1.  **Clone o repositório:**
 
     ```bash
-    git clone https://github.com/Brendhon/bytebank-mobile.git # (Substitua pelo seu link do repositório)
+    git clone https://github.com/Brendhon/bytebank-mobile.git
     cd bytebank-mobile
     ```
 
@@ -138,7 +138,7 @@ Para configurar e executar o projeto localmente, siga os passos abaixo:
 
 3.  **Crie e configure o arquivo `.env`:**
 
-      * Crie um arquivo `.env` na raiz do projeto, baseado no `.env.example`.
+      * Crie um arquivo `.env` na raiz do projeto.
 
       * O arquivo `.env` deve conter as seguintes variáveis:
 
@@ -159,17 +159,38 @@ Para configurar e executar o projeto localmente, siga os passos abaixo:
 
 4.  **Inicie o ambiente de desenvolvimento:**
 
+    - **Ambiente Completo (API + Mobile):**
+      Para subir a API GraphQL (com Docker) e todas as aplicações de mobile, execute:
+
+      ```bash
+      npm run dev
+      ```
+
+    - **Apenas o Mobile:**
+      Se a API já estiver em execução ou se você estiver usando uma API remota, inicie apenas o Mobile:
+
+      ```bash
+      npm run dev:mobile
+      ```
+
+      Isso abrirá o Metro Bundler no seu navegador. Você pode então:
+
+        * Escanear o QR Code com o aplicativo Expo Go no seu dispositivo móvel.
+        * Pressionar 'a' para abrir no emulador Android.
+        * Pressionar 'i' para abrir no simulador iOS (macOS apenas).
+
+    - **Apenas a API (Docker):**
+      Para iniciar somente a API GraphQL e o banco de dados MongoDB com Docker, use:
+      ```bash
+      npm run dev:api
+      ```
+
+5.  **Parando o ambiente Docker:**
+    Para derrubar os contêineres da API, execute:
+
     ```bash
-    npm start
+    npm run dev:stop
     ```
-
-    Isso abrirá o Metro Bundler no seu navegador. Você pode então:
-
-      * Escanear o QR Code com o aplicativo Expo Go no seu dispositivo móvel.
-      * Pressionar 'a' para abrir no emulador Android.
-      * Pressionar 'i' para abrir no simulador iOS (macOS apenas).
-
------
 
 ## ☁️ Implantação (Deploy)
 
@@ -179,14 +200,14 @@ A aplicação mobile pode ser construída para produção através do Expo CLI. 
     ```bash
     eas build --platform android --profile production
     ```
-  * **Build para iOS:**
+  * **Build para iOS:** (macOS apenas)
     ```bash
     eas build --platform ios --profile production
     ```
 
 Para mais detalhes sobre as opções de build e deploy com Expo, consulte a [documentação oficial do EAS Build](https://docs.expo.dev/build/introduction/).
 
------
+---
 
 ## 🔗 Links Úteis
 
@@ -194,7 +215,7 @@ Para mais detalhes sobre as opções de build e deploy com Expo, consulte a [doc
   * **Bytebank PRO (Microfrontends)**: O projeto da fase anterior, que utiliza microfrontends, está disponível [aqui](https://github.com/Brendhon/bytebank-pro).
   * **Bytebank (Web)**: O projeto da fase 1, desenvolvido em Next.js, está disponível [aqui](https://github.com/Brendhon/Bytebank).
 
------
+---
 
 ## 💡 Melhorias Futuras
 
@@ -208,11 +229,10 @@ Este projeto está em constante evolução. Abaixo estão algumas ideias e suges
   * **Biometria**: Implementar autenticação por biometria (Face ID/Touch ID) para maior segurança e conveniência.
   * **Integração com Firebase Analytics**: Para coletar dados de uso e comportamento do usuário.
 
------
+---
 
 ## 👥 Autor
 
 **Brendhon Moreira**
 
-[](https://www.linkedin.com/in/brendhon-moreira)
-[](mailto:brendhon.e.c.m@gmail.com)
+[LinkedIn](https://www.linkedin.com/in/brendhon-moreira) | [GitHub](https://github.com/Brendhon)

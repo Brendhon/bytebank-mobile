@@ -4,10 +4,10 @@
   "scripts": {
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "start": "expo start",
     "dev": "docker compose up -d && expo start --dev-client",
-    "dev:stop": "docker compose down",
+    "dev:mobile": "expo start",
     "dev:api": "docker compose up -d",
+    "dev:stop": "docker compose down",
     "prebuild": "expo prebuild",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" && prettier -c \"**/*.{js,jsx,ts,tsx,json}\"",
     "format": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix && prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
