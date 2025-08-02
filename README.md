@@ -184,6 +184,7 @@ Para configurar e executar o projeto localmente, siga os passos abaixo:
         * Escanear o QR Code com o aplicativo Expo Go no seu dispositivo móvel.
         * Pressionar 'a' para abrir no emulador Android.
         * Pressionar 'i' para abrir no simulador iOS (macOS apenas).
+        * Pressionar 'w' para abrir no navegador.
 
     - **Apenas a API (Docker):**
       Para iniciar somente a API GraphQL e o banco de dados MongoDB com Docker, use:
