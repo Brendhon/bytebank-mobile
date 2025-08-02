@@ -1,26 +1,28 @@
-# 🎣 Diretrizes para Hooks Customizados
+# 🎣 Custom Hooks Guidelines
 
-Este documento define as regras para a criação de **hooks customizados**, que servem como a ponte entre os **Componentes da UI** e a **Camada de Serviço**.
+This document defines the rules for creating **custom hooks**, which serve as the bridge between **UI Components** and the **Service Layer**.
 
-### 1\. Princípios Fundamentais
+### 1. Core Principles
 
-  * **Ponte para a UI**: Hooks são a **única camada** que deve interagir com os serviços definidos em `services/`.
-  * **Gerenciamento de Estado**: O hook é responsável por gerenciar todo o estado relacionado a uma operação: `loading`, `error` e `data`.
+-   **Bridge to UI**: Hooks are the **only layer** that should interact with services defined in `services/`.
+-   **State Management**: The hook is responsible for managing all state related to an operation: `loading`, `error`, and `data`.
 
-### 2\. Estrutura e Nomenclatura
+### 2. Structure and Naming
 
-  * **Diretório Principal**: Todos os hooks customizados devem residir em `hooks/`.
-  * **Nomenclatura**: Use o prefixo `use` seguido pelo nome da funcionalidade em `PascalCase` (ex: `useFileUpload`, `useFetchTransactions`).
+-   **Main Directory**: All custom hooks must reside in `hooks/`.
+-   **Naming Convention**: Use the `use` prefix followed by the feature name in `PascalCase` (e.g., `useFileUpload`, `useFetchTransactions`).
 
-### 3\. Padrões de Implementação
+### 3. Implementation Patterns
 
-#### 3.1. Hooks para Serviços Gerais (ex: Firebase)
+#### 3.1. Hooks for General Services (e.g., Firebase)
 
-  * **Estado Local**: Use `useState` para gerenciar o estado (`loading`, `error`, `data`).
-  * **Funções Memoizadas**: A função que o hook expõe para o componente (ex: para iniciar um upload) **deve** ser envolvida em `useCallback` para otimizar a performance.
-  * **Comunicação com Serviço**: A função dentro do `useCallback` deve chamar a função de serviço correspondente e atualizar o estado interno do hook.
+These hooks manage their own state for asynchronous operations.
 
-**Exemplo (Hook de Upload)**
+-   **Local State**: Use `useState` to manage `loading`, `error`, and `data`.
+-   **Memoized Functions**: The function that the hook exposes to the component (e.g., to initiate an upload) **must** be wrapped in `useCallback` for performance optimization.
+-   **Service Communication**: The function inside `useCallback` should call the corresponding service function and update the hook's internal state.
+
+**Example (Upload Hook)**
 
 ```typescript
 import { useState, useCallback } from 'react';
@@ -48,13 +50,15 @@ export const useUploadReceipt = () => {
 };
 ```
 
-#### 3.2. Hooks para a API (Apollo Client)
+#### 3.2. Hooks for the API (Apollo Client)
 
-  * **Wrapper de Hooks Apollo**: Hooks para a API devem envolver os hooks nativos do Apollo (`useQuery`, `useMutation`).
-  * **Estado Gerenciado pelo Apollo**: Não use `useState` para `loading`, `error` e `data`, pois o Apollo já os fornece.
-  * **Atualização de Cache**: A responsabilidade de atualizar o cache (`refetchQueries` ou `update`) é do **hook de mutação**.
+These hooks wrap Apollo's native hooks to abstract the API logic.
 
-**Exemplo (Hook de Mutação da API)**
+-   **Apollo Hook Wrapper**: Hooks for the API should wrap native Apollo hooks (`useQuery`, `useMutation`).
+-   **State Managed by Apollo**: Do not use `useState` for `loading`, `error`, and `data`, as Apollo provides them automatically.
+-   **Cache Updates**: The responsibility for updating the cache (`refetchQueries` or `update`) belongs to the **mutation hook**.
+
+**Example (API Mutation Hook)**
 
 ```typescript
 import { useMutation } from '@apollo/client';
@@ -62,6 +66,7 @@ import { CREATE_TRANSACTION, GET_TRANSACTIONS } from '../services/graphql/transa
 
 export const useCreateTransaction = () => {
   const [mutate, { loading, error, data }] = useMutation(CREATE_TRANSACTION, {
+    // Refetch the transactions list after a new one is created
     refetchQueries: [{ query: GET_TRANSACTIONS }],
   });
 

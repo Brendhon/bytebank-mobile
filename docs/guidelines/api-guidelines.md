@@ -1,27 +1,27 @@
-# ⚙️ Diretrizes para a API (GraphQL com Apollo Client)
+# ⚙️ API Guidelines (GraphQL with Apollo Client)
 
-Este documento define as regras específicas para a **camada de serviço** que interage com a API GraphQL. Estas regras estendem as diretrizes definidas em `service-guidelines.md`.
+This document defines the specific rules for the **service layer** that interacts with the GraphQL API. These rules extend the general guidelines in `service-guidelines.md`.
 
-### 1\. Estrutura e Nomenclatura
+### 1. Structure and Naming
 
-  * **Configuração do Cliente**: A instância do `ApolloClient` deve ser configurada e exportada de `services/api/client.ts`.
-  * **Definições GraphQL**:
-      * Todas as definições (`query`, `mutation`, `fragment`) com a tag `gql` devem ser centralizadas em `services/graphql/`.
-      * Os arquivos devem ser organizados por domínio (ex: `transactions.queries.ts`).
+-   **Client Configuration**: The `ApolloClient` instance must be configured and exported from `services/api/client.ts`.
+-   **GraphQL Definitions**:
+    -   All `gql` definitions (`query`, `mutation`, `fragment`) must be centralized in `services/graphql/`.
+    -   Files should be organized by domain (e.g., `transactions.queries.ts`).
 
-### 2\. Padrões de Implementação
+### 2. Implementation Patterns
 
-  * **Use GraphQL Fragments**: É obrigatório o uso de fragments para agrupar campos reutilizáveis, garantindo consistência e manutenibilidade nas queries e mutations.
-  * **Tipagem Gerada**: É fortemente recomendado o uso de ferramentas como **GraphQL Code Generator** para gerar tipos a partir do schema da API. Isso garante que os dados retornados e as variáveis das operações sejam totalmente tipados.
+-   **Use GraphQL Fragments**: It is mandatory to use fragments to group reusable fields, ensuring consistency and maintainability.
+-   **Generated Types**: It is highly recommended to use tools like **GraphQL Code Generator** to generate types from the API schema. This ensures that returned data and operation variables are fully typed.
 
-#### Exemplo de Definição de Serviço
+#### Example Definition
 
-**Arquivo: `services/graphql/transactions.queries.ts`**
+**File: `services/graphql/transactions.queries.ts`**
 
 ```typescript
 import { gql } from '@apollo/client';
 
-// Regra: Usar fragments para campos reutilizáveis.
+// Rule: Use fragments for reusable fields.
 export const TRANSACTION_FIELDS = gql`
   fragment TransactionFields on Transaction {
     id
