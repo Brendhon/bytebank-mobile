@@ -81,16 +81,15 @@ A estrutura de pastas do projeto está organizada para facilitar a modularidade 
 
 ```
 bytebank-mobile/
-├── src/
-│   ├── assets/           # Imagens, ícones, fontes
-│   ├── components/       # Componentes React Native reutilizáveis
-│   ├── contexts/         # Contextos para gerenciamento de estado (Context API)
-│   ├── hooks/            # Hooks personalizados
-│   ├── navigation/       # Configurações de navegação (React Navigation)
-│   ├── screens/          # Telas principais da aplicação
-│   ├── services/         # Funções para comunicação com API e Firebase
-│   ├── utils/            # Funções utilitárias diversas
-│   └── App.tsx           # Ponto de entrada da aplicação
+├── assets/           # Imagens, ícones, fontes
+├── components/       # Componentes React Native reutilizáveis
+├── contexts/         # Contextos para gerenciamento de estado (Context API)
+├── hooks/            # Hooks personalizados
+├── navigation/       # Configurações de navegação (React Navigation)
+├── screens/          # Telas principais da aplicação
+├── services/         # Funções para comunicação com API e Firebase (GraphQL, Firebase Storage, etc.)
+├── utils/            # Funções utilitárias diversas
+├── App.tsx           # Ponto de entrada da aplicação
 ├── app.json
 ├── babel.config.js
 ├── package.json

@@ -1,0 +1,6 @@
+---
+globs: contexts/**/*.tsx
+alwaysApply: false
+description: Este guia estabelece as melhores práticas para o uso da Context API, garantindo que seja utilizada apenas para estado global da UI e dados de sessão.
+---
+@docs/guidelines/contexts-guidelines.md
