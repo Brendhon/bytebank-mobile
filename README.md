@@ -94,7 +94,6 @@ bytebank-mobile/
 │   └── settings.tsx         # Página de configurações
 ├── services/                 # Funções para comunicação com API e Firebase (GraphQL, Firebase Storage, etc.)
 ├── utils/                    # Funções utilitárias diversas
-├── App.tsx                   # Ponto de entrada da aplicação
 ├── app.json
 ├── babel.config.js
 ├── package.json

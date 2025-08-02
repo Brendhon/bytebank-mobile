@@ -16,7 +16,7 @@ export default function HomeScreen() {
         <View className="space-y-4">
           <Link 
             href="/dashboard" 
-            className="bg-blue-600 text-white py-3 px-6 rounded-lg text-center font-semibold"
+            className="bg-blue text-white py-3 px-6 rounded-lg text-center font-semibold"
           >
             Entrar
           </Link>

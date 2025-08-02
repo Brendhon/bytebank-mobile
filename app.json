@@ -3,7 +3,9 @@
     "name": "bytebank-mobile",
     "slug": "bytebank-mobile",
     "version": "1.0.0",
+    "scheme": "bytebank-mobile",
     "web": {
+      "bundler": "metro",
       "favicon": "./assets/favicon.png"
     },
     "experiments": {
