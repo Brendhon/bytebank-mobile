@@ -1,0 +1,6 @@
+---
+globs: hooks/**/*.ts
+alwaysApply: false
+description: Este guia estabelece as melhores práticas para a criação de hooks customizados, que servem como ponte entre a UI e a camada de serviço.
+---
+@docs/guidelines/hooks-guidelines.md

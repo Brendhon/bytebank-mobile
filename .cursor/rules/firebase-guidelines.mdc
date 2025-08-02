@@ -1,0 +1,6 @@
+---
+globs: services/firebase/**/*.ts
+alwaysApply: false
+description: Este guia estabelece as melhores práticas para os serviços que interagem com o Firebase.
+---
+@docs/guidelines/firebase-guidelines.md
