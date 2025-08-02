@@ -65,7 +65,7 @@ As seguintes tecnologias foram utilizadas na construção do Bytebank Mobile:
   * **Linguagem**: [TypeScript](https://www.typescriptlang.org/)
   * **Estilização**: [Tailwind CSS](https://tailwindcss.com/) com [NativeWind](https://www.nativewind.dev/)
   * **Gerenciamento de Estado**: [Context API](https://react.dev/reference/react/createContext)
-  * **Navegação**: [React Navigation](https://reactnavigation.org/)
+  * **Navegação**: [Expo Router](https://docs.expo.dev/router/introduction/)
   * **Animações**: [React Native Animated API](https://reactnative.dev/docs/animated)
   * **Validação de Formulários**: [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
   * **Comunicação API**: [Apollo Client](https://www.apollographql.com/docs/react/) para consumo da API GraphQL.
@@ -86,12 +86,12 @@ bytebank-mobile/
 ├── components/               # Componentes React Native reutilizáveis
 ├── contexts/                 # Contextos para gerenciamento de estado (Context API)
 ├── hooks/                    # Hooks personalizados
-├── navigation/               # Configurações de navegação (React Navigation)
-├── screens/                  # Telas principais da aplicação
-│   ├── HomeScreen.tsx        # Página inicial com o Modal de login e cadastro
-│   ├── DashboardScreen.tsx   # Página de dashboard com gráficos e análises
-│   ├── TransactionScreen.tsx # Página de transações com modal para criação, edição, deletação e upload de recibos
-│   └── SettingsScreen.tsx    # Página de configurações
+├── app/                     # Configurações de navegação (Expo Router)
+│   ├── _layout.tsx          # Layout principal da aplicação
+│   ├── index.tsx            # Página inicial com login e cadastro
+│   ├── dashboard.tsx        # Página de dashboard com gráficos e análises
+│   ├── transactions.tsx     # Página de transações com criação, edição e upload de recibos
+│   └── settings.tsx         # Página de configurações
 ├── services/                 # Funções para comunicação com API e Firebase (GraphQL, Firebase Storage, etc.)
 ├── utils/                    # Funções utilitárias diversas
 ├── App.tsx                   # Ponto de entrada da aplicação
