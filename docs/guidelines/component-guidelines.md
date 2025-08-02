@@ -1,34 +1,26 @@
-# 📋 Component Best Practices for Bytebank Mobile
+# Component Guidelines
 
-This guide outlines best practices for React Native component development to ensure consistency, maintainability, performance, and accessibility.
+This document outlines the best practices for creating React Native components in the Bytebank Mobile project. The goal is to ensure consistency, maintainability, and performance.
 
-## 🎨 General Guidelines
+## 1. File Structure and Naming
 
-### 1. Structure and Naming
+-   **Location**: Store all components in the `components/` directory.
+-   **Complexity**:
+    -   **Simple Components**: A single file is sufficient (e.g., `components/Button.tsx`).
+    -   **Complex Components**: Use a dedicated directory for components that require multiple files (e.g., hooks, types).
+        -   `components/TransactionCard/index.tsx`
+        -   `components/TransactionCard/types.ts`
+-   **Naming**:
+    -   Component files and directories must use `PascalCase` (e.g., `Button.tsx`, `TransactionCard/`).
 
--   **File Structure**:
-    -   Store components in `components/`.
-    -   Complex components with multiple files (hooks, types) should reside in their own directory.
-        -   **Simple**: `components/Button.tsx`
-        -   **Complex**: `components/TransactionCard/index.tsx`, `components/TransactionCard/types.ts`
--   **Naming Conventions**:
-    -   **File/Component**: `PascalCase.tsx` (e.g., `Button.tsx`).
-    -   **Component Directory**: `PascalCase` (e.g., `TransactionCard/`).
--   **Exports**:
-    -   Use `export default` for the main component.
-    -   Use named `export` for related types and constants.
--   **Comments**:
-    -   All code comments must be in **English**.
+## 2. Styling with NativeWind
 
-### 2. Styling with NativeWind
+To maintain clean and readable code, all styling must be centralized in a `styles` object. **Inline styles are forbidden.**
 
-To maintain clean and readable code, all styling must use a `styles` object.
+-   **`styles` Object**: Define all Tailwind classes in a `styles` object at the end of the file. Use semantic keys to describe the elements.
+-   **Usage**: Apply styles using `className={styles.keyName}`.
 
--   **Inline styles are forbidden.** Do not use Tailwind classes directly in TSX.
--   **`styles` Object**: Centralize all Tailwind classes in a `styles` object at the end of the file. Use semantic keys to describe elements.
--   **Usage**: Apply styles via `className={styles.keyName}`.
-
-**Correct Example:**
+**Example:**
 
 ```typescript
 import { Text, TouchableOpacity } from 'react-native';
@@ -52,51 +44,47 @@ const styles = {
 };
 ```
 
----
+## 3. Icons
 
-## 🏗️ Modern React & React Native Patterns
+-   **Library**: Use `lucide-react-native` for all icons.
+-   **Implementation**: Import the required icon and use it directly in your component.
 
-Always use the latest recommended APIs and patterns.
+```typescript
+import { Camera } from 'lucide-react-native';
 
--   **Functional Components**: All components must be functional. Class components are deprecated.
--   **TypeScript**: Typing is **mandatory**.
-    -   **Props**: Define an `interface` or `type` for all component props.
-    -   **Hooks**: Type `useState` state and custom hook return values.
--   **Essential Hooks**:
-    -   **`useState`**: For simple, local state.
-    -   **`useEffect`**: For side effects. Always include a dependency array and a cleanup function if needed.
-    -   **`useContext`**: For consuming global data from the Context API.
-    -   **`useCallback` & `useMemo`**: For performance optimizations only when a bottleneck is identified.
--   **Library Hooks**:
-    -   **Navigation**: Use **React Navigation** hooks (`useNavigation`, `useRoute`).
-    -   **API**: Use **Apollo Client** hooks (`useQuery`, `useMutation`). Do not implement manual fetch logic.
-    -   **Forms**: Use **React Hook Form** for state management and validation, with **Zod** for schemas.
--   **Custom Hooks**: Encapsulate reusable logic in custom hooks (e.g., `useAuth`) and place them in the `hooks/` directory.
--   **Animations**: Use the **React Native Animated API** with `useNativeDriver: true` whenever possible.
+const MyComponent = () => {
+  return <Camera color="red" size={48} />;
+};
+```
 
----
+## 4. Component Logic and State
 
-## 📱 Responsive Design
+-   **Functional Components**: All components must be functional. Class components are not allowed.
+-   **TypeScript**: Typing is **mandatory** for all props, state, and hook return values.
+-   **Hooks**:
+    -   **`useState`**: For simple, local component state.
+    -   **`useEffect`**: For side effects. Always include a dependency array and a cleanup function if necessary.
+    -   **`useContext`**: To consume data from the Context API.
+    -   **`useCallback` & `useMemo`**: For performance optimizations only when a clear bottleneck is identified.
+-   **Custom Hooks**: Encapsulate reusable logic (e.g., API calls, business logic) in custom hooks and place them in the `hooks/` directory.
 
-The app must adapt to various screen sizes.
+## 5. Responsive Design
 
--   **Flexible Units**: Use Tailwind's percentage-based (`w-4/5`), flexbox (`flex-1`), and proportional (`aspect-square`) classes.
--   **Fixed Values**: Avoid fixed pixel values (e.g., `w-[97px]`). If necessary, use Tailwind's spacing scale (`w-16`, `h-24`), which is `rem`-based.
--   **Media Queries**: Use NativeWind's responsive prefixes (`sm:`, `md:`, `lg:`) to adjust styles at different breakpoints.
+Components must adapt to different screen sizes.
 
----
+-   **Flexible Units**: Prioritize flexible units like percentages (`w-4/5`) and flexbox (`flex-1`).
+-   **Avoid Fixed Values**: Do not use fixed pixel values (e.g., `w-[97px]`). Use Tailwind's `rem`-based spacing scale instead (`w-16`, `h-24`).
+-   **Breakpoints**: Use NativeWind's responsive prefixes (`sm:`, `md:`, `lg:`) to apply styles at different screen sizes.
 
-## ♿ Accessibility (a11y)
+## 6. Accessibility (a11y)
 
-Ensure the app is usable by everyone.
+Ensure the application is usable by everyone.
 
--   **Labels & Hints**:
-    -   **`accessibilityLabel`**: Provide a text label for elements, especially icon-only buttons.
-    -   **`accessibilityHint`**: Describe the action that occurs on interaction.
--   **Roles & States**:
-    -   **`accessibilityRole`**: Define the element's type (`'button'`, `'header'`, `'link'`).
-    -   **`accessibilityState`**: Describe the component's current state (`{ disabled: true }`).
--   **Interactivity**:
-    -   Ensure a logical navigation order for screen readers.
-    -   Interactive elements must have a minimum touch area of **44x44 points**. Use padding to increase touch areas without altering the visual design.
--   **Contrast**: Text-to-background contrast ratio must be at least **4.5:1**.
+-   **Labels and Hints**:
+    -   `accessibilityLabel`: Provide a descriptive text label, especially for icon-only buttons.
+    -   `accessibilityHint`: Describe the action that will occur when the user interacts with an element.
+-   **Roles and States**:
+    -   `accessibilityRole`: Define the element's purpose (e.g., `'button'`, `'header'`).
+    -   `accessibilityState`: Describe the component's current state (e.g., `{ disabled: true }`).
+-   **Touch Area**: Interactive elements must have a minimum touch area of **44x44 points**. Use padding if needed to increase the touch target size without changing the visual appearance.
+-   **Color Contrast**: The text-to-background contrast ratio must be at least **4.5:1**.
