@@ -14,7 +14,15 @@ This document defines the specific rules for the **service layer** that interact
 -   **Use GraphQL Fragments**: It is mandatory to use fragments to group reusable fields, ensuring consistency and maintainability.
 -   **Generated Types**: It is highly recommended to use tools like **GraphQL Code Generator** to generate types from the API schema. This ensures that returned data and operation variables are fully typed.
 
+### 3. API Usage and Schema Reference
+
+For detailed information on all available GraphQL queries, mutations, types, and expected data structures, consult the official API usage documentation. This document serves as the single source of truth for the API contract.
+
+-   **See: [Bytebank API GraphQL - Usage Documentation](../usages/api-usage.md)**
+
 #### Example Definition
+
+Below is an example of how to define queries and mutations according to the project standards.
 
 **File: `services/graphql/transactions.queries.ts`**
 
