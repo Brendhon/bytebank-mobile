@@ -1,5 +1,5 @@
 ---
-globs: components/**/*.tsx,pages/**/*.tsx
+globs: components/**/*.tsx,screens/**/*.tsx
 alwaysApply: false
 description: Este guia estabelece as melhores práticas para o desenvolvimento de componentes React Native no projeto Bytebank Mobile, com foco em estrutura, estilo, funcionalidades modernas e manutenibilidade.
 ---

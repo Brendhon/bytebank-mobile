@@ -40,20 +40,21 @@ O documento contendo os requisitos e objetivos do desafio original da pós-tech 
 
 ## ✨ Visão Geral
 
-O **Bytebank Mobile** é uma aplicação completa para gerenciar suas finanças pessoais. Ele oferece autenticação de usuários, visualização detalhada de transações com filtros e paginação, além de permitir o cadastro e edição de transações, com a funcionalidade de anexar recibos.
+O **Bytebank Mobile** é um aplicativo completo para o gerenciamento das suas finanças pessoais, projetado para ser simples, seguro e eficiente. Com ele, você pode acessar todas as suas transações, cadastrar e editar movimentações financeiras, além de anexar recibos de forma prática.
 
-**Funcionalidades Principais:**
+**Principais funcionalidades:**
 
-  * **Autenticação de Usuário**: Login e registro seguros, integrados com a API GraphQL do Bytebank.
-  * **Dashboard Interativo**: Visão geral financeira com gráficos e análises baseadas nas transações do usuário, incluindo animações para uma experiência mais fluida.
+  * **Autenticação de Usuário**: Página inicial com um Modal intuitivo para login e cadastro, totalmente integrado à API GraphQL do Bytebank.
+  * **Dashboard Interativo**: Painel financeiro com gráficos e análises dinâmicas das suas transações, incluindo animações para uma experiência visual agradável.
   * **Gestão de Transações**:
-      * Listagem detalhada de transações com filtros avançados (por data, categoria, etc.) e paginação.
-      * Criação e edição de transações financeiras.
-      * Validação robusta de campos para garantir a integridade dos dados.
-      * Upload de recibos e documentos relacionados à transação, armazenados de forma segura.
-  * **Armazenamento em Nuvem**: Utiliza o MongoDB para dados transacionais (via API) e Firebase Storage para armazenamento de recibos.
+      * Visualização detalhada das transações, com filtros avançados (por data, categoria, etc.) e paginação.
+      * Modal dedicado para criar e editar transações.
+      * Validação rigorosa dos campos para garantir a qualidade dos dados.
+      * Upload seguro de recibos e documentos relacionados a cada transação.
+  * **Armazenamento em Nuvem**: Utiliza MongoDB para armazenar os dados das transações (via API) e Firebase Storage para os recibos.
+  * **Atualização Automática de Dados**: Informações do usuário, como nome e saldo, são atualizadas automaticamente por meio de queries GraphQL.
 
----
+Esses recursos garantem uma experiência completa e confiável para o controle das suas finanças, com foco em praticidade e segurança.
 
 ## 📦 Tecnologias
 
@@ -81,15 +82,19 @@ A estrutura de pastas do projeto está organizada para facilitar a modularidade 
 
 ```
 bytebank-mobile/
-├── assets/           # Imagens, ícones, fontes
-├── components/       # Componentes React Native reutilizáveis
-├── contexts/         # Contextos para gerenciamento de estado (Context API)
-├── hooks/            # Hooks personalizados
-├── navigation/       # Configurações de navegação (React Navigation)
-├── screens/          # Telas principais da aplicação
-├── services/         # Funções para comunicação com API e Firebase (GraphQL, Firebase Storage, etc.)
-├── utils/            # Funções utilitárias diversas
-├── App.tsx           # Ponto de entrada da aplicação
+├── assets/                   # Imagens, ícones, fontes
+├── components/               # Componentes React Native reutilizáveis
+├── contexts/                 # Contextos para gerenciamento de estado (Context API)
+├── hooks/                    # Hooks personalizados
+├── navigation/               # Configurações de navegação (React Navigation)
+├── screens/                  # Telas principais da aplicação
+│   ├── HomeScreen.tsx        # Página inicial com o Modal de login e cadastro
+│   ├── DashboardScreen.tsx   # Página de dashboard com gráficos e análises
+│   ├── TransactionScreen.tsx # Página de transações com modal para criação, edição, deletação e upload de recibos
+│   └── SettingsScreen.tsx    # Página de configurações
+├── services/                 # Funções para comunicação com API e Firebase (GraphQL, Firebase Storage, etc.)
+├── utils/                    # Funções utilitárias diversas
+├── App.tsx                   # Ponto de entrada da aplicação
 ├── app.json
 ├── babel.config.js
 ├── package.json
