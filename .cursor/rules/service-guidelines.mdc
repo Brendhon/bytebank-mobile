@@ -1,6 +1,5 @@
 ---
-globs: services/**/*.ts
+description: This guide establishes the universal rules for creating all services in the project.
 alwaysApply: false
-description: Este guia estabelece as regras universais para a criação de todos os serviços no projeto.
 ---
 @docs/guidelines/service-guidelines.md

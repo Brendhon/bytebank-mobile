@@ -14,6 +14,7 @@ This document establishes the **universal** rules and patterns for creating all 
 -   **Subdirectories by Technology**: It is **mandatory** to create a subdirectory for each technology (e.g., `api/`, `firebase/`).
 -   **File Naming**: Use the `.service.ts` suffix (e.g., `storage.service.ts`).
 -   **Centralized Configuration**: SDK initialization (Firebase, Apollo Client) must be done in a central configuration file within its respective directory (e.g., `firebase/config.ts`, `api/client.ts`).
+-   **Models**: All services must use the models in the `@/models` directory.
 
 ### 3. Global Implementation Rules
 

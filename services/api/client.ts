@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import * as SecureStore from 'expo-secure-store';
 
 // Create HTTP link
 const httpLink = createHttpLink({
@@ -7,16 +8,25 @@ const httpLink = createHttpLink({
 });
 
 // Create auth link to add JWT token to requests
-const authLink = setContext((_, { headers }) => {
-  // Get token from secure storage (implement this based on your storage solution)
-  const token = null; // TODO: Get from secure storage
+const authLink = setContext(async (_, { headers }) => {
+  try {
+    // Get token from secure storage
+    const token = await SecureStore.getItemAsync('auth_token');
 
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : '',
+      },
+    };
+  } catch (error) {
+    console.error('Error getting auth token:', error);
+    return {
+      headers: {
+        ...headers,
+      },
+    };
+  }
 });
 
 // Create Apollo Client instance
@@ -32,3 +42,31 @@ export const apolloClient = new ApolloClient({
     },
   },
 });
+
+// Token management utilities
+export const tokenManager = {
+  async setToken(token: string): Promise<void> {
+    try {
+      await SecureStore.setItemAsync('auth_token', token);
+    } catch (error) {
+      console.error('Error setting auth token:', error);
+    }
+  },
+
+  async getToken(): Promise<string | null> {
+    try {
+      return await SecureStore.getItemAsync('auth_token');
+    } catch (error) {
+      console.error('Error getting auth token:', error);
+      return null;
+    }
+  },
+
+  async removeToken(): Promise<void> {
+    try {
+      await SecureStore.deleteItemAsync('auth_token');
+    } catch (error) {
+      console.error('Error removing auth token:', error);
+    }
+  },
+};

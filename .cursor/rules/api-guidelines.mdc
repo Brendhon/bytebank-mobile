@@ -1,6 +1,4 @@
 ---
-globs: services/api/**/*.ts, services/graphql/**/*.ts
-alwaysApply: false
-description: Este guia estabelece as melhores práticas para a camada de serviço que interage com a API GraphQL usando Apollo Client.
+description: This guide establishes the best practices for the service layer that interacts with the GraphQL API using Apollo Client.
 ---
 @docs/guidelines/api-guidelines.md

@@ -1,21 +1,19 @@
 import { useStorageState } from '@/hooks/useStorageState';
+import { User } from '@/models/user';
+import { AuthService } from '@/services/api/auth.service';
+import { tokenManager } from '@/services/api/client';
 import { useRouter } from 'expo-router';
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useState, useEffect } from 'react';
 
 // 1. Type definition for the context data
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
 interface AuthContextData {
   isAuthenticated: boolean;
   user: User | null;
   isLoading: boolean;
   signIn(credentials: { email: string; password: string }): Promise<void>;
-  signUp(credentials: { name: string; email: string; password: string }): Promise<void>;
+  signUp(credentials: { name: string; email: string; password: string; acceptPrivacy: boolean }): Promise<void>;
   signOut(): void;
+  refreshUser(): Promise<void>;
   session?: string | null;
 }
 
@@ -30,65 +28,121 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [[isLoading, session], setSession] = useStorageState('session');
   const [user, setUser] = useState<User | null>(null);
+  const [isUserLoading, setIsUserLoading] = useState(false);
   const router = useRouter();
+
+  // Check if user is authenticated on mount
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      if (session) {
+        try {
+          setIsUserLoading(true);
+          const currentUser = await AuthService.getMe();
+          setUser(currentUser);
+        } catch (error) {
+          console.error('Failed to get current user:', error);
+          // If token is invalid, clear session
+          await signOut();
+        } finally {
+          setIsUserLoading(false);
+        }
+      }
+    };
+
+    checkAuthStatus();
+  }, [session]);
 
   const signIn = async (credentials: { email: string; password: string }) => {
     try {
-      // TODO: Implement actual authentication service
-      // Mock implementation for now
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      const mockUser: User = {
-        id: '1',
-        name: 'Usuário Teste',
-        email: credentials.email,
-      };
-
-      setUser(mockUser);
-      setSession('xxx'); // Store session token
-
+      setIsUserLoading(true);
+      
+      // Call the real authentication service
+      const authPayload = await AuthService.login(credentials.email, credentials.password);
+      
+      // Store the token
+      await tokenManager.setToken(authPayload.token);
+      setSession(authPayload.token);
+      
+      // Set user data
+      setUser(authPayload.user);
+      
+      // Navigate to app
       router.replace('/(app)');
     } catch (error) {
       console.error('Sign in error:', error);
       throw error;
+    } finally {
+      setIsUserLoading(false);
     }
   };
 
-  const signUp = async (credentials: { name: string; email: string; password: string }) => {
+  const signUp = async (credentials: { name: string; email: string; password: string; acceptPrivacy: boolean }) => {
     try {
-      // TODO: Implement actual registration service
-      // Mock implementation for now
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      const mockUser: User = {
-        id: '1',
-        name: credentials.name,
-        email: credentials.email,
-      };
-
-      setUser(mockUser);
-      setSession('xxx'); // Store session token
+      setIsUserLoading(true);
+      
+      // Call the real registration service
+      const authPayload = await AuthService.register(
+        credentials.name,
+        credentials.email,
+        credentials.password,
+        credentials.acceptPrivacy
+      );
+      
+      // Store the token
+      await tokenManager.setToken(authPayload.token);
+      setSession(authPayload.token);
+      
+      // Set user data
+      setUser(authPayload.user);
+      
+      // Navigate to app
+      router.replace('/(app)');
     } catch (error) {
       console.error('Sign up error:', error);
       throw error;
+    } finally {
+      setIsUserLoading(false);
     }
   };
 
-  const signOut = () => {
-    setUser(null);
-    setSession(null);
+  const signOut = async () => {
+    try {
+      // Remove token from storage
+      await tokenManager.removeToken();
+      setSession(null);
+      setUser(null);
+      
+      // Navigate to auth
+      router.replace('/(auth)');
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
+
+  const refreshUser = async () => {
+    try {
+      setIsUserLoading(true);
+      const currentUser = await AuthService.getMe();
+      setUser(currentUser);
+    } catch (error) {
+      console.error('Failed to refresh user:', error);
+      throw error;
+    } finally {
+      setIsUserLoading(false);
+    }
   };
 
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated: !!session,
+        isAuthenticated: !!session && !!user,
         user,
-        isLoading,
+        isLoading: isLoading || isUserLoading,
         session,
         signIn,
         signUp,
         signOut,
+        refreshUser,
       }}>
       {children}
     </AuthContext.Provider>

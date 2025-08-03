@@ -32,7 +32,7 @@ export default function RegisterModal({ visible, onClose }: RegisterModalProps) 
     }
 
     try {
-      await signUp({ name, email, password });
+      await signUp({ name, email, password, acceptPrivacy: true });
       onClose();
       setName('');
       setEmail('');

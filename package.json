@@ -5,7 +5,7 @@
   "scripts": {
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "dev": "docker compose up -d && expo start --dev-client",
+    "dev": "docker compose up -d && expo start",
     "dev:mobile": "expo start",
     "dev:api": "docker compose up -d",
     "dev:stop": "docker compose down",
