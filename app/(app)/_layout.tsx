@@ -1,9 +1,9 @@
+import DrawerContent from '@/components/DrawerContent';
+import { useAuth } from '@/contexts/AuthContext';
 import { Drawer } from 'expo-router/drawer';
 import { StatusBar } from 'expo-status-bar';
 import { CreditCard, Home, Settings } from 'lucide-react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import DrawerContent from '../../components/DrawerContent';
-import { useAuth } from '../../contexts/AuthContext';
 import '../../global.css';
 
 export default function AppLayout() {

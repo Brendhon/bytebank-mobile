@@ -1,8 +1,8 @@
+import LoginModal from '@/components/LoginModal';
+import RegisterModal from '@/components/RegisterModal';
 import { CreditCard, Shield, TrendingUp } from 'lucide-react-native';
 import { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import LoginModal from '../components/LoginModal';
-import RegisterModal from '../components/RegisterModal';
 
 export default function HomeScreen() {
   const [loginModalVisible, setLoginModalVisible] = useState(false);

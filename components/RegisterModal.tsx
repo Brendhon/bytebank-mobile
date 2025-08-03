@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Modal, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { useAuth } from '@/contexts/AuthContext';
 import { X } from 'lucide-react-native';
-import { useAuth } from '../contexts/AuthContext';
+import { useState } from 'react';
+import { Alert, Modal, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface RegisterModalProps {
   visible: boolean;

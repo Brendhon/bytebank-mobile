@@ -1,6 +1,6 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { useStorageState } from '@/hooks/useStorageState';
 import { useRouter } from 'expo-router';
-import { useStorageState } from '../hooks/useStorageState';
+import { createContext, ReactNode, useContext, useState } from 'react';
 
 // 1. Type definition for the context data
 interface User {

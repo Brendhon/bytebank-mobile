@@ -1,7 +1,6 @@
-import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
-import { useAuth } from '../../contexts/AuthContext';
-import { CreditCard, TrendingUp, DollarSign } from 'lucide-react-native';
+import { useAuth } from '@/contexts/AuthContext';
+import { CreditCard, DollarSign, TrendingUp } from 'lucide-react-native';
+import { ScrollView, Text, View } from 'react-native';
 
 export default function DashboardScreen() {
   const { user } = useAuth();

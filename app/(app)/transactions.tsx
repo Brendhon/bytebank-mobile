@@ -1,6 +1,5 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { Plus, Filter, Search } from 'lucide-react-native';
+import { Filter, Plus, Search } from 'lucide-react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 export default function TransactionsScreen() {
   return (

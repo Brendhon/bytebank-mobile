@@ -1,5 +1,5 @@
+import { useAuth } from '@/contexts/AuthContext';
 import { SplashScreen } from 'expo-router';
-import { useAuth } from '../contexts/AuthContext';
 
 export function SplashScreenController() {
   const { isLoading } = useAuth();

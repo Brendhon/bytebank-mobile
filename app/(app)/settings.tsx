@@ -1,15 +1,13 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { useAuth } from '../../contexts/AuthContext';
-import { 
-  User, 
-  Bell, 
-  Shield, 
-  HelpCircle, 
-  LogOut, 
+import { useAuth } from '@/contexts/AuthContext';
+import {
+  Bell,
   CreditCard,
-  Settings as SettingsIcon
+  HelpCircle,
+  LogOut,
+  Shield,
+  User
 } from 'lucide-react-native';
+import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 export default function SettingsScreen() {
   const { user, signOut } = useAuth();

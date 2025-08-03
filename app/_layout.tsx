@@ -1,7 +1,7 @@
+import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import { SplashScreenController } from '@/components/SplashScreenController';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { AuthProvider, useAuth } from '../contexts/AuthContext';
-import { SplashScreenController } from '../components/SplashScreenController';
 import '../global.css';
 
 export default function RootLayout() {
@@ -24,7 +24,7 @@ function RootNavigator() {
       <Stack.Protected guard={!isAuthenticated}>
         <Stack.Screen name="index" />
       </Stack.Protected>
-      
+
       <Stack.Protected guard={isAuthenticated}>
         <Stack.Screen name="(app)" />
       </Stack.Protected>

@@ -1,7 +1,7 @@
+import { useAuth } from '@/contexts/AuthContext';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { LogOut, User } from 'lucide-react-native';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { useAuth } from '../contexts/AuthContext';
 
 interface DrawerContentProps {
   props: any;
