@@ -1,26 +1,26 @@
-import { apolloClient } from './client';
 import {
+  AuthPayload,
+  DeleteUserResponse,
+  GetMeResponse,
+  LoginResponse,
+  LoginVariables,
+  RegisterResponse,
+  RegisterVariables,
+  UpdateUserResponse,
+  UpdateUserVariables,
+  User,
+  ValidatePasswordResponse,
+  ValidatePasswordVariables,
+} from '@/models/user';
+import {
+  DELETE_USER,
+  GET_ME,
   LOGIN,
   REGISTER,
-  GET_ME,
   UPDATE_USER,
-  DELETE_USER,
   VALIDATE_PASSWORD,
 } from '../graphql/auth.queries';
-import {
-  LoginVariables,
-  RegisterVariables,
-  UpdateUserVariables,
-  ValidatePasswordVariables,
-  LoginResponse,
-  RegisterResponse,
-  GetMeResponse,
-  UpdateUserResponse,
-  DeleteUserResponse,
-  ValidatePasswordResponse,
-  User,
-  AuthPayload,
-} from './types';
+import { apolloClient } from './client';
 
 /**
  * Authentication service for user-related operations

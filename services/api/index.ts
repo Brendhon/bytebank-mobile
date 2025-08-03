@@ -5,9 +5,6 @@ export { apolloClient } from './client';
 export { AuthService } from './auth.service';
 export { TransactionService } from './transaction.service';
 
-// Export types
-export * from './types';
-
 // Export GraphQL queries and fragments
 export * from '../graphql/fragments';
 export * from '../graphql/auth.queries';

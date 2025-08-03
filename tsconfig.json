@@ -11,7 +11,8 @@
       "@/contexts/*": ["./contexts/*"],
       "@/hooks/*": ["./hooks/*"],
       "@/services/*": ["./services/*"],
-      "@/utils/*": ["./utils/*"]
+      "@/utils/*": ["./utils/*"],
+      "@/models/*": ["./models/*"]
     }
   }
 }

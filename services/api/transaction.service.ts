@@ -26,7 +26,7 @@ import {
   TransactionUpdateInput,
   TransactionDesc,
   TransactionType,
-} from './types';
+} from '@/models/transaction';
 
 /**
  * Transaction service for financial transaction operations
