@@ -172,6 +172,8 @@ Para configurar e executar o projeto localmente, siga os passos abaixo:
       npm run dev
       ```
 
+      > ⚠️ **Nota Importante sobre a API:** A url da API GraphQL é definida no arquivo `.env` e é utilizada para configurar o Apollo Client. Caso use o Docker, a url da API GraphQL será `http://10.0.2.2:3000/graphql` (emuladores Android) ou `http://localhost:3000/graphql` (emuladores iOS).
+
     - **Apenas o Mobile:**
       Se a API já estiver em execução ou se você estiver usando uma API remota, inicie apenas o Mobile:
 

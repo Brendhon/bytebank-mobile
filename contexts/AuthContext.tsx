@@ -111,9 +111,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       await tokenManager.removeToken();
       setSession(null);
       setUser(null);
-      
-      // Navigate to auth
-      router.replace('/(auth)');
     } catch (error) {
       console.error('Sign out error:', error);
     }
