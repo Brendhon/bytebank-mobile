@@ -1,18 +1,18 @@
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { useRouter } from 'expo-router';
 import { LogOut, User } from 'lucide-react-native';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { useAuth } from '../contexts/AuthContext';
 
 interface DrawerContentProps {
   props: any;
 }
 
 export default function DrawerContent({ props }: DrawerContentProps) {
-  const router = useRouter();
+  const { user, signOut } = useAuth();
 
   const handleLogout = () => {
-    // TODO: Implement logout logic
-    router.replace('/');
+    console.log('handleLogout');
+    signOut();  
   };
 
   return (
@@ -26,10 +26,10 @@ export default function DrawerContent({ props }: DrawerContentProps) {
             </View>
             <View>
               <Text className="text-white text-lg font-semibold">
-                Bytebank Mobile
+                {user?.name || 'Bytebank Mobile'}
               </Text>
               <Text className="text-blue-100 text-sm">
-                Gerencie suas finanças
+                {user?.email || 'Gerencie suas finanças'}
               </Text>
             </View>
           </View>

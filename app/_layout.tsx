@@ -1,72 +1,37 @@
-import { Drawer } from 'expo-router/drawer';
+import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import DrawerContent from '../components/DrawerContent';
-import { Home, CreditCard, Settings } from 'lucide-react-native';
+import { AuthProvider } from '../contexts/AuthContext';
+import { SplashScreenController } from '../components/SplashScreenController';
 import '../global.css';
 
 export default function RootLayout() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Drawer
-        drawerContent={(props) => <DrawerContent props={props} />}
-        screenOptions={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: '#1e40af',
-          },
-          headerTintColor: '#ffffff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          drawerActiveBackgroundColor: '#dbeafe',
-          drawerActiveTintColor: '#1e40af',
-          drawerInactiveTintColor: '#6b7280',
-          drawerStyle: {
-            backgroundColor: '#f9fafb',
-            width: 280,
-          },
-        }}
-      >
-        <Drawer.Screen 
-          name="index" 
-          options={{ 
-            title: 'Início',
-            drawerIcon: ({ color, size }) => (
-              <Home size={size} color={color} />
-            ),
-            headerShown: false 
-          }} 
-        />
-        <Drawer.Screen 
-          name="dashboard" 
-          options={{ 
-            title: 'Dashboard',
-            drawerIcon: ({ color, size }) => (
-              <Home size={size} color={color} />
-            ),
-          }} 
-        />
-        <Drawer.Screen 
-          name="transactions" 
-          options={{ 
-            title: 'Transações',
-            drawerIcon: ({ color, size }) => (
-              <CreditCard size={size} color={color} />
-            ),
-          }} 
-        />
-        <Drawer.Screen 
-          name="settings" 
-          options={{ 
-            title: 'Configurações',
-            drawerIcon: ({ color, size }) => (
-              <Settings size={size} color={color} />
-            ),
-          }} 
-        />
-      </Drawer>
+    <AuthProvider>
+      <SplashScreenController />
+      <RootNavigator />
       <StatusBar style="dark" />
-    </GestureHandlerRootView>
+    </AuthProvider>
+  );
+}
+
+// Separate this into a new component so it can access the SessionProvider context later
+function RootNavigator() {
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen 
+        name="index"
+        options={{ 
+          animation: 'fade',
+          animationDuration: 1000,
+         }}
+      />
+      <Stack.Screen 
+        name="(app)" 
+        options={{ 
+          animation: 'fade',
+          animationDuration: 1000,
+         }}
+      />
+    </Stack>
   );
 } 
