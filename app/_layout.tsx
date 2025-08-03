@@ -20,7 +20,6 @@ function RootNavigator() {
 
   return (
     <Stack screenOptions={{ headerShown: false, animation: 'fade', animationDuration: 1000 }}>
-
       <Stack.Protected guard={!isAuthenticated}>
         <Stack.Screen name="index" />
       </Stack.Protected>
@@ -30,4 +29,4 @@ function RootNavigator() {
       </Stack.Protected>
     </Stack>
   );
-} 
+}

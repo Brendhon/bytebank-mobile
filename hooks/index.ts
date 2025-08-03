@@ -1,2 +1,2 @@
 export { useStorageState } from './useStorageState';
-export { useUserPreferences } from './useUserPreferences'; 
+export { useUserPreferences } from './useUserPreferences';

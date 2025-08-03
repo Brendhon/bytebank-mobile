@@ -36,14 +36,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       // TODO: Implement actual authentication service
       // Mock implementation for now
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       const mockUser: User = {
         id: '1',
         name: 'Usuário Teste',
         email: credentials.email,
       };
-      
+
       setUser(mockUser);
       setSession('xxx'); // Store session token
 
@@ -58,14 +58,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       // TODO: Implement actual registration service
       // Mock implementation for now
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       const mockUser: User = {
         id: '1',
         name: credentials.name,
         email: credentials.email,
       };
-      
+
       setUser(mockUser);
       setSession('xxx'); // Store session token
     } catch (error) {
@@ -80,17 +80,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider 
-      value={{ 
-        isAuthenticated: !!session, 
-        user, 
+    <AuthContext.Provider
+      value={{
+        isAuthenticated: !!session,
+        user,
         isLoading,
         session,
-        signIn, 
+        signIn,
         signUp,
-        signOut 
-      }}
-    >
+        signOut,
+      }}>
       {children}
     </AuthContext.Provider>
   );
@@ -105,4 +104,4 @@ export const useAuth = (): AuthContextData => {
   }
 
   return context;
-}; 
+};

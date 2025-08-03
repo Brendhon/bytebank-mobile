@@ -1,33 +1,22 @@
 import { useAuth } from '@/contexts/AuthContext';
-import {
-  Bell,
-  CreditCard,
-  HelpCircle,
-  LogOut,
-  Shield,
-  User
-} from 'lucide-react-native';
+import { Bell, CreditCard, HelpCircle, LogOut, Shield, User } from 'lucide-react-native';
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 export default function SettingsScreen() {
   const { user, signOut } = useAuth();
 
   const handleLogout = () => {
-    Alert.alert(
-      'Sair da Conta',
-      'Tem certeza que deseja sair?',
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-        {
-          text: 'Sair',
-          style: 'destructive',
-          onPress: signOut,
-        },
-      ]
-    );
+    Alert.alert('Sair da Conta', 'Tem certeza que deseja sair?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+      {
+        text: 'Sair',
+        style: 'destructive',
+        onPress: signOut,
+      },
+    ]);
   };
 
   const settingsItems = [
@@ -69,44 +58,35 @@ export default function SettingsScreen() {
   ];
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <View className="bg-gray-50 flex-1">
       {/* User Profile Header */}
-      <View className="bg-white p-6 border-b border-gray-200">
+      <View className="border-gray-200 border-b bg-white p-6">
         <View className="flex-row items-center">
-          <View className="w-16 h-16 bg-blue-100 rounded-full items-center justify-center mr-4">
+          <View className="bg-blue-100 mr-4 h-16 w-16 items-center justify-center rounded-full">
             <User size={24} color="#1e40af" />
           </View>
           <View className="flex-1">
-            <Text className="text-xl font-bold text-gray-900">
-              {user?.name}
-            </Text>
-            <Text className="text-gray-600">
-              {user?.email}
-            </Text>
+            <Text className="text-gray-900 text-xl font-bold">{user?.name}</Text>
+            <Text className="text-gray-600">{user?.email}</Text>
           </View>
         </View>
       </View>
 
       {/* Settings List */}
       <ScrollView className="flex-1">
-        <View className="p-4 space-y-4">
+        <View className="space-y-4 p-4">
           {settingsItems.map((item) => (
             <TouchableOpacity
               key={item.id}
               onPress={item.onPress}
-              className="bg-white p-4 rounded-xl shadow-sm"
-            >
+              className="rounded-xl bg-white p-4 shadow-sm">
               <View className="flex-row items-center">
-                <View className="w-10 h-10 bg-gray-100 rounded-lg items-center justify-center mr-4">
+                <View className="bg-gray-100 mr-4 h-10 w-10 items-center justify-center rounded-lg">
                   <item.icon size={20} color="#6b7280" />
                 </View>
                 <View className="flex-1">
-                  <Text className="font-semibold text-gray-900">
-                    {item.title}
-                  </Text>
-                  <Text className="text-sm text-gray-500">
-                    {item.subtitle}
-                  </Text>
+                  <Text className="text-gray-900 font-semibold">{item.title}</Text>
+                  <Text className="text-gray-500 text-sm">{item.subtitle}</Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -115,19 +95,14 @@ export default function SettingsScreen() {
           {/* Logout Button */}
           <TouchableOpacity
             onPress={handleLogout}
-            className="bg-red-50 p-4 rounded-xl border border-red-200"
-          >
+            className="bg-red-50 border-red-200 rounded-xl border p-4">
             <View className="flex-row items-center">
-              <View className="w-10 h-10 bg-red-100 rounded-lg items-center justify-center mr-4">
+              <View className="bg-red-100 mr-4 h-10 w-10 items-center justify-center rounded-lg">
                 <LogOut size={20} color="#dc2626" />
               </View>
               <View className="flex-1">
-                <Text className="font-semibold text-red-600">
-                  Sair da Conta
-                </Text>
-                <Text className="text-sm text-red-500">
-                  Encerrar sessão atual
-                </Text>
+                <Text className="text-red-600 font-semibold">Sair da Conta</Text>
+                <Text className="text-red-500 text-sm">Encerrar sessão atual</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -135,4 +110,4 @@ export default function SettingsScreen() {
       </ScrollView>
     </View>
   );
-} 
+}

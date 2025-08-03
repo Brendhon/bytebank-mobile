@@ -48,12 +48,11 @@ export default function RegisterModal({ visible, onClose }: RegisterModalProps) 
       visible={visible}
       animationType="slide"
       presentationStyle="pageSheet"
-      onRequestClose={onClose}
-    >
+      onRequestClose={onClose}>
       <View className="flex-1 bg-white">
         {/* Header */}
-        <View className="flex-row items-center justify-between p-4 border-b border-gray-200">
-          <Text className="text-xl font-bold text-gray-900">Criar Conta</Text>
+        <View className="border-gray-200 flex-row items-center justify-between border-b p-4">
+          <Text className="text-gray-900 text-xl font-bold">Criar Conta</Text>
           <TouchableOpacity onPress={onClose}>
             <X size={24} color="#6b7280" />
           </TouchableOpacity>
@@ -63,65 +62,54 @@ export default function RegisterModal({ visible, onClose }: RegisterModalProps) 
         <View className="flex-1 p-6">
           <View className="space-y-4">
             <View>
-              <Text className="text-sm font-medium text-gray-700 mb-2">
-                Nome Completo
-              </Text>
+              <Text className="text-gray-700 mb-2 text-sm font-medium">Nome Completo</Text>
               <TextInput
                 value={name}
                 onChangeText={setName}
                 placeholder="Digite seu nome completo"
-                className="border border-gray-300 rounded-lg px-4 py-3 text-gray-900"
+                className="border-gray-300 text-gray-900 rounded-lg border px-4 py-3"
               />
             </View>
 
             <View>
-              <Text className="text-sm font-medium text-gray-700 mb-2">
-                Email
-              </Text>
+              <Text className="text-gray-700 mb-2 text-sm font-medium">Email</Text>
               <TextInput
                 value={email}
                 onChangeText={setEmail}
                 placeholder="Digite seu email"
                 keyboardType="email-address"
                 autoCapitalize="none"
-                className="border border-gray-300 rounded-lg px-4 py-3 text-gray-900"
+                className="border-gray-300 text-gray-900 rounded-lg border px-4 py-3"
               />
             </View>
 
             <View>
-              <Text className="text-sm font-medium text-gray-700 mb-2">
-                Senha
-              </Text>
+              <Text className="text-gray-700 mb-2 text-sm font-medium">Senha</Text>
               <TextInput
                 value={password}
                 onChangeText={setPassword}
                 placeholder="Digite sua senha"
                 secureTextEntry
-                className="border border-gray-300 rounded-lg px-4 py-3 text-gray-900"
+                className="border-gray-300 text-gray-900 rounded-lg border px-4 py-3"
               />
             </View>
 
             <View>
-              <Text className="text-sm font-medium text-gray-700 mb-2">
-                Confirmar Senha
-              </Text>
+              <Text className="text-gray-700 mb-2 text-sm font-medium">Confirmar Senha</Text>
               <TextInput
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
                 placeholder="Confirme sua senha"
                 secureTextEntry
-                className="border border-gray-300 rounded-lg px-4 py-3 text-gray-900"
+                className="border-gray-300 text-gray-900 rounded-lg border px-4 py-3"
               />
             </View>
 
             <TouchableOpacity
               onPress={handleSignUp}
               disabled={isLoading}
-              className={`mt-6 py-3 px-4 rounded-lg ${
-                isLoading ? 'bg-gray-400' : 'bg-blue-600'
-              }`}
-            >
-              <Text className="text-white text-center font-semibold">
+              className={`mt-6 rounded-lg px-4 py-3 ${isLoading ? 'bg-gray-400' : 'bg-blue-600'}`}>
+              <Text className="text-center font-semibold text-white">
                 {isLoading ? 'Criando conta...' : 'Criar Conta'}
               </Text>
             </TouchableOpacity>
@@ -130,4 +118,4 @@ export default function RegisterModal({ visible, onClose }: RegisterModalProps) 
       </View>
     </Modal>
   );
-} 
+}

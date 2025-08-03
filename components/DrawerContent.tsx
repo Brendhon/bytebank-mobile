@@ -13,16 +13,16 @@ export default function DrawerContent({ props }: DrawerContentProps) {
   const handleLogout = () => signOut();
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <View className="bg-gray-50 flex-1">
       <DrawerContentScrollView {...props}>
         {/* Header */}
-        <View className="bg-blue-600 p-6 mb-4">
+        <View className="bg-blue-600 mb-4 p-6">
           <View className="flex-row items-center">
-            <View className="w-12 h-12 bg-white rounded-full items-center justify-center mr-4">
+            <View className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-white">
               <User size={24} color="#1e40af" />
             </View>
             <View>
-              <Text className="text-white text-lg font-semibold">
+              <Text className="text-lg font-semibold text-white">
                 {user?.name || 'Bytebank Mobile'}
               </Text>
               <Text className="text-blue-100 text-sm">
@@ -39,17 +39,14 @@ export default function DrawerContent({ props }: DrawerContentProps) {
       </DrawerContentScrollView>
 
       {/* Logout Button */}
-      <View className="p-4 border-t border-gray-200">
+      <View className="border-gray-200 border-t p-4">
         <TouchableOpacity
           onPress={handleLogout}
-          className="flex-row items-center p-3 bg-red-50 rounded-lg"
-        >
+          className="bg-red-50 flex-row items-center rounded-lg p-3">
           <LogOut size={20} color="#dc2626" />
-          <Text className="text-red-600 font-semibold ml-3">
-            Sair da Conta
-          </Text>
+          <Text className="text-red-600 ml-3 font-semibold">Sair da Conta</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-} 
+}

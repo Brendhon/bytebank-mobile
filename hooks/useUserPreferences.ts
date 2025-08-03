@@ -36,4 +36,4 @@ export function useUserPreferences() {
     updateLanguage,
     updateNotifications,
   };
-} 
+}

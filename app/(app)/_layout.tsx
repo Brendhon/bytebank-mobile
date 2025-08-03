@@ -33,37 +33,30 @@ export default function AppLayout() {
             backgroundColor: '#f9fafb',
             width: 280,
           },
-        }}
-      >
-        <Drawer.Screen 
-          name="index" 
-          options={{ 
+        }}>
+        <Drawer.Screen
+          name="index"
+          options={{
             title: 'Dashboard',
-            drawerIcon: ({ color, size }) => (
-              <Home size={size} color={color} />
-            ),
-          }} 
+            drawerIcon: ({ color, size }) => <Home size={size} color={color} />,
+          }}
         />
-        <Drawer.Screen 
-          name="transactions" 
-          options={{ 
+        <Drawer.Screen
+          name="transactions"
+          options={{
             title: 'Transações',
-            drawerIcon: ({ color, size }) => (
-              <CreditCard size={size} color={color} />
-            ),
-          }} 
+            drawerIcon: ({ color, size }) => <CreditCard size={size} color={color} />,
+          }}
         />
-        <Drawer.Screen 
-          name="settings" 
-          options={{ 
+        <Drawer.Screen
+          name="settings"
+          options={{
             title: 'Configurações',
-            drawerIcon: ({ color, size }) => (
-              <Settings size={size} color={color} />
-            ),
-          }} 
+            drawerIcon: ({ color, size }) => <Settings size={size} color={color} />,
+          }}
         />
       </Drawer>
       <StatusBar style="light" />
     </GestureHandlerRootView>
   );
-} 
+}
