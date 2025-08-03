@@ -16,20 +16,16 @@ function useAsyncState<T>(
 export async function setStorageItemAsync(key: string, value: string | null) {
   if (Platform.OS === 'web') {
     try {
-      if (value === null) {
-        localStorage.removeItem(key);
-      } else {
-        localStorage.setItem(key, value);
-      }
+      value
+        ? localStorage.setItem(key, value)
+        : localStorage.removeItem(key);
     } catch (e) {
       console.error('Local storage is unavailable:', e);
     }
   } else {
-    if (value == null) {
-      await SecureStore.deleteItemAsync(key);
-    } else {
-      await SecureStore.setItemAsync(key, value);
-    }
+    value
+      ? await SecureStore.setItemAsync(key, value)
+      : await SecureStore.deleteItemAsync(key);
   }
 }
 
