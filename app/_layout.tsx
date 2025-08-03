@@ -1,41 +1,72 @@
-import { Stack } from 'expo-router';
+import { Drawer } from 'expo-router/drawer';
 import { StatusBar } from 'expo-status-bar';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import DrawerContent from '../components/DrawerContent';
+import { Home, CreditCard, Settings } from 'lucide-react-native';
 import '../global.css';
 
 export default function RootLayout() {
   return (
-    <>
-      <Stack>
-        <Stack.Screen 
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Drawer
+        drawerContent={(props) => <DrawerContent props={props} />}
+        screenOptions={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1e40af',
+          },
+          headerTintColor: '#ffffff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          drawerActiveBackgroundColor: '#dbeafe',
+          drawerActiveTintColor: '#1e40af',
+          drawerInactiveTintColor: '#6b7280',
+          drawerStyle: {
+            backgroundColor: '#f9fafb',
+            width: 280,
+          },
+        }}
+      >
+        <Drawer.Screen 
           name="index" 
           options={{ 
-            title: 'Bytebank Mobile',
+            title: 'Início',
+            drawerIcon: ({ color, size }) => (
+              <Home size={size} color={color} />
+            ),
             headerShown: false 
           }} 
         />
-        <Stack.Screen 
+        <Drawer.Screen 
           name="dashboard" 
           options={{ 
             title: 'Dashboard',
-            headerShown: true 
+            drawerIcon: ({ color, size }) => (
+              <Home size={size} color={color} />
+            ),
           }} 
         />
-        <Stack.Screen 
+        <Drawer.Screen 
           name="transactions" 
           options={{ 
             title: 'Transações',
-            headerShown: true 
+            drawerIcon: ({ color, size }) => (
+              <CreditCard size={size} color={color} />
+            ),
           }} 
         />
-        <Stack.Screen 
+        <Drawer.Screen 
           name="settings" 
           options={{ 
             title: 'Configurações',
-            headerShown: true 
+            drawerIcon: ({ color, size }) => (
+              <Settings size={size} color={color} />
+            ),
           }} 
         />
-      </Stack>
-      <StatusBar style="auto" />
-    </>
+      </Drawer>
+      <StatusBar style="dark" />
+    </GestureHandlerRootView>
   );
 } 
