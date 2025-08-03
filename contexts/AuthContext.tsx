@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { useRouter } from 'expo-router';
+import { useStorageState } from '../hooks/useStorageState';
 
 // 1. Type definition for the context data
 interface User {
@@ -15,6 +16,7 @@ interface AuthContextData {
   signIn(credentials: { email: string; password: string }): Promise<void>;
   signUp(credentials: { name: string; email: string; password: string }): Promise<void>;
   signOut(): void;
+  session?: string | null;
 }
 
 // 2. Context creation
@@ -26,11 +28,11 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [[isLoading, session], setSession] = useStorageState('session');
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
   const signIn = async (credentials: { email: string; password: string }) => {
-    setIsLoading(true);
     try {
       // TODO: Implement actual authentication service
       // Mock implementation for now
@@ -43,18 +45,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       };
       
       setUser(mockUser);
+      setSession('xxx'); // Store session token
 
       router.replace('/(app)');
     } catch (error) {
       console.error('Sign in error:', error);
       throw error;
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const signUp = async (credentials: { name: string; email: string; password: string }) => {
-    setIsLoading(true);
     try {
       // TODO: Implement actual registration service
       // Mock implementation for now
@@ -67,26 +67,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       };
       
       setUser(mockUser);
+      setSession('xxx'); // Store session token
     } catch (error) {
       console.error('Sign up error:', error);
       throw error;
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const signOut = () => {
-    setIsLoading(true);
     setUser(null);
-    setIsLoading(false);
+    setSession(null);
   };
 
   return (
     <AuthContext.Provider 
       value={{ 
-        isAuthenticated: !!user, 
+        isAuthenticated: !!session, 
         user, 
         isLoading,
+        session,
         signIn, 
         signUp,
         signOut 
