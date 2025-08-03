@@ -10,10 +10,7 @@ interface DrawerContentProps {
 export default function DrawerContent({ props }: DrawerContentProps) {
   const { user, signOut } = useAuth();
 
-  const handleLogout = () => {
-    console.log('handleLogout');
-    signOut();  
-  };
+  const handleLogout = () => signOut();
 
   return (
     <View className="flex-1 bg-gray-50">

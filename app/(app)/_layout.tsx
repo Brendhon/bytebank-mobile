@@ -5,18 +5,13 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import DrawerContent from '../../components/DrawerContent';
 import { useAuth } from '../../contexts/AuthContext';
 import '../../global.css';
-import { useEffect } from 'react';
-import { router } from 'expo-router';
 
 export default function AppLayout() {
+  // Get the authentication status and loading state
   const { isAuthenticated, isLoading } = useAuth();
 
   // Don't render anything while checking authentication
-  if (isLoading || !isAuthenticated) {
-    console.log('Is loading', isLoading);
-    console.log('Is authenticated', isAuthenticated);
-    return null;
-  }
+  if (isLoading || !isAuthenticated) return null;
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
