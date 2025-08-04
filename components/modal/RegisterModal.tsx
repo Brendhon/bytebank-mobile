@@ -1,4 +1,5 @@
 import Button from '@/components/form/Button';
+import { Checkbox } from '@/components/form/Checkbox';
 import Input from '@/components/form/Input';
 import RegisterIllustration from '@/components/illustrations/RegisterIllustration';
 import Modal from '@/components/modal/Modal';
@@ -7,8 +8,8 @@ import { RegisterFormData, registerSchema } from '@/schemas/index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Mail, User } from 'lucide-react-native';
 import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Alert, Text, TouchableOpacity, View } from 'react-native';
+import { useForm } from 'react-hook-form';
+import { Alert, View } from 'react-native';
 
 interface RegisterModalProps {
   visible: boolean;
@@ -111,29 +112,10 @@ export default function RegisterModal({ visible, onClose }: RegisterModalProps) 
           error={errors.confirmPassword?.message}
         />
 
-        <Controller
+        <Checkbox
           name="acceptPrivacy"
           control={control}
-          render={({ field, fieldState }) => (
-            <View className={styles.checkboxContainer}>
-              <TouchableOpacity
-                onPress={() => setValue('acceptPrivacy', !field.value)}
-                className={styles.checkbox}
-                accessibilityRole="checkbox"
-                accessibilityState={{ checked: field.value }}
-              >
-                <View className={`${styles.checkboxInner} ${field.value ? styles.checkboxChecked : ''}`}>
-                  {field.value && <Text className={styles.checkmark}>✓</Text>}
-                </View>
-                <Text className={styles.checkboxLabel}>
-                  Li e estou ciente quanto às condições de tratamento dos meus dados conforme descrito na Política de Privacidade do banco.
-                </Text>
-              </TouchableOpacity>
-              {fieldState.error && (
-                <Text className={styles.errorText}>{fieldState.error.message}</Text>
-              )}
-            </View>
-          )}
+          label="Li e estou ciente quanto às condições de tratamento dos meus dados conforme descrito na Política de Privacidade do banco."
         />
 
         <View className={styles.buttonContainer}>
@@ -155,11 +137,4 @@ export default function RegisterModal({ visible, onClose }: RegisterModalProps) 
 const styles = {
   formContainer: 'gap-4',
   buttonContainer: 'flex-col items-center gap-6 pt-4',
-  checkboxContainer: 'gap-2',
-  checkbox: 'flex-row items-start gap-3',
-  checkboxInner: 'h-5 w-5 border-2 border-gray rounded items-center justify-center',
-  checkboxChecked: 'bg-blue border-blue',
-  checkmark: 'text-white text-xs font-bold',
-  checkboxLabel: 'flex-1 text-sm text-gray leading-5',
-  errorText: 'text-red text-xs',
 };
