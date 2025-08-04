@@ -8,7 +8,7 @@ import { Alert, View } from 'react-native';
 import Button from '@/components/form/Button';
 import Input from '@/components/form/Input';
 import Modal from '@/components/modal/Modal';
-import LoginIllustration from './illustrations/LoginIllustration';
+import LoginIllustration from '@/components/illustrations/LoginIllustration';
 
 interface LoginModalProps {
   visible: boolean;
