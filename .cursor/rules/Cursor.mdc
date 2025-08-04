@@ -36,11 +36,12 @@ You are an expert in TypeScript, React Native, Expo, and Mobile App Development.
 - Use lucide-react-native for icons.
 
 ## Documentation
-- Store docs in the docs directory.
-- No examples in docs; put them in docs/usages if needed.
-- Update docs/usages when components change.
-- Place guidelines in docs/guidelines.
-- Write docs in English.
+- Store all documentation in the `docs` directory.
+- Write all documentation in English.
+- Do not include examples in documentation files; place all examples in `docs/usages`.
+- When updating a documented component, also update its usage in `docs/usages`.
+- Place all guidelines in `docs/guidelines`.
+- Name documentation files clearly, e.g., `docs/usages/button-usage.md` or `docs/guidelines/button-guidelines.md`.
 
 ## Best Practices
 - Respect React Native threading for smooth UI.
