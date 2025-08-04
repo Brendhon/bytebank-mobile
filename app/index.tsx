@@ -2,7 +2,7 @@ import LoginModal from '@/components/modal/LoginModal';
 import RegisterModal from '@/components/modal/RegisterModal';
 import { BenefitsSection } from '@/components/sections/BenefitsSection';
 import { Footer } from '@/components/layout/Footer';
-import { Header } from '@/components/layout/Header';
+import { GuestHeader } from '@/components/layout/GuestHeader';
 import { useState } from 'react';
 import { View } from 'react-native';
 
@@ -13,8 +13,7 @@ export default function HomeScreen() {
   return (
     <View className="bg-gray-50 flex-1">
       {/* Header */}
-      <Header
-        variant="guest"
+      <GuestHeader
         onOpenAccount={() => setRegisterModalVisible(true)}
         onLogin={() => setLoginModalVisible(true)}
       />
