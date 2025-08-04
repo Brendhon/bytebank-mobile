@@ -13,7 +13,8 @@
       "@/services/*": ["./services/*"],
       "@/utils/*": ["./utils/*"],
       "@/models/*": ["./models/*"],
-      "@/schemas/*": ["./schemas/*"]
+      "@/schemas/*": ["./schemas/*"],
+      "@/assets/*": ["./assets/*"]
     }
   }
 }
