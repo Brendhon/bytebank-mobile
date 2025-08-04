@@ -52,11 +52,11 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 }; 
 
 const styles = {
-  container: 'flex-row items-start gap-2',
+  container: 'flex items-start gap-2',
   checkbox: 'flex-row items-start gap-2',
   checkboxInner: 'w-5 h-5 border-2 border-gray rounded items-center justify-center',
   checkboxChecked: 'bg-green border-green',
   checkmark: 'text-white text-xs font-bold',
   label: 'flex-1 text-sm text-gray leading-5',
-  errorText: 'text-red text-xs mt-1',
+  errorText: 'text-red text-sm mt-1',
 };
