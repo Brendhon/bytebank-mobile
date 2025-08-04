@@ -1,12 +1,13 @@
 import { useAuth } from '@/contexts/AuthContext';
-import { Alert, Modal, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { useState } from 'react';
-import { X, Mail } from 'lucide-react-native';
+import { Mail } from 'lucide-react-native';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, LoginFormData } from '@/schemas/index';
 import Input from './Input';
 import Button from './Button';
+import Modal from './Modal';
 
 interface LoginModalProps {
   visible: boolean;
@@ -54,57 +55,44 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
   const watchedValues = watch();
 
   return (
-    <Modal
-      visible={visible}
-      animationType="slide"
-      presentationStyle="pageSheet"
-      onRequestClose={handleClose}>
-      <View className="flex-1 bg-white p-8">
-        {/* Header */}
-        <View className="flex-row items-center justify-between mb-6">
-          <View className="w-6" />
-          <Text className="text-dark text-2xl font-bold">Login</Text>
-          <TouchableOpacity onPress={handleClose}>
-            <X size={24} color="gray" />
-          </TouchableOpacity>
-        </View>
+    <Modal visible={visible} onClose={handleClose} title="Login">
+      <View className={styles.formContainer}>
+        <Input
+          label="Email"
+          placeholder="Digite seu email"
+          type="email"
+          icon={<Mail />}
+          value={watchedValues.email}
+          onChangeText={(text) => setValue('email', text)}
+          error={errors.email?.message}
+        />
 
-        {/* Form */}
-        <View>
-          <View className="gap-4">
-            <Input
-              label="Email"
-              placeholder="Digite seu email"
-              type="email"
-              icon={<Mail />}
-              value={watchedValues.email}
-              onChangeText={(text) => setValue('email', text)}
-              error={errors.email?.message}
-            />
+        <Input
+          label="Senha"
+          placeholder="Digite sua senha"
+          type="password"
+          value={watchedValues.password}
+          onChangeText={(text) => setValue('password', text)}
+          error={errors.password?.message}
+        />
 
-            <Input
-              label="Senha"
-              placeholder="Digite sua senha"
-              type="password"
-              value={watchedValues.password}
-              onChangeText={(text) => setValue('password', text)}
-              error={errors.password?.message}
-            />
-
-            <View className="flex-col items-center gap-6 pt-4">
-              <Button
-                variant="green"
-                onPress={handleSubmit(onSubmit)}
-                loading={isLoading || isSubmitting}
-                disabled={isLoading || isSubmitting}
-                className="w-full"
-              >
-                {isLoading || isSubmitting ? 'Entrando...' : 'Acessar'}
-              </Button>
-            </View>
-          </View>
+        <View className={styles.buttonContainer}>
+          <Button
+            variant="green"
+            onPress={handleSubmit(onSubmit)}
+            loading={isLoading || isSubmitting}
+            disabled={isLoading || isSubmitting}
+            className="w-full"
+          >
+            {isLoading || isSubmitting ? 'Entrando...' : 'Acessar'}
+          </Button>
         </View>
       </View>
     </Modal>
   );
 }
+
+const styles = {
+  formContainer: 'gap-4',
+  buttonContainer: 'flex-col items-center gap-6 pt-4',
+};
