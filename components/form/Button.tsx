@@ -57,7 +57,7 @@ const Button = ({
 
 const styles = {
   // Base styles for all button variants
-  base: `w-36 h-12 rounded-md relative items-center justify-center`,
+  base: `h-12 rounded-md relative items-center justify-center`,
   disabled: `opacity-70`,
 
   // Text styles
