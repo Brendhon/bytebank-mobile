@@ -66,7 +66,7 @@ As seguintes tecnologias foram utilizadas na construção do Bytebank Mobile:
   * **Estilização**: [Tailwind CSS](https://tailwindcss.com/) com [NativeWind](https://www.nativewind.dev/)
   * **Gerenciamento de Estado**: [Context API](https://react.dev/reference/react/createContext)
   * **Navegação**: [Expo Router](https://docs.expo.dev/router/introduction/)
-  * **Animações**: [React Native Animated API](https://reactnative.dev/docs/animated)
+  * **Animações**: [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/)
   * **Validação de Formulários**: [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
   * **Comunicação API**: [Apollo Client](https://www.apollographql.com/docs/react/) para consumo da API GraphQL.
   * **Backend de Dados**: [MongoDB](https://www.mongodb.com/) (através da [Bytebank API GraphQL](https://github.com/Brendhon/bytebank-api))

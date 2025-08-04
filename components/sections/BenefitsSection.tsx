@@ -1,34 +1,201 @@
 
-import { Image, ScrollView, Text, View } from 'react-native';
 import HomeIllustration from '@/components/illustrations/HomeIllustration';
+import { useEffect } from 'react';
+import { Image, ScrollView, Text, View } from 'react-native';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming
+} from 'react-native-reanimated';
+
+// Interface for benefit item
+interface BenefitItemProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
+// Animated text component
+const AnimatedText = ({ 
+  children, 
+  className, 
+  delay = 0 
+}: { 
+  children: React.ReactNode; 
+  className: string; 
+  delay?: number;
+}) => {
+  const opacity = useSharedValue(0);
+  const translateY = useSharedValue(30);
+
+  useEffect(() => {
+    opacity.value = withDelay(
+      delay,
+      withTiming(1, { 
+        duration: 800,
+        easing: Easing.out(Easing.cubic)
+      })
+    );
+    
+    translateY.value = withDelay(
+      delay,
+      withTiming(0, { 
+        duration: 800,
+        easing: Easing.out(Easing.cubic)
+      })
+    );
+  }, [delay, opacity, translateY]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+      transform: [
+        { translateY: translateY.value }
+      ]
+    };
+  });
+
+  return (
+    <Animated.Text 
+      className={className}
+      style={animatedStyle}
+    >
+      {children}
+    </Animated.Text>
+  );
+};
+
+// Animated illustration component
+const AnimatedIllustration = ({ delay = 0 }: { delay?: number }) => {
+  const opacity = useSharedValue(0);
+  const scale = useSharedValue(0.8);
+
+  useEffect(() => {
+    opacity.value = withDelay(
+      delay,
+      withTiming(1, { 
+        duration: 1000,
+        easing: Easing.out(Easing.cubic)
+      })
+    );
+    
+    scale.value = withDelay(
+      delay,
+      withTiming(1, { 
+        duration: 1000,
+        easing: Easing.out(Easing.cubic)
+      })
+    );
+  }, [delay, opacity, scale]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+      transform: [
+        { scale: scale.value }
+      ]
+    };
+  });
+
+  return (
+    <Animated.View 
+      className={styles.sectionIllustration}
+      style={animatedStyle}
+    >
+      <HomeIllustration width={300} height={300} />
+    </Animated.View>
+  );
+};
+
+// Separate component for animated benefit item
+const BenefitItem = ({ 
+  item, 
+  index, 
+  delay = 0 
+}: { 
+  item: BenefitItemProps; 
+  index: number; 
+  delay?: number;
+}) => {
+  const opacity = useSharedValue(0);
+  const translateY = useSharedValue(50);
+
+  useEffect(() => {
+    // Animate with delay
+    const animationDelay = delay + (index * 300);
+    
+    opacity.value = withDelay(
+      animationDelay,
+      withTiming(1, { 
+        duration: 600,
+        easing: Easing.out(Easing.cubic)
+      })
+    );
+    
+    translateY.value = withDelay(
+      animationDelay,
+      withTiming(0, { 
+        duration: 600,
+        easing: Easing.out(Easing.cubic)
+      })
+    );
+  }, [delay, index, opacity, translateY]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+      transform: [
+        { translateY: translateY.value }
+      ]
+    };
+  });
+
+  return (
+    <Animated.View 
+      className={styles.container}
+      style={animatedStyle}
+    >
+      {item.icon}
+      <Text className={styles.title}>{item.title}</Text>
+      <Text className={styles.description}>{item.description}</Text>
+    </Animated.View>
+  );
+};
 
 export const BenefitsSection = () => {
   return (
     <ScrollView className={styles.scrollView}>
       {/* Hero Section */}
       <View className={styles.section}>
-        <Text className={styles.sectionDescription}>
+        <AnimatedText 
+          className={styles.sectionDescription}
+          delay={200}
+        >
           Experimente mais liberdade no controle da sua vida financeira. Crie sua conta com a gente!
-        </Text>
+        </AnimatedText>
       </View>
 
       {/* Illustration */}
-      <View className={styles.sectionIllustration}>
-        <HomeIllustration width={300} height={300} />
-      </View>
+      <AnimatedIllustration delay={400} />
 
       {/* Benefits */}
       <View className={styles.section}>
-        <Text className={styles.sectionTitle}>
+        <AnimatedText 
+          className={styles.sectionTitle}
+          delay={600}
+        >
           Vantagens do nosso banco:
-        </Text>
+        </AnimatedText>
         <View className={styles.sectionBenefits}>
           {benefits.map((item, idx) => (
-            <View key={idx} className={styles.container}>
-              {item.icon}
-              <Text className={styles.title}>{item.title}</Text>
-              <Text className={styles.description}>{item.description}</Text>
-            </View>
+            <BenefitItem 
+              key={idx}
+              item={item}
+              index={idx}
+              delay={800}
+            />
           ))}
         </View>
       </View>
