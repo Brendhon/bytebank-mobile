@@ -57,11 +57,11 @@ const Button = ({
 
 const styles = {
   // Base styles for all button variants
-  base: `w-36 h-10 rounded-sm relative transition-colors items-center justify-center`,
+  base: `w-36 h-12 rounded-md relative items-center justify-center`,
   disabled: `opacity-70`,
 
   // Text styles
-  text: `text-white text-sm font-semibold`,
+  text: `text-white text-base font-semibold`,
   textHidden: `opacity-0`,
 
   // Loader styles

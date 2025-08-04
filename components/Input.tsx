@@ -238,6 +238,6 @@ const styles = {
   inputDefault: 'border-gray',
   inputError: 'border-red',
   inputDisabled: 'opacity-50',
-  iconButton: 'absolute right-3 top-3 p-2',
+  iconButton: 'absolute right-3 top-1 p-2',
   errorText: 'text-red text-sm',
 };

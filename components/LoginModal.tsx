@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, LoginFormData } from '@/schemas/index';
 import Input from './Input';
+import Button from './Button';
 
 interface LoginModalProps {
   visible: boolean;
@@ -60,16 +61,13 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
       onRequestClose={handleClose}>
       <View className="flex-1 bg-white">
         {/* Header */}
-        <View className="border-gray flex-row items-center justify-between border-b p-4">
-          <Text className="text-gray text-xl font-bold">Entrar</Text>
-          <TouchableOpacity onPress={handleClose}>
-            <X size={24} color="gray" />
-          </TouchableOpacity>
+        <View className="flex items-center justify-center p-4">
+          <Text className="text-dark text-2xl font-bold">Login</Text>
         </View>
 
         {/* Form */}
-        <View className="flex-1 p-6">
-          <View className="space-y-4">
+        <View className="p-6">
+          <View className="gap-4">
             <Input
               label="Email"
               placeholder="Digite seu email"
@@ -89,16 +87,26 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
               error={errors.password?.message}
             />
 
-            <TouchableOpacity
-              onPress={handleSubmit(onSubmit)}
-              disabled={isLoading || isSubmitting}
-              className={`mt-6 rounded-md px-4 py-3 ${
-                isLoading || isSubmitting ? 'bg-gray' : 'bg-blue'
-              }`}>
-              <Text className="text-center font-semibold text-white">
-                {isLoading || isSubmitting ? 'Entrando...' : 'Entrar'}
-              </Text>
-            </TouchableOpacity>
+            <View className="flex-col items-center gap-6 pt-4">
+
+              <Button
+                variant="dark"
+                onPress={handleClose}
+                className="w-full"
+              >
+                Cancelar
+              </Button>
+
+              <Button
+                variant="green"
+                onPress={handleSubmit(onSubmit)}
+                loading={isLoading || isSubmitting}
+                disabled={isLoading || isSubmitting}
+                className="w-full"
+              >
+                {isLoading || isSubmitting ? 'Entrando...' : 'Acessar'}
+              </Button>
+            </View>
           </View>
         </View>
       </View>
