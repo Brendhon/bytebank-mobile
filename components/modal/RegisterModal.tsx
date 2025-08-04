@@ -70,7 +70,7 @@ export default function RegisterModal({ visible, onClose }: RegisterModalProps) 
   const watchedValues = watch();
 
   // Illustration component
-  const illustration = <RegisterIllustration />;
+  const illustration = <RegisterIllustration height={200} />;
 
   return (
     <Modal visible={visible} onClose={handleClose} title="Criar Conta" illustration={illustration}>
