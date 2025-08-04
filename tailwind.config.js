@@ -1,19 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-const bytebankColors = {
-  blue: '#004D61',
-  orange: '#FF5031',
-  green: '#47A138',
-
-  'light-green': '#E4EDE3',
-  'light-gray': '#F9F9F9',
-  gray: '#888888',
-  dark: '#212121',
-  'dark-gray': '#444444',
-
-  red: '#BF1313',
-  white: '#FFFFFF',
-};
+const colors = require('./utils/colors').colors;
 
 const typographyTokens = {
   fontFamily: {
@@ -42,7 +29,7 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
-      colors: bytebankColors,
+      colors,
       ...typographyTokens,
     },
   },

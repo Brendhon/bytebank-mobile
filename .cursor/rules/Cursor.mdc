@@ -32,7 +32,6 @@ You are an expert in TypeScript, React Native, Expo, and Mobile App Development.
 ## UI & Styling
 - Use NativeWind for styles, defined in a styles object at the file end.
 - Ensure responsive design.
-- Use react-native-fast-image for images.
 - Use lucide-react-native for icons.
 
 ## Documentation
