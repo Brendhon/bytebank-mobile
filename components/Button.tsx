@@ -26,7 +26,7 @@ interface ButtonProps {
 /**
  * Button component - A reusable button component that accepts variant and children props
  */
-export const Button = ({
+const Button = ({
   className,
   variant = 'blue',
   children,
@@ -48,18 +48,9 @@ export const Button = ({
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
       accessibilityState={{ disabled: isDisabled }}
-      {...props}
-    >
-      <Text className={`${styles.text} ${loading ? styles.textHidden : ''}`}>
-        {children}
-      </Text>
-      {loading && (
-        <ActivityIndicator 
-          size="small" 
-          color="#FFFFFF" 
-          className={styles.loader}
-        />
-      )}
+      {...props}>
+      <Text className={`${styles.text} ${loading ? styles.textHidden : ''}`}>{children}</Text>
+      {loading && <ActivityIndicator size="small" color="#FFFFFF" className={styles.loader} />}
     </TouchableOpacity>
   );
 };
@@ -68,14 +59,14 @@ const styles = {
   // Base styles for all button variants
   base: `w-36 h-10 rounded-sm relative transition-colors items-center justify-center`,
   disabled: `opacity-70`,
-  
+
   // Text styles
   text: `text-white text-sm font-semibold`,
   textHidden: `opacity-0`,
-  
+
   // Loader styles
   loader: `absolute`,
-  
+
   // Variant styles
   dark: `bg-dark`,
   blue: `bg-blue`,
@@ -85,4 +76,4 @@ const styles = {
   outlineOrange: `bg-transparent border-2 border-orange`,
 };
 
-export default Button; 
+export default Button;

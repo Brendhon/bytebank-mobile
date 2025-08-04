@@ -12,7 +12,8 @@
       "@/hooks/*": ["./hooks/*"],
       "@/services/*": ["./services/*"],
       "@/utils/*": ["./utils/*"],
-      "@/models/*": ["./models/*"]
+      "@/models/*": ["./models/*"],
+      "@/schemas/*": ["./schemas/*"]
     }
   }
 }

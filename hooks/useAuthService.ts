@@ -7,7 +7,7 @@ interface UseAuthServiceReturn {
   updateUser: (updates: UserUpdateInput) => Promise<User>;
   deleteUser: () => Promise<boolean>;
   validatePassword: (password: string) => Promise<boolean>;
-  
+
   // Loading states
   isUpdatingUser: boolean;
   isDeletingUser: boolean;
@@ -69,4 +69,4 @@ export const useAuthService = (): UseAuthServiceReturn => {
     isDeletingUser,
     isValidatingPassword,
   };
-}; 
+};

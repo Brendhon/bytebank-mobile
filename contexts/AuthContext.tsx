@@ -11,7 +11,12 @@ interface AuthContextData {
   user: User | null;
   isLoading: boolean;
   signIn(credentials: { email: string; password: string }): Promise<void>;
-  signUp(credentials: { name: string; email: string; password: string; acceptPrivacy: boolean }): Promise<void>;
+  signUp(credentials: {
+    name: string;
+    email: string;
+    password: string;
+    acceptPrivacy: boolean;
+  }): Promise<void>;
   signOut(): void;
   refreshUser(): Promise<void>;
   session?: string | null;
@@ -55,17 +60,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const signIn = async (credentials: { email: string; password: string }) => {
     try {
       setIsUserLoading(true);
-      
+
       // Call the real authentication service
       const authPayload = await AuthService.login(credentials.email, credentials.password);
-      
+
       // Store the token
       await tokenManager.setToken(authPayload.token);
       setSession(authPayload.token);
-      
+
       // Set user data
       setUser(authPayload.user);
-      
+
       // Navigate to app
       router.replace('/(app)');
     } catch (error) {
@@ -76,10 +81,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const signUp = async (credentials: { name: string; email: string; password: string; acceptPrivacy: boolean }) => {
+  const signUp = async (credentials: {
+    name: string;
+    email: string;
+    password: string;
+    acceptPrivacy: boolean;
+  }) => {
     try {
       setIsUserLoading(true);
-      
+
       // Call the real registration service
       const authPayload = await AuthService.register(
         credentials.name,
@@ -87,14 +97,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         credentials.password,
         credentials.acceptPrivacy
       );
-      
+
       // Store the token
       await tokenManager.setToken(authPayload.token);
       setSession(authPayload.token);
-      
+
       // Set user data
       setUser(authPayload.user);
-      
+
       // Navigate to app
       router.replace('/(app)');
     } catch (error) {

@@ -11,6 +11,10 @@ export enum TransactionType {
   OUTFLOW = 'outflow',
 }
 
+// Types
+export type TransactionDescKey = keyof typeof TransactionDesc;
+export type TransactionTypeKey = keyof typeof TransactionType;
+
 // Transaction types
 export interface Transaction {
   _id: string;
