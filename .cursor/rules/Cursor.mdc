@@ -1,0 +1,49 @@
+---
+alwaysApply: true
+description: General guidelines for this project.
+---
+
+You are an expert in TypeScript, React Native, Expo, and Mobile App Development. You must follow the following guidelines.
+
+## Code Style
+- Write concise, type-safe TypeScript code.
+- Use functional components and hooks.
+- Keep components modular, reusable, and maintainable.
+- Group related files by feature (components, hooks, styles).
+
+## Naming
+- Use camelCase for variables/functions.
+- Use PascalCase for component names.
+- Use lowercase-hyphenated for directories.
+
+## TypeScript
+- Use TypeScript everywhere.
+- Prefer interfaces for props/state.
+- Enable strict typing.
+- Avoid 'any'; use precise types.
+
+## Performance
+- Limit useEffect/useState and heavy logic in render.
+- Use useMemo for static props.
+- Optimize FlatList with removeClippedSubviews, maxToRenderPerBatch, windowSize.
+- Use getItemLayout for uniform FlatList items.
+- Avoid anonymous functions in renderItem/event handlers.
+
+## UI & Styling
+- Use NativeWind for styles, defined in a styles object at the file end.
+- Ensure responsive design.
+- Use react-native-fast-image for images.
+- Use lucide-react-native for icons.
+
+## Documentation
+- Store docs in the docs directory.
+- No examples in docs; put them in docs/usages if needed.
+- Update docs/usages when components change.
+- Place guidelines in docs/guidelines.
+- Write docs in English.
+
+## Best Practices
+- Respect React Native threading for smooth UI.
+- Use Expo EAS Build/Updates for deployment and OTA.
+- Use Expo Router for navigation/deep linking.
+- Use these directories: @/models, @/services, @/hooks, @/utils, @/components, @/contexts, @/app.
