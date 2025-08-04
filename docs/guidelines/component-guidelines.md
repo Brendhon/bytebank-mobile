@@ -4,6 +4,8 @@ This document outlines the best practices for creating React Native components i
 
 ## 1. File Structure and Naming
 
+-   **Language**: All components must be written in English. 
+-   **Comments**: All comments must be in English.
 -   **Location**: Store all components in the `components/` directory.
 -   **Complexity**:
     -   **Simple Components**: A single file is sufficient (e.g., `components/Button.tsx`).

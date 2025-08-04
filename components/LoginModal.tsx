@@ -60,10 +60,10 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
       onRequestClose={handleClose}>
       <View className="flex-1 bg-white">
         {/* Header */}
-        <View className="border-gray-200 flex-row items-center justify-between border-b p-4">
-          <Text className="text-gray-900 text-xl font-bold">Entrar</Text>
+        <View className="border-gray flex-row items-center justify-between border-b p-4">
+          <Text className="text-gray text-xl font-bold">Entrar</Text>
           <TouchableOpacity onPress={handleClose}>
-            <X size={24} color="#6b7280" />
+            <X size={24} color="gray" />
           </TouchableOpacity>
         </View>
 
@@ -92,8 +92,8 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
             <TouchableOpacity
               onPress={handleSubmit(onSubmit)}
               disabled={isLoading || isSubmitting}
-              className={`mt-6 rounded-lg px-4 py-3 ${
-                isLoading || isSubmitting ? 'bg-gray-400' : 'bg-blue-600'
+              className={`mt-6 rounded-md px-4 py-3 ${
+                isLoading || isSubmitting ? 'bg-gray' : 'bg-blue'
               }`}>
               <Text className="text-center font-semibold text-white">
                 {isLoading || isSubmitting ? 'Entrando...' : 'Entrar'}

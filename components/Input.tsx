@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { cloneElement, useState } from 'react';
 import { Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { MaskedTextInput } from 'react-native-mask-text';
@@ -51,9 +51,6 @@ export default function Input({
   // Verificar se é telefone
   const isPhone = type === 'phone';
 
-  // Definir tipo de entrada
-  const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
-
   // Obter tipo de teclado
   const getKeyboardType = () => {
     if (keyboardType) return keyboardType;
@@ -96,29 +93,39 @@ export default function Input({
     return '(99) 99999-9999';
   };
 
-  // Estilos base
-  const baseInputClass = `
-    w-full bg-white border rounded-lg px-4 py-3 text-gray-900
-    ${icon || isPassword ? 'pr-12' : ''}
-    ${error ? 'border-red-500' : 'border-gray-300'}
-    ${disabled ? 'opacity-50' : ''}
-    ${className}
-  `.trim();
+  // Constantes para classes CSS
+  const inputClassName = [
+    styles.input,
+    (icon || isPassword) && styles.inputWithIcon,
+    error ? styles.inputError : styles.inputDefault,
+    disabled && styles.inputDisabled,
+    className
+  ].filter(Boolean).join(' ');
 
-  const iconClass = `
-    size-5 text-blue-600
-    ${(onIconClick || isPassword) ? 'cursor-pointer' : ''}
-  `.trim();
+  // Constantes para accessibility
+  const getAccessibilityLabel = () => {
+    const fieldType = isDate ? 'data' : isPhone ? 'telefone' : type;
+    return `${label || 'Campo'} de ${fieldType}`;
+  };
+
+  const getAccessibilityHint = () => {
+    if (isDate) return "Digite a data no formato DD/MM/AAAA";
+    if (isPhone) return "Digite o telefone no formato (00) 00000-0000";
+    return `Digite ${label?.toLowerCase() || 'o valor'}`;
+  };
 
   return (
-    <View className="space-y-2">
+    <View className={styles.container}>
       {label && (
-        <Text className="text-gray-700 text-sm font-medium mb-1">
+        <Text 
+          className={styles.label}
+          accessibilityRole="text"
+        >
           {label}
         </Text>
       )}
 
-      <View className="relative">
+      <View className={styles.inputContainer}>
         {/* Input com máscara para data */}
         {isDate ? (
           <MaskedTextInput
@@ -130,7 +137,11 @@ export default function Input({
             autoCapitalize={getAutoCapitalize()}
             autoComplete={getAutoComplete()}
             editable={!disabled}
-            className={baseInputClass}
+            className={inputClassName}
+            accessibilityLabel={getAccessibilityLabel()}
+            accessibilityHint={getAccessibilityHint()}
+            accessibilityRole="text"
+            accessibilityState={{ disabled }}
           />
         ) : isPhone ? (
           <MaskedTextInput
@@ -142,7 +153,11 @@ export default function Input({
             autoCapitalize={getAutoCapitalize()}
             autoComplete={getAutoComplete()}
             editable={!disabled}
-            className={baseInputClass}
+            className={inputClassName}
+            accessibilityLabel={getAccessibilityLabel()}
+            accessibilityHint={getAccessibilityHint()}
+            accessibilityRole="text"
+            accessibilityState={{ disabled }}
           />
         ) : (
           <TextInput
@@ -154,31 +169,48 @@ export default function Input({
             autoCapitalize={getAutoCapitalize()}
             autoComplete={getAutoComplete()}
             editable={!disabled}
-            className={baseInputClass}
+            className={inputClassName}
+            accessibilityLabel={getAccessibilityLabel()}
+            accessibilityHint={getAccessibilityHint()}
+            accessibilityRole="text"
+            accessibilityState={{ disabled }}
           />
         )}
 
         {/* Ícone customizado */}
         {icon && !isPassword && (
           <TouchableOpacity
-            className="absolute right-3 top-3"
+            className={styles.iconButton}
             onPress={onIconClick}
-            disabled={!onIconClick}
+            disabled={!onIconClick || disabled}
+            accessibilityLabel={`Botão ${label || 'do campo'}`}
+            accessibilityHint={onIconClick ? "Toque para executar ação" : "Botão desabilitado"}
+            accessibilityRole="button"
+            accessibilityState={{ disabled: !onIconClick || disabled }}
           >
-            {icon}
+            {icon && React.isValidElement(icon) && cloneElement(icon, {
+              size: 20,
+              color: '#004D61',
+              ...(icon.props || {}),
+            } as any)}
           </TouchableOpacity>
         )}
 
         {/* Toggle de senha */}
         {isPassword && (
           <TouchableOpacity
-            className="absolute right-3 top-3"
+            className={styles.iconButton}
             onPress={() => setShowPassword((prev) => !prev)}
+            disabled={disabled}
+            accessibilityLabel={`${showPassword ? 'Ocultar' : 'Mostrar'} senha`}
+            accessibilityHint={`Toque para ${showPassword ? 'ocultar' : 'mostrar'} a senha`}
+            accessibilityRole="button"
+            accessibilityState={{ disabled }}
           >
             {showPassword ? (
-              <EyeOff size={20} color="#2563eb" />
+              <EyeOff size={20} color="#004D61" />
             ) : (
-              <Eye size={20} color="#2563eb" />
+              <Eye size={20} color="#004D61" />
             )}
           </TouchableOpacity>
         )}
@@ -186,10 +218,26 @@ export default function Input({
 
       {/* Mensagem de erro */}
       {error && (
-        <Text className="text-red-500 text-sm">
+        <Text 
+          className={styles.errorText}
+          accessibilityRole="text"
+        >
           {error}
         </Text>
       )}
     </View>
   );
 }
+
+const styles = {
+  container: 'space-y-2',
+  label: 'text-gray text-sm font-medium mb-1',
+  inputContainer: 'relative',
+  input: 'w-full bg-white border rounded-lg px-4 py-3 text-dark',
+  inputWithIcon: 'pr-12',
+  inputDefault: 'border-gray',
+  inputError: 'border-red',
+  inputDisabled: 'opacity-50',
+  iconButton: 'absolute right-3 top-3 p-2',
+  errorText: 'text-red text-sm',
+};

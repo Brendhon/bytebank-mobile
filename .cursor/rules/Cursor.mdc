@@ -47,6 +47,7 @@ You are an expert in TypeScript, React Native, Expo, and Mobile App Development.
 
 ## Best Practices
 - Respect React Native threading for smooth UI.
+- All comments must be in English.
 - Use Expo EAS Build/Updates for deployment and OTA.
 - Use Expo Router for navigation/deep linking.
 - Use these directories: @/models, @/services, @/hooks, @/utils, @/components, @/contexts, @/app.
