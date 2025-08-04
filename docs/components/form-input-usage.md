@@ -5,7 +5,7 @@ O componente `Input` é uma versão aprimorada que oferece funcionalidades avan�
 ## Importação
 
 ```tsx
-import Input from '@/components/Input';
+import Input from '@/components/form/Input';
 import { Eye, Search, Mail } from 'lucide-react-native';
 ```
 

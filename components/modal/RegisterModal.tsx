@@ -1,7 +1,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useState } from 'react';
-import Modal from './Modal';
+import Modal from '@/components/modal/Modal';
 
 interface RegisterModalProps {
   visible: boolean;

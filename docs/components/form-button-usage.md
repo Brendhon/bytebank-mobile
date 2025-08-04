@@ -5,7 +5,7 @@ A reusable button component for React Native with multiple variants and loading 
 ## Import
 
 ```typescript
-import Button from '@/components/Button';
+import Button from '@/components/form/Button';
 ```
 
 ## Basic Usage

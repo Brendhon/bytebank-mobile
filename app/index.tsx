@@ -1,4 +1,4 @@
-import LoginModal from '@/components/LoginModal';
+import LoginModal from '@/components/modal/LoginModal';
 import RegisterModal from '@/components/RegisterModal';
 import { CreditCard, Shield, TrendingUp } from 'lucide-react-native';
 import { useState } from 'react';

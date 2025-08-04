@@ -14,7 +14,7 @@ A reusable modal component that provides a consistent structure for all modals i
 ## Usage
 
 ```typescript
-import Modal from '@/components/Modal';
+import Modal from '@/components/modal/Modal';
 
 function MyComponent() {
   const [isVisible, setIsVisible] = useState(false);

@@ -1,4 +1,4 @@
-import DrawerContent from '@/components/DrawerContent';
+import DrawerContent from '@/components/layout/DrawerContent';
 import { useAuth } from '@/contexts/AuthContext';
 import { Drawer } from 'expo-router/drawer';
 import { StatusBar } from 'expo-status-bar';

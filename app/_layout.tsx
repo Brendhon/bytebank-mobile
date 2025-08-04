@@ -1,5 +1,5 @@
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
-import { SplashScreenController } from '@/components/SplashScreenController';
+import { SplashScreenController } from '@/components/splash/SplashScreenController';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import '../global.css';

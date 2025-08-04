@@ -5,9 +5,9 @@ import { Mail } from 'lucide-react-native';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, View } from 'react-native';
-import Button from './Button';
-import Input from './Input';
-import Modal from './Modal';
+import Button from '@/components/form/Button';
+import Input from '@/components/form/Input';
+import Modal from '@/components/modal/Modal';
 import LoginIllustration from './illustrations/LoginIllustration';
 
 interface LoginModalProps {
