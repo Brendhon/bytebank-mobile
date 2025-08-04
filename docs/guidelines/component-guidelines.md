@@ -20,7 +20,7 @@ This document outlines the best practices for creating React Native components i
 To maintain clean and readable code, all styling must be centralized in a `styles` object. **Inline styles are forbidden.**
 
 -   **`styles` Object**: Define all Tailwind classes in a `styles` object at the end of the file. Use semantic keys to describe the elements.
--   **Usage**: Apply styles using `className={styles.keyName}`.
+-   **Usage**: Apply styles using `className={styles.keyName}`. If the class name is too long, you can use a variable to store the class name.
 
 **Example:**
 
