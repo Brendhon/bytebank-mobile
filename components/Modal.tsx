@@ -6,10 +6,11 @@ interface ModalProps {
   visible: boolean;
   onClose: () => void;
   title: string;
+  illustration?: ReactNode;
   children: ReactNode;
 }
 
-export default function Modal({ visible, onClose, title, children }: ModalProps) {
+export default function Modal({ visible, onClose, title, children, illustration }: ModalProps) {
   return (
     <RNModal
       visible={visible}
@@ -26,6 +27,9 @@ export default function Modal({ visible, onClose, title, children }: ModalProps)
           </TouchableOpacity>
         </View>
 
+        {/* Illustration */}
+        {illustration && <View className={styles.illustration}>{illustration}</View>}
+
         {/* Content */}
         <View className={styles.content}>
           {children}
@@ -38,6 +42,7 @@ export default function Modal({ visible, onClose, title, children }: ModalProps)
 const styles = {
   container: 'flex-1 bg-white p-8',
   header: 'flex-row items-center justify-between mb-6',
+  illustration: 'flex items-center justify-center mb-6',
   headerSpacer: 'w-6',
   title: 'text-dark text-2xl font-bold',
   closeButton: 'p-1',

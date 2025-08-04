@@ -1,13 +1,14 @@
 import { useAuth } from '@/contexts/AuthContext';
-import { Alert, Text, TouchableOpacity, View } from 'react-native';
-import { useState } from 'react';
-import { Mail } from 'lucide-react-native';
-import { useForm } from 'react-hook-form';
+import { LoginFormData, loginSchema } from '@/schemas/index';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, LoginFormData } from '@/schemas/index';
-import Input from './Input';
+import { Mail } from 'lucide-react-native';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Alert, View } from 'react-native';
 import Button from './Button';
+import Input from './Input';
 import Modal from './Modal';
+import LoginIllustration from './illustrations/LoginIllustration';
 
 interface LoginModalProps {
   visible: boolean;
@@ -18,6 +19,7 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
   const { signIn, isLoading } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Form
   const {
     handleSubmit,
     formState: { errors },
@@ -32,6 +34,7 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
     },
   });
 
+  // Submit
   const onSubmit = async (data: LoginFormData) => {
     if (isSubmitting) return;
 
@@ -47,15 +50,20 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
     }
   };
 
+  // Close
   const handleClose = () => {
     reset();
     onClose();
   };
 
+  // Watch values
   const watchedValues = watch();
 
+  // Illustration component
+  const illustration = <LoginIllustration />;
+
   return (
-    <Modal visible={visible} onClose={handleClose} title="Login">
+    <Modal visible={visible} onClose={handleClose} title="Login" illustration={illustration}>
       <View className={styles.formContainer}>
         <Input
           label="Email"
