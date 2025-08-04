@@ -1,3 +1,7 @@
+import Button from '@/components/form/Button';
+import Input from '@/components/form/Input';
+import LoginIllustration from '@/components/illustrations/LoginIllustration';
+import Modal from '@/components/modal/Modal';
 import { useAuth } from '@/contexts/AuthContext';
 import { LoginFormData, loginSchema } from '@/schemas/index';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -5,10 +9,6 @@ import { Mail } from 'lucide-react-native';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, View } from 'react-native';
-import Button from '@/components/form/Button';
-import Input from '@/components/form/Input';
-import Modal from '@/components/modal/Modal';
-import LoginIllustration from '@/components/illustrations/LoginIllustration';
 
 interface LoginModalProps {
   visible: boolean;
