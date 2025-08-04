@@ -30,9 +30,12 @@ You are an expert in TypeScript, React Native, Expo, and Mobile App Development.
 - Avoid anonymous functions in renderItem/event handlers.
 
 ## UI & Styling
-- Use NativeWind for styles, defined in a styles object at the file end.
-- Ensure responsive design.
-- Use lucide-react-native for icons.
+- Use NativeWind for all component styles. Define the `styles` object at the end of each file.
+- Always ensure your UI is responsive and adapts to different screen sizes.
+- For images, always use the `Image` component from `react-native`.
+- For gradients, always use the `LinearGradient` component from `expo-linear-gradient`.
+- Whenever possible, use the `react-native-reanimated` library to animate components.
+- For icons, always use the `lucide-react-native` library.
 
 ## Documentation
 - Store all documentation in the `docs` directory.

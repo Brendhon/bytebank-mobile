@@ -90,3 +90,7 @@ Ensure the application is usable by everyone.
     -   `accessibilityState`: Describe the component's current state (e.g., `{ disabled: true }`).
 -   **Touch Area**: Interactive elements must have a minimum touch area of **44x44 points**. Use padding if needed to increase the touch target size without changing the visual appearance.
 -   **Color Contrast**: The text-to-background contrast ratio must be at least **4.5:1**.
+
+## 7. Animations
+
+-   **Library**: Use `react-native-reanimated` for all animations.
