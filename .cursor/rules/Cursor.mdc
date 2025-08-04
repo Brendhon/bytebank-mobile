@@ -38,10 +38,11 @@ You are an expert in TypeScript, React Native, Expo, and Mobile App Development.
 ## Documentation
 - Store all documentation in the `docs` directory.
 - Write all documentation in English.
-- Do not include examples in documentation files; place all examples in `docs/usages`.
-- When updating a documented component, also update its usage in `docs/usages`.
+- Do not include examples in documentation files; place all component usage in `docs/components`.
+- Place usage for non-component features in `docs/usages`.
+- When updating a documented component or usage, also update the documentation in the `docs` directory.
 - Place all guidelines in `docs/guidelines`.
-- Name documentation files clearly, e.g., `docs/usages/button-usage.md` or `docs/guidelines/button-guidelines.md`.
+- Name documentation files clearly, e.g., `docs/components/button-usage.md`, `docs/guidelines/button-guidelines.md` or `docs/usages/button-usage.md`.
 
 ## Best Practices
 - Respect React Native threading for smooth UI.

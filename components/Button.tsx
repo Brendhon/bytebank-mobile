@@ -1,15 +1,18 @@
 import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator } from 'react-native';
-import { Loader2 } from 'lucide-react-native';
+import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 
-// Button variants - Defines different styles for the button component
-// using a variant management approach compatible with React Native
-// This provides a way to define different styles based on the variant prop passed to the Button component.
-// The variant styles are defined in the styles object at the end of the file.
-export type ButtonVariant = 'dark' | 'blue' | 'green' | 'orange' | 'outlineGreen' | 'outlineOrange';
+/**
+ * Button variants - Defines different styles for the button component
+ * using a variant management approach compatible with React Native
+ * This provides a way to define different styles based on the variant prop passed to the Button component.
+ * The variant styles are defined in the styles object at the end of the file.
+ */
+type ButtonVariant = 'dark' | 'blue' | 'green' | 'orange' | 'outlineGreen' | 'outlineOrange';
 
-// Button props
-export interface ButtonProps {
+/**
+ * Button props
+ */
+interface ButtonProps {
   variant?: ButtonVariant;
   children: React.ReactNode;
   className?: string;
@@ -20,7 +23,9 @@ export interface ButtonProps {
   accessibilityHint?: string;
 }
 
-// Button component - A reusable button component that accepts variant and children props
+/**
+ * Button component - A reusable button component that accepts variant and children props
+ */
 export const Button = ({
   className,
   variant = 'blue',
