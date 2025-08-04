@@ -231,9 +231,9 @@ export default function Input({
 
 const styles = {
   container: 'space-y-2',
-  label: 'text-gray text-sm font-medium mb-1',
+  label: 'text-dark text-lg font-bold mb-2',
   inputContainer: 'relative',
-  input: 'w-full bg-white border-2 border-gray rounded-lg px-4 py-3 text-dark',
+  input: 'w-full bg-white border-2 border-gray rounded-md px-4 py-3 text-dark',
   inputWithIcon: 'pr-12',
   inputDefault: 'border-gray',
   inputError: 'border-red border-2',

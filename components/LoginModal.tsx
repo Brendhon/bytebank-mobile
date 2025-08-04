@@ -59,14 +59,18 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
       animationType="slide"
       presentationStyle="pageSheet"
       onRequestClose={handleClose}>
-      <View className="flex-1 bg-white">
+      <View className="flex-1 bg-white p-8">
         {/* Header */}
-        <View className="flex items-center justify-center p-4">
+        <View className="flex-row items-center justify-between mb-6">
+          <View className="w-6" />
           <Text className="text-dark text-2xl font-bold">Login</Text>
+          <TouchableOpacity onPress={handleClose}>
+            <X size={24} color="gray" />
+          </TouchableOpacity>
         </View>
 
         {/* Form */}
-        <View className="p-6">
+        <View>
           <View className="gap-4">
             <Input
               label="Email"
@@ -88,15 +92,6 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
             />
 
             <View className="flex-col items-center gap-6 pt-4">
-
-              <Button
-                variant="dark"
-                onPress={handleClose}
-                className="w-full"
-              >
-                Cancelar
-              </Button>
-
               <Button
                 variant="green"
                 onPress={handleSubmit(onSubmit)}
