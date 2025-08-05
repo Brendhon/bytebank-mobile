@@ -1,7 +1,7 @@
 
 import HomeIllustration from '@/components/illustrations/HomeIllustration';
 import { Image, ScrollView, Text, View } from 'react-native';
-import Animated, { FadeInUp } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeOut } from 'react-native-reanimated';
 
 // Interface for benefit item
 interface BenefitItemProps {
@@ -15,7 +15,7 @@ interface BenefitItemProps {
 const AnimatedView = ({ children, className, delay = 0 }: { children: React.ReactNode, className: string, delay?: number }) => {
   // Return the animated view with the item's data
   return (
-    <Animated.View entering={FadeInUp.delay(delay).springify()} className={className}>
+    <Animated.View entering={FadeInUp.delay(delay).springify()} className={className} exiting={FadeOut}>
       {children}
     </Animated.View>
   );
