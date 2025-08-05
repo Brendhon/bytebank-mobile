@@ -1,10 +1,10 @@
 import { GradientContainer } from '@/components/layout/GradientContainer';
 import { useAuth } from '@/contexts/AuthContext';
 import { colors } from '@/utils/colors';
-import { formatDate } from '@/utils/date';
 import { formatCurrency } from '@/utils/currency';
+import { formatDate } from '@/utils/date';
 import { Eye, EyeOff } from 'lucide-react-native';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 // Types for movement data
@@ -15,12 +15,17 @@ type Movement = {
   color: string;
 };
 
+// Memoized icon components for better performance
+const VisibilityIcon = ({ isVisible }: { isVisible: boolean }) => isVisible
+  ? <EyeOff size={32} color={colors.dark} />
+  : <Eye size={32} color={colors.dark} />;
+
 export default function DashboardScreen() {
   const { user } = useAuth();
   const [isBalanceVisible, setIsBalanceVisible] = useState(false);
 
-  // Movement data
-  const movements: Movement[] = [
+  // Memoize movement data to prevent recreation on every render
+  const movements: Movement[] = useMemo(() => [
     {
       id: 1,
       type: 'Pagamentos',
@@ -45,13 +50,22 @@ export default function DashboardScreen() {
       value: 0.00,
       color: 'bg-green',
     },
-  ];
+  ], []);
 
-  // Get first name from user
-  const firstName = user?.name?.split(' ')?.[0] || 'Usuário';
+  // Memoize first name extraction
+  const firstName = useMemo(() => user?.name?.split(' ')?.[0] || 'Usuário', [user?.name]);
 
-  // Toggle balance visibility
-  const toggleBalanceVisibility = () => setIsBalanceVisible(!isBalanceVisible);
+  // Memoize formatted date to prevent recalculation on every render
+  const formattedDate = useMemo(() => formatDate(), []);
+
+  // Memoize toggle function to prevent recreation on every render
+  const toggleBalanceVisibility = useCallback(() => setIsBalanceVisible(prev => !prev), []);
+
+  // Memoize accessibility label to prevent string recreation
+  const visibilityAccessibilityLabel = useMemo(() => isBalanceVisible ? 'Ocultar saldo' : 'Mostrar saldo', [isBalanceVisible]);
+
+  // Memoize balance display value
+  const balanceDisplayValue = useMemo(() => isBalanceVisible ? formatCurrency(15420.50) : '••••••', [isBalanceVisible]);
 
   return (
     <GradientContainer>
@@ -63,22 +77,18 @@ export default function DashboardScreen() {
               <Text className={styles.greetingText}>
                 Olá, {firstName}! :)
               </Text>
-              <Text className={styles.dateText}>{formatDate()}</Text>
+              <Text className={styles.dateText}>{formattedDate}</Text>
             </View>
 
             <TouchableOpacity
               onPress={toggleBalanceVisibility}
               className={styles.visibilityButton}
-              accessibilityLabel={isBalanceVisible ? 'Ocultar saldo' : 'Mostrar saldo'}
+              accessibilityLabel={visibilityAccessibilityLabel}
               accessibilityHint="Toque para alternar a visibilidade do saldo da conta"
               accessibilityRole="button"
               accessibilityState={{ checked: isBalanceVisible }}
             >
-              {isBalanceVisible ? (
-                <EyeOff size={32} color={colors.dark} />
-              ) : (
-                <Eye size={32} color={colors.dark} />
-              )}
+              <VisibilityIcon isVisible={isBalanceVisible} />
             </TouchableOpacity>
           </View>
         </View>
@@ -98,7 +108,7 @@ export default function DashboardScreen() {
                 ellipsizeMode="tail"
                 style={{ maxWidth: 220 }}
               >
-                {isBalanceVisible ? 'R$ 15.420,50' : '••••••'}
+                {balanceDisplayValue}
               </Text>
             </View>
           </View>
