@@ -1,9 +1,10 @@
 import { GradientContainer } from '@/components/layout/GradientContainer';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTransactionSummary } from '@/hooks/useTransactionSummary';
 import { colors } from '@/utils/colors';
 import { formatCurrency } from '@/utils/currency';
 import { formatDate } from '@/utils/date';
-import { Eye, EyeOff } from 'lucide-react-native';
+import { AlertCircle, Eye, EyeOff, Loader2 } from 'lucide-react-native';
 import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
@@ -23,34 +24,40 @@ const VisibilityIcon = ({ isVisible }: { isVisible: boolean }) => isVisible
 export default function DashboardScreen() {
   const { user } = useAuth();
   const [isBalanceVisible, setIsBalanceVisible] = useState(false);
+  
+  // Fetch transaction summary data
+  const { summary, loading, error } = useTransactionSummary();
 
-  // Memoize movement data to prevent recreation on every render
-  const movements: Movement[] = useMemo(() => [
-    {
-      id: 1,
-      type: 'Pagamentos',
-      value: 1001.00,
-      color: 'bg-dark',
-    },
-    {
-      id: 2,
-      type: 'Depósitos',
-      value: 9250.00,
-      color: 'bg-blue',
-    },
-    {
-      id: 3,
-      type: 'Transferências',
-      value: 510.00,
-      color: 'bg-orange',
-    },
-    {
-      id: 4,
-      type: 'Saque',
-      value: 0.00,
-      color: 'bg-green',
-    },
-  ], []);
+  // Memoize movement data based on real transaction summary
+  const movements: Movement[] = useMemo(() => {
+    const breakdown = summary?.breakdown;
+    return [
+      {
+        id: 1,
+        type: 'Pagamentos',
+        value: breakdown?.payment || 0,
+        color: 'bg-dark',
+      },
+      {
+        id: 2,
+        type: 'Depósitos',
+        value: breakdown?.deposit || 0,
+        color: 'bg-blue',
+      },
+      {
+        id: 3,
+        type: 'Transferências',
+        value: breakdown?.transfer || 0,
+        color: 'bg-orange',
+      },
+      {
+        id: 4,
+        type: 'Saque',
+        value: breakdown?.withdrawal || 0,
+        color: 'bg-green',
+      },
+    ];
+  }, [summary?.breakdown]);
 
   // Memoize first name extraction
   const firstName = useMemo(() => user?.name?.split(' ')?.[0] || 'Usuário', [user?.name]);
@@ -64,8 +71,29 @@ export default function DashboardScreen() {
   // Memoize accessibility label to prevent string recreation
   const visibilityAccessibilityLabel = useMemo(() => isBalanceVisible ? 'Ocultar saldo' : 'Mostrar saldo', [isBalanceVisible]);
 
-  // Memoize balance display value
-  const balanceDisplayValue = useMemo(() => isBalanceVisible ? formatCurrency(15420.50) : '••••••', [isBalanceVisible]);
+  // Memoize balance display value based on real data
+  const balanceDisplayValue = useMemo(() => {
+    switch (true) {
+      case loading:
+        return <Loader2 size={20} color={colors.white} className="animate-spin" />;
+      case !!error:
+        return <AlertCircle size={20} color={colors.red} />;
+      default:
+        return isBalanceVisible ? formatCurrency(summary?.balance || 0) : '••••••';
+    }
+  }, [isBalanceVisible, summary?.balance, loading, error]);
+
+  // Show loading state if data is being fetched
+  if (loading) {
+    return (
+      <GradientContainer>
+        <View className="flex-1 justify-center items-center">
+          <Loader2 size={32} color={colors.white} className="animate-spin" />
+          <Text className="mt-4 text-dark text-lg">Carregando dados...</Text>
+        </View>
+      </GradientContainer>
+    );
+  }
 
   return (
     <GradientContainer>

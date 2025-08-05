@@ -1,16 +1,20 @@
-import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { SplashScreenController } from '@/components/splash/SplashScreenController';
+import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import { apolloClient } from '@/services/api/client';
+import { ApolloProvider } from '@apollo/client';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import '../global.css';
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <SplashScreenController />
-      <RootNavigator />
-      <StatusBar style="light" />
-    </AuthProvider>
+    <ApolloProvider client={apolloClient}>
+      <AuthProvider>
+        <SplashScreenController />
+        <RootNavigator />
+        <StatusBar style="light" />
+      </AuthProvider>
+    </ApolloProvider>
   );
 }
 
