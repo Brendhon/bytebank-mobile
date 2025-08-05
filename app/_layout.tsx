@@ -9,7 +9,7 @@ export default function RootLayout() {
     <AuthProvider>
       <SplashScreenController />
       <RootNavigator />
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
     </AuthProvider>
   );
 }

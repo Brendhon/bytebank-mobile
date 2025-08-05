@@ -1,5 +1,7 @@
+import LogoIllustration from '@/components/illustrations/LogoIllustration';
 import DrawerContent from '@/components/layout/DrawerContent';
 import { useAuth } from '@/contexts/AuthContext';
+import { colors } from '@/utils/colors';
 import { Drawer } from 'expo-router/drawer';
 import { StatusBar } from 'expo-status-bar';
 import { CreditCard, Home, Settings } from 'lucide-react-native';
@@ -13,24 +15,30 @@ export default function AppLayout() {
   // Don't render anything while checking authentication
   if (isLoading || !isAuthenticated) return null;
 
+  const headerRight = () => (
+    <LogoIllustration color={colors.orange} width={24} height={24} style={{ marginRight: 12 }} />
+  );
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer
         drawerContent={(props) => <DrawerContent props={props} />}
         screenOptions={{
           headerShown: true,
+          headerRight,
           headerStyle: {
-            backgroundColor: '#1e40af',
+            backgroundColor: colors.dark,
           },
-          headerTintColor: '#ffffff',
+          headerTintColor: colors.white,
           headerTitleStyle: {
             fontWeight: 'bold',
+            fontSize: 18,
           },
-          drawerActiveBackgroundColor: '#dbeafe',
-          drawerActiveTintColor: '#1e40af',
-          drawerInactiveTintColor: '#6b7280',
+          drawerActiveBackgroundColor: colors.blue,
+          drawerActiveTintColor: colors.white,
+          drawerInactiveTintColor: colors.gray,
           drawerStyle: {
-            backgroundColor: '#f9fafb',
+            backgroundColor: colors.dark,
             width: 280,
           },
         }}>

@@ -1,3 +1,4 @@
+import { colors } from '@/utils/colors';
 import { View } from 'react-native';
 import Animated, { FadeIn, SlideInRight } from 'react-native-reanimated';
 import Button from '../form/Button';
@@ -13,7 +14,7 @@ export const GuestHeader = ({ onOpenAccount, onLogin }: HeaderProps) => {
     <View className={styles.container}>
       <View className={styles.content}>
         <Animated.View entering={FadeIn.delay(0).springify()}>
-          <LogoIllustration width={24} height={24} color='#47A138' />
+          <LogoIllustration width={24} height={24} color={colors.green} />
         </Animated.View>
         <Animated.View entering={SlideInRight} className={styles.buttonContainer}>
           <Button
@@ -39,7 +40,7 @@ export const GuestHeader = ({ onOpenAccount, onLogin }: HeaderProps) => {
 };
 
 const styles = {
-  container: 'bg-dark px-6 py-6 pt-16',
+  container: 'bg-dark px-5 py-3 pt-16',
   content: 'flex-row items-center justify-between gap-4',
   buttonContainer: 'flex-row gap-4',
   loginButton: 'w-20 h-10',

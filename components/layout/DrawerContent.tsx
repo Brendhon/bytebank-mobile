@@ -1,4 +1,5 @@
 import { useAuth } from '@/contexts/AuthContext';
+import { colors } from '@/utils/colors';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { LogOut, User } from 'lucide-react-native';
 import { Text, TouchableOpacity, View } from 'react-native';
@@ -13,19 +14,19 @@ export default function DrawerContent({ props }: DrawerContentProps) {
   const handleLogout = () => signOut();
 
   return (
-    <View className="bg-gray-50 flex-1">
+    <View className={styles.container}>
       <DrawerContentScrollView {...props}>
         {/* Header */}
-        <View className="bg-blue-600 mb-4 p-6">
-          <View className="flex-row items-center">
-            <View className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-white">
-              <User size={24} color="#1e40af" />
+        <View className={styles.header}>
+          <View className={styles.headerContent}>
+            <View className={styles.headerContentUser}>
+              <User size={24} color={colors.dark} />
             </View>
             <View>
-              <Text className="text-lg font-semibold text-white">
+              <Text className={styles.headerContentUserIcon}>
                 {user?.name || 'Bytebank Mobile'}
               </Text>
-              <Text className="text-blue-100 text-sm">
+              <Text className={styles.headerContentUserEmail}>
                 {user?.email || 'Gerencie suas finanças'}
               </Text>
             </View>
@@ -33,20 +34,33 @@ export default function DrawerContent({ props }: DrawerContentProps) {
         </View>
 
         {/* Navigation Items */}
-        <View className="px-4">
+        <View className={styles.navigationItems}>
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
 
       {/* Logout Button */}
-      <View className="border-gray-200 border-t p-4">
+      <View className={styles.logoutButton}>
         <TouchableOpacity
           onPress={handleLogout}
-          className="bg-red-50 flex-row items-center rounded-lg p-3">
-          <LogOut size={20} color="#dc2626" />
-          <Text className="text-red-600 ml-3 font-semibold">Sair da Conta</Text>
+          className={styles.logoutButtonContainer}>
+          <LogOut size={20} color={colors.white} />
+          <Text className={styles.logoutButtonText}>Sair</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
+}
+
+const styles = {
+  container: 'bg-dark flex-1',
+  header: 'mb-4 p-6',
+  headerContent: 'flex-row items-center',
+  headerContentUser: 'mr-4 h-12 w-12 items-center justify-center rounded-full bg-white',
+  headerContentUserIcon: 'text-lg font-semibold text-white',
+  headerContentUserEmail: 'text-gray text-sm',
+  navigationItems: 'px-4',
+  logoutButton: 'border-dark-gray border-t p-8',
+  logoutButtonText: 'text-white ml-3 font-semibold',
+  logoutButtonContainer: 'flex-row items-center',
 }

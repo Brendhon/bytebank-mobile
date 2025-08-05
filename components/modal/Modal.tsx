@@ -14,8 +14,9 @@ export default function Modal({ visible, onClose, title, children, illustration 
   return (
     <RNModal
       visible={visible}
+      transparent={true}
       animationType="slide"
-      presentationStyle="pageSheet"
+      presentationStyle="overFullScreen"
       onRequestClose={onClose}>
       <View className={styles.container}>
         {/* Header */}
