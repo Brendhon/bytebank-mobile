@@ -1,29 +1,11 @@
 import { View } from 'react-native';
-import Animated, { SlideInRight, FadeOut, FadeIn } from 'react-native-reanimated';
-import LogoIllustration from '../illustrations/LogoIllustration';
+import Animated, { FadeIn, SlideInRight } from 'react-native-reanimated';
 import Button from '../form/Button';
+import LogoIllustration from '../illustrations/LogoIllustration';
 
 type HeaderProps = {
   onOpenAccount: () => void;
   onLogin: () => void;
-};
-
-// Animated view component for buttons
-const AnimatedButton = ({ 
-  children, 
-  delay = 0 
-}: { 
-  children: React.ReactNode; 
-  delay?: number; 
-}) => {
-  return (
-    <Animated.View 
-      entering={SlideInRight.delay(delay).springify()} 
-      exiting={FadeOut}
-    >
-      {children}
-    </Animated.View>
-  );
 };
 
 export const GuestHeader = ({ onOpenAccount, onLogin }: HeaderProps) => {
@@ -33,28 +15,24 @@ export const GuestHeader = ({ onOpenAccount, onLogin }: HeaderProps) => {
         <Animated.View entering={FadeIn.delay(0).springify()}>
           <LogoIllustration width={24} height={24} color='#47A138' />
         </Animated.View>
-        <View className={styles.buttonContainer}>
-          <AnimatedButton delay={0}>
-            <Button
-              variant="green"
-              onPress={onOpenAccount}
-              className={styles.registerButton}
-              accessibilityLabel="Register button"
-              accessibilityHint="Opens the registration modal">
-              Cadastrar
-            </Button>
-          </AnimatedButton>
-          <AnimatedButton delay={200}>
-            <Button
-              variant="outlineGreen"
-              onPress={onLogin}
-              className={styles.loginButton}
-              accessibilityLabel="Login button"
-              accessibilityHint="Opens the login modal">
-              Entrar
-            </Button>
-          </AnimatedButton>
-        </View>
+        <Animated.View entering={SlideInRight} className={styles.buttonContainer}>
+          <Button
+            variant="green"
+            onPress={onOpenAccount}
+            className={styles.registerButton}
+            accessibilityLabel="Register button"
+            accessibilityHint="Opens the registration modal">
+            Cadastrar
+          </Button>
+          <Button
+            variant="outlineGreen"
+            onPress={onLogin}
+            className={styles.loginButton}
+            accessibilityLabel="Login button"
+            accessibilityHint="Opens the login modal">
+            Entrar
+          </Button>
+        </Animated.View>
       </View>
     </View>
   );
