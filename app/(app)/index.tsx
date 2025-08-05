@@ -1,83 +1,111 @@
 import { useAuth } from '@/contexts/AuthContext';
-import { CreditCard, DollarSign, TrendingUp } from 'lucide-react-native';
-import { ScrollView, Text, View } from 'react-native';
+import { colors } from '@/utils/colors';
+import { Eye, EyeOff } from 'lucide-react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useState } from 'react';
 
 export default function DashboardScreen() {
   const { user } = useAuth();
+  const [isBalanceVisible, setIsBalanceVisible] = useState(false);
+
+  // Função para formatar a data atual
+  const formatCurrentDate = () => {
+    const today = new Date();
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'long',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    };
+    return today.toLocaleDateString('pt-BR', options);
+  };
+
+  // Dados das movimentações
+  const movements = [
+    {
+      id: 1,
+      type: 'Pagamentos',
+      value: 1001.00,
+      color: 'bg-dark',
+      textColor: 'text-white',
+    },
+    {
+      id: 2,
+      type: 'Depósitos',
+      value: 9250.00,
+      color: 'bg-blue',
+      textColor: 'text-white',
+    },
+    {
+      id: 3,
+      type: 'Transferências',
+      value: 510.00,
+      color: 'bg-orange',
+      textColor: 'text-white',
+    },
+    {
+      id: 4,
+      type: 'Saque',
+      value: 0.00,
+      color: 'bg-green',
+      textColor: 'text-white',
+    },
+  ];
 
   return (
     <ScrollView className="bg-gray-50 flex-1">
-      {/* Welcome Header */}
-      <View className="bg-blue-600 p-6">
-        <Text className="mb-2 text-2xl font-bold text-white">Olá, {user?.name}!</Text>
-        <Text className="text-blue-100">Bem-vindo ao seu dashboard financeiro</Text>
+      {/* Header com saudação e data */}
+      <View className="p-6">
+        <Text className="mb-2 text-2xl font-bold text-dark">
+          Olá, {user?.name}! :)
+        </Text>
+        <Text className="text-dark-gray">{formatCurrentDate()}</Text>
       </View>
 
-      {/* Balance Card */}
+      {/* Seção de Saldo */}
       <View className="p-6">
         <View className="mb-6 rounded-xl bg-white p-6 shadow-sm">
           <View className="mb-4 flex-row items-center justify-between">
-            <Text className="text-gray-900 text-lg font-semibold">Saldo Total</Text>
-            <CreditCard size={24} color="#1e40af" />
+            <Text className="text-dark-gray text-lg font-semibold">Saldo</Text>
+            <TouchableOpacity
+              onPress={() => setIsBalanceVisible(!isBalanceVisible)}
+              className="p-2"
+            >
+              {isBalanceVisible ? (
+                <EyeOff size={20} color={colors.dark} />
+              ) : (
+                <Eye size={20} color={colors.dark} />
+              )}
+            </TouchableOpacity>
           </View>
-          <Text className="text-gray-900 mb-2 text-3xl font-bold">R$ 15.420,50</Text>
-          <Text className="text-green-600 text-sm">+2,5% este mês</Text>
+          
+          <Text className="text-dark-gray text-sm mb-2">Conta Corrente</Text>
+          
+          <Text className="text-dark mb-2 text-3xl font-bold">
+            {isBalanceVisible ? 'R$ 15.420,50' : '••••••'}
+          </Text>
         </View>
 
-        {/* Quick Actions */}
-        <View className="space-y-4">
-          <View className="rounded-xl bg-white p-6 shadow-sm">
-            <View className="mb-4 flex-row items-center justify-between">
-              <Text className="text-gray-900 text-lg font-semibold">Receitas</Text>
-              <TrendingUp size={24} color="#059669" />
-            </View>
-            <Text className="text-green-600 mb-2 text-2xl font-bold">R$ 8.250,00</Text>
-            <Text className="text-gray-600 text-sm">Este mês</Text>
-          </View>
-
-          <View className="rounded-xl bg-white p-6 shadow-sm">
-            <View className="mb-4 flex-row items-center justify-between">
-              <Text className="text-gray-900 text-lg font-semibold">Despesas</Text>
-              <DollarSign size={24} color="#dc2626" />
-            </View>
-            <Text className="text-red-600 mb-2 text-2xl font-bold">R$ 3.120,00</Text>
-            <Text className="text-gray-600 text-sm">Este mês</Text>
-          </View>
-        </View>
-
-        {/* Recent Transactions */}
-        <View className="mt-6">
-          <Text className="text-gray-900 mb-4 text-lg font-semibold">Transações Recentes</Text>
-          <View className="overflow-hidden rounded-xl bg-white shadow-sm">
-            {[
-              { id: 1, title: 'Salário', amount: '+R$ 5.000,00', date: 'Hoje', type: 'income' },
-              {
-                id: 2,
-                title: 'Supermercado',
-                amount: '-R$ 320,00',
-                date: 'Ontem',
-                type: 'expense',
-              },
-              {
-                id: 3,
-                title: 'Freelance',
-                amount: '+R$ 1.200,00',
-                date: '2 dias atrás',
-                type: 'income',
-              },
-            ].map((transaction) => (
+        {/* Seção de Movimentações */}
+        <View className="mb-6">
+          <Text className="text-dark mb-4 text-lg font-semibold">
+            Movimentações
+          </Text>
+          
+          <View className="space-y-4">
+            {movements.map((movement) => (
               <View
-                key={transaction.id}
-                className="border-gray-100 flex-row items-center justify-between border-b p-4">
-                <View>
-                  <Text className="text-gray-900 font-semibold">{transaction.title}</Text>
-                  <Text className="text-gray-500 text-sm">{transaction.date}</Text>
-                </View>
-                <Text
-                  className={`font-semibold ${
-                    transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
-                  }`}>
-                  {transaction.amount}
+                key={movement.id}
+                className={`rounded-xl p-6 shadow-sm ${movement.color}`}
+              >
+                <Text className={`mb-2 text-2xl font-bold ${movement.textColor}`}>
+                  R$ {movement.value.toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </Text>
+                <Text className={`text-sm ${movement.textColor}`}>
+                  {movement.type}
                 </Text>
               </View>
             ))}
