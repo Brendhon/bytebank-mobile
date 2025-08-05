@@ -3,6 +3,7 @@ import { colors } from '@/utils/colors';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { LogOut, User } from 'lucide-react-native';
 import { Text, TouchableOpacity, View } from 'react-native';
+import LogoIllustration from '../illustrations/LogoIllustration';
 
 interface DrawerContentProps {
   props: any;
@@ -16,11 +17,13 @@ export default function DrawerContent({ props }: DrawerContentProps) {
   return (
     <View className={styles.container}>
       <DrawerContentScrollView {...props}>
+
         {/* Header */}
         <View className={styles.header}>
+
           <View className={styles.headerContent}>
             <View className={styles.headerContentUser}>
-              <User size={24} color={colors.dark} />
+              <User size={28} color={colors.dark} />
             </View>
             <View>
               <Text className={styles.headerContentUserIcon}>
@@ -39,6 +42,12 @@ export default function DrawerContent({ props }: DrawerContentProps) {
         </View>
       </DrawerContentScrollView>
 
+      {/* Logo */}
+      <View className={styles.logo}>
+        <LogoIllustration width={24} height={24} color={colors.gray} />
+        <Text className={styles.logoText}>Bytebank</Text>
+      </View>
+
       {/* Logout Button */}
       <View className={styles.logoutButton}>
         <TouchableOpacity
@@ -55,6 +64,8 @@ export default function DrawerContent({ props }: DrawerContentProps) {
 const styles = {
   container: 'bg-dark flex-1',
   header: 'mb-4 p-6',
+  logo: 'mb-8 flex-row items-center justify-center gap-2',
+  logoText: 'text-gray text-2xl font-bold italic',
   headerContent: 'flex-row items-center',
   headerContentUser: 'mr-4 h-12 w-12 items-center justify-center rounded-full bg-white',
   headerContentUserIcon: 'text-lg font-semibold text-white',

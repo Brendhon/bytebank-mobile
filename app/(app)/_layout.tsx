@@ -5,6 +5,7 @@ import { colors } from '@/utils/colors';
 import { Drawer } from 'expo-router/drawer';
 import { StatusBar } from 'expo-status-bar';
 import { CreditCard, Home, Settings } from 'lucide-react-native';
+import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import '../../global.css';
 
@@ -16,7 +17,9 @@ export default function AppLayout() {
   if (isLoading || !isAuthenticated) return null;
 
   const headerRight = () => (
-    <LogoIllustration color={colors.orange} width={24} height={24} style={{ marginRight: 12 }} />
+    <View className={styles.headerRight}>
+      <LogoIllustration color={colors.orange} width={24} height={24} />
+    </View>
   );
 
   return (
@@ -34,7 +37,7 @@ export default function AppLayout() {
             fontWeight: 'bold',
             fontSize: 18,
           },
-          drawerActiveBackgroundColor: colors.blue,
+          drawerActiveBackgroundColor: colors.orange,
           drawerActiveTintColor: colors.white,
           drawerInactiveTintColor: colors.gray,
           drawerStyle: {
@@ -67,4 +70,9 @@ export default function AppLayout() {
       <StatusBar style="light" />
     </GestureHandlerRootView>
   );
+}
+
+const styles = {
+  headerRight: 'flex-row items-center justify-between gap-2 mr-4',
+  logoText: 'text-orange text-2xl font-bold italic',
 }
