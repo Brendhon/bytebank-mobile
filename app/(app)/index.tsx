@@ -2,16 +2,25 @@ import { GradientContainer } from '@/components/layout/GradientContainer';
 import { useAuth } from '@/contexts/AuthContext';
 import { colors } from '@/utils/colors';
 import { formatDate } from '@/utils/date';
+import { formatCurrency } from '@/utils/currency';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+
+// Types for movement data
+type Movement = {
+  id: number;
+  type: string;
+  value: number;
+  color: string;
+};
 
 export default function DashboardScreen() {
   const { user } = useAuth();
   const [isBalanceVisible, setIsBalanceVisible] = useState(false);
 
-  // Dados das movimentações
-  const movements = [
+  // Movement data
+  const movements: Movement[] = [
     {
       id: 1,
       type: 'Pagamentos',
@@ -38,41 +47,53 @@ export default function DashboardScreen() {
     },
   ];
 
-  // Fist name
+  // Get first name from user
   const firstName = user?.name?.split(' ')?.[0] || 'Usuário';
+
+  // Toggle balance visibility
+  const toggleBalanceVisibility = () => setIsBalanceVisible(!isBalanceVisible);
 
   return (
     <GradientContainer>
-      <ScrollView className="flex-1">
-        {/* Header com saudação e data */}
-        <View className="p-6 mt-6">
-          <View className="flex-row items-start justify-between">
-
-            <View className="flex items-start justify-start gap-1">
-              <Text className="mb-2 text-3xl font-bold text-dark">
+      <ScrollView className={styles.container}>
+        {/* Header with greeting and date */}
+        <View className={styles.header}>
+          <View className={styles.headerContent}>
+            <View className={styles.greetingContainer}>
+              <Text className={styles.greetingText}>
                 Olá, {firstName}! :)
               </Text>
-              <Text className="text-dark-gray">{formatDate()}</Text>
+              <Text className={styles.dateText}>{formatDate()}</Text>
             </View>
 
-            <TouchableOpacity onPress={() => setIsBalanceVisible(!isBalanceVisible)}            >
-              {isBalanceVisible ? <EyeOff size={32} color={colors.dark} /> : <Eye size={32} color={colors.dark} />}
+            <TouchableOpacity
+              onPress={toggleBalanceVisibility}
+              className={styles.visibilityButton}
+              accessibilityLabel={isBalanceVisible ? 'Ocultar saldo' : 'Mostrar saldo'}
+              accessibilityHint="Toque para alternar a visibilidade do saldo da conta"
+              accessibilityRole="button"
+              accessibilityState={{ checked: isBalanceVisible }}
+            >
+              {isBalanceVisible ? (
+                <EyeOff size={32} color={colors.dark} />
+              ) : (
+                <Eye size={32} color={colors.dark} />
+              )}
             </TouchableOpacity>
-
           </View>
         </View>
 
-        {/* Seção de Saldo */}
-        <View className="p-6">
-          <View className="mb-8 rounded-lg bg-dark p-6 shadow-sm flex-row justify-between">
-            <View className="flex items-start justify-start gap-1">
-              <Text className="text-white text-2xl font-semibold">Saldo</Text>
-              <Text className="text-white text-sm">Conta Corrente</Text>
+        {/* Balance section */}
+        <View className={styles.balanceSection}>
+          <View className={styles.balanceCard}>
+            <View className={styles.balanceInfo}>
+              <Text className={styles.balanceLabel}>Saldo</Text>
+              <Text className={styles.accountType}>Conta Corrente</Text>
             </View>
 
-            <View className="flex items-center justify-center">
+            <View className={styles.balanceValueContainer}>
               <Text
-                className="text-white mb-2 text-3xl font-bold"
+                className={styles.balanceValue}
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={{ maxWidth: 220 }}
@@ -80,28 +101,26 @@ export default function DashboardScreen() {
                 {isBalanceVisible ? 'R$ 15.420,50' : '••••••'}
               </Text>
             </View>
-
           </View>
 
-          {/* Seção de Movimentações */}
-          <View className="mb-6">
-            <Text className="text-dark mb-4 text-2xl font-semibold">
+          {/* Movements section */}
+          <View className={styles.movementsSection}>
+            <Text className={styles.movementsTitle}>
               Movimentações
             </Text>
 
-            <View className="flex gap-4">
+            <View className={styles.movementsList}>
               {movements.map((movement) => (
                 <View
                   key={movement.id}
-                  className={`rounded-lg p-6 shadow-sm ${movement.color}`}
+                  className={`${styles.movementCard} ${movement.color}`}
+                  accessibilityLabel={`${movement.type}: ${formatCurrency(movement.value)}`}
+                  accessibilityRole="summary"
                 >
-                  <Text className={`mb-2 text-2xl font-bold text-white`}>
-                    R$ {movement.value.toLocaleString('pt-BR', {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+                  <Text className={styles.movementValue}>
+                    {isBalanceVisible ? formatCurrency(movement.value) : '••••••'}
                   </Text>
-                  <Text className={`text-white`}>
+                  <Text className={styles.movementType}>
                     {movement.type}
                   </Text>
                 </View>
@@ -113,3 +132,26 @@ export default function DashboardScreen() {
     </GradientContainer>
   );
 }
+
+const styles = {
+  container: 'flex-1',
+  header: 'p-6 mt-6',
+  headerContent: 'flex-row items-start justify-between',
+  greetingContainer: 'flex items-start justify-start gap-1',
+  greetingText: 'mb-2 text-3xl font-bold text-dark',
+  dateText: 'text-dark-gray',
+  visibilityButton: 'p-2',
+  balanceSection: 'p-6',
+  balanceCard: 'mb-8 rounded-lg bg-dark p-6 shadow-sm flex-row justify-between',
+  balanceInfo: 'flex items-start justify-start gap-1',
+  balanceLabel: 'text-white text-2xl font-semibold',
+  accountType: 'text-white text-sm',
+  balanceValueContainer: 'flex items-center justify-center',
+  balanceValue: 'text-white mb-2 text-3xl font-bold',
+  movementsSection: 'mb-6',
+  movementsTitle: 'text-dark mb-4 text-2xl font-semibold',
+  movementsList: 'flex gap-4',
+  movementCard: 'rounded-lg p-6 shadow-sm',
+  movementValue: 'mb-2 text-2xl font-bold text-white',
+  movementType: 'text-white',
+};
