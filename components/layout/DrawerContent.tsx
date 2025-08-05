@@ -44,7 +44,7 @@ export default function DrawerContent({ props }: DrawerContentProps) {
 
       {/* Logo */}
       <View className={styles.logo}>
-        <LogoIllustration width={24} height={24} color={colors.gray} />
+        <LogoIllustration width={20} height={20} color={colors.gray} />
         <Text className={styles.logoText}>Bytebank</Text>
       </View>
 
