@@ -28,6 +28,8 @@ You are an expert in TypeScript, React Native, Expo, and Mobile App Development.
 - Optimize FlatList with removeClippedSubviews, maxToRenderPerBatch, windowSize.
 - Use getItemLayout for uniform FlatList items.
 - Avoid anonymous functions in renderItem/event handlers.
+- Use `useCallback` for functions that are passed as props to child components.
+- After each step, check about possible optimizations and implement them.
 
 ## UI & Styling
 - Use NativeWind for all component styles. Define the `styles` object at the end of each file.
@@ -54,4 +56,3 @@ You are an expert in TypeScript, React Native, Expo, and Mobile App Development.
 - Use Expo Router for navigation/deep linking.
 - Use these directories: @/models, @/services, @/hooks, @/utils, @/components, @/contexts, @/app.
 - After each step, verify the relevant guideline and ensure all rules are followed.
-- After each step, inform the user about possible optimizations.
