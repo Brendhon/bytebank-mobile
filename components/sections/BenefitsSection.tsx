@@ -11,6 +11,16 @@ interface BenefitItemProps {
   index: number;
 }
 
+// Animated view component
+const AnimatedView = ({ children, className, delay = 0 }: { children: React.ReactNode, className: string, delay?: number }) => {
+  // Return the animated view with the item's data
+  return (
+    <Animated.View entering={FadeInUp.delay(delay).springify()} className={className}>
+      {children}
+    </Animated.View>
+  );
+};
+
 // Animated text component
 const AnimatedText = ({
   children,
@@ -22,20 +32,20 @@ const AnimatedText = ({
   delay?: number;
 }) => {
   return (
-    <Animated.View entering={FadeInUp.delay(delay).springify()}>
+    <AnimatedView delay={delay} className={className}>
       <Text className={className}>
         {children}
       </Text>
-    </Animated.View>
+    </AnimatedView>
   );
 };
 
 // Static illustration component
 const StaticIllustration = ({ delay }: { delay: number }) => {
   return (
-    <Animated.View entering={FadeInUp.delay(delay).springify()} className={styles.sectionIllustration}>
+    <AnimatedView delay={delay} className={styles.sectionIllustration}>
       <HomeIllustration width={300} height={300} />
-    </Animated.View>
+    </AnimatedView>
   );
 };
 
@@ -46,11 +56,11 @@ const BenefitItem = ({ item }: { item: BenefitItemProps }) => {
 
   // Return the animated view with the item's data
   return (
-    <Animated.View entering={FadeInUp.delay(delay).springify()} className={styles.container}>
+    <AnimatedView delay={delay} className={styles.container}>
       {item.icon}
       <Text className={styles.title}>{item.title}</Text>
       <Text className={styles.description}>{item.description}</Text>
-    </Animated.View>
+    </AnimatedView>
   );
 };
 
@@ -73,12 +83,7 @@ export const BenefitsSection = () => {
           Vantagens do nosso banco:
         </AnimatedText>
         <View className={styles.sectionBenefits}>
-          {benefits.map((item, idx) => (
-            <BenefitItem
-              key={idx}
-              item={{ ...item, index: idx }}
-            />
-          ))}
+          {benefits.map((item, idx) => <BenefitItem key={idx} item={{ ...item, index: idx }} />)}
         </View>
       </View>
     </ScrollView>
