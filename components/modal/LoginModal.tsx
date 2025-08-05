@@ -43,11 +43,16 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
       await signIn({ email: data.email, password: data.password });
       onClose();
       reset();
-    } catch {
-      Alert.alert('Erro', 'Falha no login. Tente novamente.');
+    } catch (error) {
+      handleError(error);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Handle error
+  const handleError = (error: any) => {
+    Alert.alert('Credenciais inválidas', 'Email ou senha inválidos. Tente novamente.');
   };
 
   // Close
