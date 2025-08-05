@@ -1,9 +1,10 @@
 import { Filter, Plus, Search } from 'lucide-react-native';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { GradientContainer } from '@/components/layout/GradientContainer';
 
 export default function TransactionsScreen() {
   return (
-    <View className="bg-gray-50 flex-1">
+    <GradientContainer>
       {/* Header Actions */}
       <View className="border-gray-200 border-b bg-white p-4">
         <View className="flex-row items-center justify-between">
@@ -79,9 +80,8 @@ export default function TransactionsScreen() {
                   <Text className="text-gray-500 text-sm">{transaction.description}</Text>
                 </View>
                 <Text
-                  className={`text-lg font-bold ${
-                    transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
-                  }`}>
+                  className={`text-lg font-bold ${transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
+                    }`}>
                   {transaction.amount}
                 </Text>
               </View>
@@ -89,13 +89,11 @@ export default function TransactionsScreen() {
               <View className="flex-row items-center justify-between">
                 <View className="flex-row items-center space-x-2">
                   <View
-                    className={`rounded-full px-2 py-1 ${
-                      transaction.type === 'income' ? 'bg-green-100' : 'bg-red-100'
-                    }`}>
-                    <Text
-                      className={`text-xs font-medium ${
-                        transaction.type === 'income' ? 'text-green-700' : 'text-red-700'
+                    className={`rounded-full px-2 py-1 ${transaction.type === 'income' ? 'bg-green-100' : 'bg-red-100'
                       }`}>
+                    <Text
+                      className={`text-xs font-medium ${transaction.type === 'income' ? 'text-green-700' : 'text-red-700'
+                        }`}>
                       {transaction.category}
                     </Text>
                   </View>
@@ -106,6 +104,6 @@ export default function TransactionsScreen() {
           ))}
         </View>
       </ScrollView>
-    </View>
+    </GradientContainer>
   );
 }

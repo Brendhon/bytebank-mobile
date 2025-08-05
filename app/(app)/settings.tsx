@@ -1,6 +1,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { Bell, CreditCard, HelpCircle, LogOut, Shield, User } from 'lucide-react-native';
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { GradientContainer } from '@/components/layout/GradientContainer';
 
 export default function SettingsScreen() {
   const { user, signOut } = useAuth();
@@ -58,7 +59,7 @@ export default function SettingsScreen() {
   ];
 
   return (
-    <View className="bg-gray-50 flex-1">
+    <GradientContainer>
       {/* User Profile Header */}
       <View className="border-gray-200 border-b bg-white p-6">
         <View className="flex-row items-center">
@@ -108,6 +109,6 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </GradientContainer>
   );
 }
