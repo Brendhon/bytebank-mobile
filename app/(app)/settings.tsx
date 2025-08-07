@@ -8,26 +8,24 @@ import { SettingsFormData, settingsSchema } from '@/schemas/index';
 import { colors } from '@/utils/colors';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertTriangle, Mail, Shield, User } from 'lucide-react-native';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, ScrollView, Text, View } from 'react-native';
 
 export default function SettingsScreen() {
-  const { user, signOut } = useAuth();
-  const { updateUser, deleteUser, validatePassword, isUpdatingUser } = useAuthService();
-  const [isDeleting, setIsDeleting] = useState(false);
+  const { user } = useAuth();
+  const { updateUser, validatePassword, isUpdatingUser } = useAuthService();
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const {
     handleSubmit,
-    formState: { errors, isDirty },
+    formState: { errors },
     setValue,
     watch,
   } = useForm<SettingsFormData>({
     resolver: zodResolver(settingsSchema),
     defaultValues: {
       name: user?.name || '',
-      email: user?.email || '',
       currentPassword: '',
       newPassword: '',
       confirmPassword: '',
@@ -36,47 +34,49 @@ export default function SettingsScreen() {
 
   const watchedValues = watch();
 
-  // Função para salvar alterações
-  const handleSaveChanges = async (data: SettingsFormData) => {
+  // Function to save changes
+  const handleSaveChanges = useCallback(async (data: SettingsFormData) => {
     try {
-      // Validar senha atual se houver alteração de senha
-      if (data.newPassword && data.currentPassword) {
-        const isValidPassword = await validatePassword(data.currentPassword);
-        if (!isValidPassword) {
-          Alert.alert('Erro', 'Senha atual incorreta');
-          return;
-        }
+      // Validate current password for any changes
+      if (!data.currentPassword || !data.currentPassword.trim()) {
+        Alert.alert('Erro', 'Senha atual é obrigatória para fazer alterações');
+        return;
       }
 
-      // Preparar dados para atualização
+      const isValidPassword = await validatePassword(data.currentPassword);
+      if (!isValidPassword) {
+        Alert.alert('Erro', 'Senha atual incorreta');
+        return;
+      }
+
+      // Prepare data for update
       const updates: any = {
         name: data.name,
-        email: data.email,
       };
 
       if (data.newPassword) {
         updates.password = data.newPassword;
       }
 
-      // Atualizar usuário
+      // Update user
       await updateUser(updates);
-      
+
       Alert.alert('Sucesso', 'Dados atualizados com sucesso!');
-      
-      // Limpar campos de senha
+
+      // Clear password fields
       setValue('currentPassword', '');
       setValue('newPassword', '');
       setValue('confirmPassword', '');
-      
+
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível atualizar os dados. Tente novamente.');
     }
-  };
+  }, [validatePassword, updateUser, setValue]);
 
-  // Função para abrir modal de exclusão de conta
-  const handleDeleteAccount = () => {
+  // Function to open account deletion modal
+  const handleDeleteAccount = useCallback(() => {
     setDeleteModalVisible(true);
-  };
+  }, []);
 
   return (
     <GradientContainer>
@@ -86,15 +86,15 @@ export default function SettingsScreen() {
           <Text className={styles.headerTitle}>Minha conta</Text>
         </View>
 
-        {/* Formulário */}
+        {/* Form */}
         <View className={styles.formContainer}>
-          {/* Dados do usuário */}
+          {/* User data */}
           <View className={styles.section}>
             <View className={styles.sectionHeader}>
               <User size={20} color={colors.blue} />
               <Text className={styles.sectionTitle}>Dados pessoais</Text>
             </View>
-            
+
             <View className={styles.inputGroup}>
               <Input
                 label="Nome completo"
@@ -109,22 +109,20 @@ export default function SettingsScreen() {
                 label="Email"
                 type="email"
                 placeholder="Digite seu email"
-                disabled
                 icon={<Mail size={16} />}
-                value={watchedValues.email}
-                onChangeText={(text) => setValue('email', text)}
-                error={errors.email?.message}
+                disabled
+                value={user?.email || ''}
               />
             </View>
           </View>
 
-          {/* Alteração de senha */}
+          {/* Password change */}
           <View className={styles.section}>
             <View className={styles.sectionHeader}>
               <Shield size={20} color={colors.blue} />
               <Text className={styles.sectionTitle}>Segurança</Text>
             </View>
-            
+
             <View className={styles.inputGroup}>
               <Input
                 label="Senha atual"
@@ -155,14 +153,13 @@ export default function SettingsScreen() {
             </View>
           </View>
 
-          {/* Botões de ação */}
+          {/* Action buttons */}
           <View className={styles.buttonContainer}>
-            {/* Botão salvar */}
+            {/* Save button */}
             <Button
               variant="blue"
               onPress={handleSubmit(handleSaveChanges)}
               loading={isUpdatingUser}
-              disabled={isDeleting || isUpdatingUser || !isDirty}
               className={styles.saveButton}
               accessibilityLabel="Salvar alterações da conta"
               accessibilityHint="Salva as alterações feitas nos dados pessoais e senha"
@@ -170,37 +167,36 @@ export default function SettingsScreen() {
               Salvar alterações
             </Button>
 
-            {/* Seção de perigo */}
-            <View className={styles.dangerSection}>
-              <View className={styles.dangerHeader}>
-                <AlertTriangle size={20} color={colors.orange} />
-                <Text className={styles.dangerTitle}>Zona de perigo</Text>
-              </View>
-              <Text className={styles.dangerDescription}>
-                A exclusão da conta é permanente e não pode ser desfeita. 
-                Todos os seus dados serão perdidos.
-              </Text>
-              
-              <Button
-              variant="orange"
-              onPress={handleDeleteAccount}
-              loading={isDeleting}
-              disabled={isDeleting || isUpdatingUser}
-              className={styles.deleteButton}
-              accessibilityLabel="Excluir conta permanentemente"
-              accessibilityHint="Abre um modal para confirmar a exclusão da conta com validação de senha"
-            >
-              Excluir conta
-            </Button>
-            </View>
           </View>
+        </View>
+
+        {/* Danger section */}
+        <View className={styles.dangerSection}>
+          <View className={styles.dangerHeader}>
+            <AlertTriangle size={20} color={colors.orange} />
+            <Text className={styles.dangerTitle}>Zona de perigo</Text>
+          </View>
+          <Text className={styles.dangerDescription}>
+            A exclusão da conta é permanente e não pode ser desfeita.
+            Todos os seus dados serão perdidos.
+          </Text>
+
+          <Button
+            variant="orange"
+            onPress={handleDeleteAccount}
+            className={styles.deleteButton}
+            accessibilityLabel="Excluir conta permanentemente"
+            accessibilityHint="Abre um modal para confirmar a exclusão da conta com validação de senha"
+          >
+            Excluir conta
+          </Button>
         </View>
       </ScrollView>
 
-      {/* Modal de exclusão de conta */}
-      <DeleteAccountModal 
-        visible={deleteModalVisible} 
-        onClose={() => setDeleteModalVisible(false)} 
+      {/* Account deletion modal */}
+      <DeleteAccountModal
+        visible={deleteModalVisible}
+        onClose={() => setDeleteModalVisible(false)}
       />
     </GradientContainer>
   );
@@ -211,14 +207,14 @@ const styles = {
   headerTitle: 'text-dark text-2xl font-bold',
   headerContent: 'gap-2',
   headerSubtitle: 'text-gray text-base',
-  formContainer: 'p-4 gap-8',
-  section: 'gap-6 bg-white p-6 rounded-xl border border-light-green',
+  formContainer: 'gap-8 bg-white p-6 rounded-xl border border-light-green m-4',
+  section: 'gap-6',
   sectionHeader: 'flex-row items-center gap-3',
   sectionTitle: 'text-dark text-xl font-semibold',
   inputGroup: 'gap-4',
   buttonContainer: 'gap-8',
   saveButton: 'w-full',
-  dangerSection: 'bg-orange/5 border border-orange/20 rounded-xl p-6 gap-4 mb-6',
+  dangerSection: 'bg-orange/5 border border-orange/20 rounded-xl p-6 gap-4 m-4 mb-8',
   dangerHeader: 'flex-row items-center gap-3',
   dangerTitle: 'text-orange text-lg font-semibold',
   dangerDescription: 'text-gray text-base',

@@ -3,37 +3,36 @@ import { z } from 'zod';
 // This schema is used to validate the settings form data
 export const settingsSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
-  email: z.email('Email inválido'),
-  currentPassword: z.string().optional(),
-  newPassword: z.string().min(6, 'Nova senha deve ter pelo menos 6 caracteres').optional(),
+  currentPassword: z.string().min(1, 'Informe sua senha atual para atualizar seus dados'),
+  newPassword: z.string().optional(),
   confirmPassword: z.string().optional(),
 }).refine((data) => {
-  // Se não há nova senha, não precisa validar
-  if (!data.newPassword && !data.confirmPassword) {
-    return true;
+  // Validation logic using switch statement for clarity
+  switch (true) {
+    // If there is no current password, no need to validate further
+    case !data.currentPassword:
+      return true;
+
+    // Current password is always required and must not be empty
+    case !data.currentPassword.trim():
+      return false;
+
+    // If new password is provided, confirmation is required
+    case !!data.newPassword && !data.confirmPassword:
+      return false;
+
+    // If confirmation is provided, new password is required
+    case !!data.confirmPassword && !data.newPassword:
+      return false;
+
+    // If both new password and confirmation are provided, they must match
+    case !!data.newPassword && !!data.confirmPassword && data.newPassword !== data.confirmPassword:
+      return false;
+
+    // All validations passed
+    default:
+      return true;
   }
-  
-  // Se há nova senha, senha atual é obrigatória
-  if (data.newPassword && (!data.currentPassword || !data.currentPassword.trim())) {
-    return false;
-  }
-  
-  // Se há nova senha, confirmação é obrigatória
-  if (data.newPassword && !data.confirmPassword) {
-    return false;
-  }
-  
-  // Se há confirmação, nova senha é obrigatória
-  if (data.confirmPassword && !data.newPassword) {
-    return false;
-  }
-  
-  // Senhas devem coincidir
-  if (data.newPassword && data.confirmPassword && data.newPassword !== data.confirmPassword) {
-    return false;
-  }
-  
-  return true;
 }, {
   message: 'As senhas não coincidem',
   path: ['confirmPassword'],
