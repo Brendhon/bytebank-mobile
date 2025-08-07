@@ -1,12 +1,12 @@
+import Button from '@/components/form/Button';
 import { GradientContainer } from '@/components/layout/GradientContainer';
 import { Transaction, TransactionDesc, TransactionType } from '@/models/transaction';
+import { colors } from '@/utils/colors';
 import { formatCurrencyWithSign } from '@/utils/currency';
 import { formatDateWithRelative } from '@/utils/date';
-import { Edit, Filter, Plus, Search, Trash2 } from 'lucide-react-native';
+import { Edit, Trash2 } from 'lucide-react-native';
 import { useCallback, useState } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
-import Button from '@/components/form/Button';
-import { colors } from '@/utils/colors';
 
 // Mock data based on transaction interfaces
 const mockTransactions: Transaction[] = [
@@ -100,6 +100,7 @@ export default function TransactionsScreen() {
     if (loading || !hasMore) return;
 
     setLoading(true);
+    
     // Simulate API call delay
     setTimeout(() => {
       // In a real app, this would fetch more data from the API
@@ -146,9 +147,8 @@ export default function TransactionsScreen() {
           <Text className={styles.transactionDate}>{formatDateWithRelative(item.date)}</Text>
         </View>
         <Text
-          className={`${styles.transactionValue} ${
-            item.type === TransactionType.INFLOW ? styles.positiveValue : styles.negativeValue
-          }`}>
+          className={`${styles.transactionValue} ${item.type === TransactionType.INFLOW ? styles.positiveValue : styles.negativeValue
+            }`}>
           {formatCurrencyWithSign(item.value)}
         </Text>
       </View>
@@ -255,7 +255,7 @@ const styles = {
   transactionFooter: 'flex-row items-center justify-between',
   transactionType: 'rounded-xl px-2 py-1 bg-light-green',
   transactionTypeText: 'text-base font-medium text-dark',
-  transactionActions: 'flex-row gap-2',
+  transactionActions: 'flex-row gap-4',
   actionButton: 'p-2',
   loadingContainer: 'py-4 items-center',
   loadingText: 'text-gray text-sm',
