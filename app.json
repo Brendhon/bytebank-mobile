@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "bytebank-mobile",
-    "slug": "bytebank-mobile",
+    "name": "Bytebank",
+    "slug": "Bytebank",
     "version": "1.0.0",
     "scheme": "bytebank-mobile",
     "web": {
