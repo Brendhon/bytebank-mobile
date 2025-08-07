@@ -11,6 +11,35 @@ import { AlertTriangle, Mail, Shield, User } from 'lucide-react-native';
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, ScrollView, Text, View } from 'react-native';
+import Animated, { FadeInUp, FadeOut } from 'react-native-reanimated';
+
+// Animated view component
+const AnimatedView = ({ children, className, delay = 0 }: { children: React.ReactNode, className: string, delay?: number }) => {
+  return (
+    <Animated.View entering={FadeInUp.delay(delay).springify()} className={className} exiting={FadeOut}>
+      {children}
+    </Animated.View>
+  );
+};
+
+// Animated text component
+const AnimatedText = ({
+  children,
+  className,
+  delay = 0
+}: {
+  children: React.ReactNode;
+  className: string;
+  delay?: number;
+}) => {
+  return (
+    <AnimatedView delay={delay} className={className}>
+      <Text className={className}>
+        {children}
+      </Text>
+    </AnimatedView>
+  );
+};
 
 export default function SettingsScreen() {
   const { user } = useAuth();
@@ -82,17 +111,21 @@ export default function SettingsScreen() {
     <GradientContainer>
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Header */}
-        <View className={styles.header}>
-          <Text className={styles.headerTitle}>Minha conta</Text>
-        </View>
+        <AnimatedView delay={300} className={styles.header}>
+          <AnimatedText className={styles.headerTitle} delay={450}>
+            Minha conta
+          </AnimatedText>
+        </AnimatedView>
 
         {/* Form */}
-        <View className={styles.formContainer}>
+        <AnimatedView delay={600} className={styles.formContainer}>
           {/* User data */}
-          <View className={styles.section}>
+          <AnimatedView delay={750} className={styles.section}>
             <View className={styles.sectionHeader}>
               <User size={20} color={colors.blue} />
-              <Text className={styles.sectionTitle}>Dados pessoais</Text>
+              <AnimatedText className={styles.sectionTitle} delay={900}>
+                Dados pessoais
+              </AnimatedText>
             </View>
 
             <View className={styles.inputGroup}>
@@ -114,13 +147,15 @@ export default function SettingsScreen() {
                 value={user?.email || ''}
               />
             </View>
-          </View>
+          </AnimatedView>
 
           {/* Password change */}
-          <View className={styles.section}>
+          <AnimatedView delay={1050} className={styles.section}>
             <View className={styles.sectionHeader}>
               <Shield size={20} color={colors.blue} />
-              <Text className={styles.sectionTitle}>Segurança</Text>
+              <AnimatedText className={styles.sectionTitle} delay={1200}>
+                Segurança
+              </AnimatedText>
             </View>
 
             <View className={styles.inputGroup}>
@@ -151,10 +186,10 @@ export default function SettingsScreen() {
                 error={errors.confirmPassword?.message}
               />
             </View>
-          </View>
+          </AnimatedView>
 
           {/* Action buttons */}
-          <View className={styles.buttonContainer}>
+          <AnimatedView delay={1350} className={styles.buttonContainer}>
             {/* Save button */}
             <Button
               variant="blue"
@@ -167,19 +202,21 @@ export default function SettingsScreen() {
               Salvar alterações
             </Button>
 
-          </View>
-        </View>
+          </AnimatedView>
+        </AnimatedView>
 
         {/* Danger section */}
-        <View className={styles.dangerSection}>
+        <AnimatedView delay={1500} className={styles.dangerSection}>
           <View className={styles.dangerHeader}>
             <AlertTriangle size={20} color={colors.orange} />
-            <Text className={styles.dangerTitle}>Zona de perigo</Text>
+            <AnimatedText className={styles.dangerTitle} delay={1650}>
+              Zona de perigo
+            </AnimatedText>
           </View>
-          <Text className={styles.dangerDescription}>
+          <AnimatedText className={styles.dangerDescription} delay={1800}>
             A exclusão da conta é permanente e não pode ser desfeita.
             Todos os seus dados serão perdidos.
-          </Text>
+          </AnimatedText>
 
           <Button
             variant="orange"
@@ -190,7 +227,7 @@ export default function SettingsScreen() {
           >
             Excluir conta
           </Button>
-        </View>
+        </AnimatedView>
       </ScrollView>
 
       {/* Account deletion modal */}

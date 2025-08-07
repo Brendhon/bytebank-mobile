@@ -7,6 +7,35 @@ import { formatDate } from '@/utils/date';
 import { AlertCircle, Eye, EyeOff, Loader2 } from 'lucide-react-native';
 import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeInUp, FadeOut } from 'react-native-reanimated';
+
+// Animated view component
+const AnimatedView = ({ children, className, delay = 0 }: { children: React.ReactNode, className: string, delay?: number }) => {
+  return (
+    <Animated.View entering={FadeInUp.delay(delay).springify()} className={className} exiting={FadeOut}>
+      {children}
+    </Animated.View>
+  );
+};
+
+// Animated text component
+const AnimatedText = ({
+  children,
+  className,
+  delay = 0
+}: {
+  children: React.ReactNode;
+  className: string;
+  delay?: number;
+}) => {
+  return (
+    <AnimatedView delay={delay} className={className}>
+      <Text className={className}>
+        {children}
+      </Text>
+    </AnimatedView>
+  );
+};
 
 // Types for movement data
 type Movement = {
@@ -99,13 +128,15 @@ export default function DashboardScreen() {
     <GradientContainer>
       <ScrollView className={styles.container}>
         {/* Header with greeting and date */}
-        <View className={styles.header}>
+        <AnimatedView delay={300} className={styles.header}>
           <View className={styles.headerContent}>
             <View className={styles.greetingContainer}>
-              <Text className={styles.greetingText}>
+              <AnimatedText className={styles.greetingText} delay={450}>
                 Olá, {firstName}! :)
-              </Text>
-              <Text className={styles.dateText}>{formattedDate}</Text>
+              </AnimatedText>
+              <AnimatedText className={styles.dateText} delay={600}>
+                {formattedDate}
+              </AnimatedText>
             </View>
 
             <TouchableOpacity
@@ -119,14 +150,18 @@ export default function DashboardScreen() {
               <VisibilityIcon isVisible={isBalanceVisible} />
             </TouchableOpacity>
           </View>
-        </View>
+        </AnimatedView>
 
         {/* Balance section */}
-        <View className={styles.balanceSection}>
-          <View className={styles.balanceCard}>
+        <AnimatedView delay={750} className={styles.balanceSection}>
+          <AnimatedView delay={900} className={styles.balanceCard}>
             <View className={styles.balanceInfo}>
-              <Text className={styles.balanceLabel}>Saldo</Text>
-              <Text className={styles.accountType}>Conta Corrente</Text>
+              <AnimatedText className={styles.balanceLabel} delay={1050}>
+                Saldo
+              </AnimatedText>
+              <AnimatedText className={styles.accountType} delay={1200}>
+                Conta Corrente
+              </AnimatedText>
             </View>
 
             <View className={styles.balanceValueContainer}>
@@ -139,33 +174,37 @@ export default function DashboardScreen() {
                 {balanceDisplayValue}
               </Text>
             </View>
-          </View>
+          </AnimatedView>
 
           {/* Movements section */}
-          <View className={styles.movementsSection}>
-            <Text className={styles.movementsTitle}>
+          <AnimatedView delay={1350} className={styles.movementsSection}>
+            <AnimatedText className={styles.movementsTitle} delay={1500}>
               Movimentações
-            </Text>
+            </AnimatedText>
 
             <View className={styles.movementsList}>
-              {movements.map((movement) => (
-                <View
+              {movements.map((movement, index) => (
+                <AnimatedView
                   key={movement.id}
+                  delay={1650 + (index * 150)}
                   className={`${styles.movementCard} ${movement.color}`}
-                  accessibilityLabel={`${movement.type}: ${formatCurrency(movement.value)}`}
-                  accessibilityRole="summary"
                 >
-                  <Text className={styles.movementValue}>
-                    {isBalanceVisible ? formatCurrency(movement.value) : '••••••'}
-                  </Text>
-                  <Text className={styles.movementType}>
-                    {movement.type}
-                  </Text>
-                </View>
+                  <View
+                    accessibilityLabel={`${movement.type}: ${formatCurrency(movement.value)}`}
+                    accessibilityRole="summary"
+                  >
+                    <Text className={styles.movementValue}>
+                      {isBalanceVisible ? formatCurrency(movement.value) : '••••••'}
+                    </Text>
+                    <Text className={styles.movementType}>
+                      {movement.type}
+                    </Text>
+                  </View>
+                </AnimatedView>
               ))}
             </View>
-          </View>
-        </View>
+          </AnimatedView>
+        </AnimatedView>
       </ScrollView>
     </GradientContainer>
   );

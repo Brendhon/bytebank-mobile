@@ -7,6 +7,7 @@ import { formatDateWithRelative } from '@/utils/date';
 import { Edit, Trash2 } from 'lucide-react-native';
 import { useCallback, useState } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeInUp, FadeOut } from 'react-native-reanimated';
 
 // Mock data based on transaction interfaces
 const mockTransactions: Transaction[] = [
@@ -76,6 +77,36 @@ const mockTransactions: Transaction[] = [
   },
 ];
 
+// Animated view component
+const AnimatedView = ({ children, className, delay = 0 }: { children: React.ReactNode, className: string, delay?: number }) => {
+  return (
+    <Animated.View entering={FadeInUp.delay(delay).springify()} className={className} exiting={FadeOut}>
+      {children}
+    </Animated.View>
+  );
+};
+
+// Animated text component
+const AnimatedText = ({
+  children,
+  className,
+  delay = 0
+}: {
+  children: React.ReactNode;
+  className: string;
+  delay?: number;
+}) => {
+  return (
+    <AnimatedView delay={delay} className={className}>
+      <Text className={className}>
+        {children}
+      </Text>
+    </AnimatedView>
+  );
+};
+
+
+
 export default function TransactionsScreen() {
   const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
   const [loading, setLoading] = useState(false);
@@ -139,53 +170,57 @@ export default function TransactionsScreen() {
     console.log('Delete transaction:', transaction._id);
   }, []);
 
-  const renderTransactionItem = useCallback(({ item }: { item: Transaction }) => (
-    <View className={styles.transactionItem}>
-      <View className={styles.transactionHeader}>
-        <View className={styles.transactionInfo}>
-          <Text className={styles.transactionAlias}>{item.alias || 'Sem descrição'}</Text>
-          <Text className={styles.transactionDate}>{formatDateWithRelative(item.date)}</Text>
-        </View>
-        <Text
-          className={`${styles.transactionValue} ${item.type === TransactionType.INFLOW ? styles.positiveValue : styles.negativeValue
-            }`}>
-          {formatCurrencyWithSign(item.value)}
-        </Text>
-      </View>
+  const renderTransactionItem = useCallback(({ item, index }: { item: Transaction, index: number }) => {
+    const delay = index * 100 + 600; // Progressive delay for list items
 
-      <View className={styles.transactionFooter}>
-        <View className={styles.transactionType}>
-          <Text className={styles.transactionTypeText}>
-            {getTransactionDescription(item.desc)}
+    return (
+      <AnimatedView delay={delay} className={styles.transactionItem}>
+        <View className={styles.transactionHeader}>
+          <View className={styles.transactionInfo}>
+            <Text className={styles.transactionAlias}>{item.alias || 'Sem descrição'}</Text>
+            <Text className={styles.transactionDate}>{formatDateWithRelative(item.date)}</Text>
+          </View>
+          <Text
+            className={`${styles.transactionValue} ${item.type === TransactionType.INFLOW ? styles.positiveValue : styles.negativeValue
+              }`}>
+            {formatCurrencyWithSign(item.value)}
           </Text>
         </View>
-        <View className={styles.transactionActions}>
-          <TouchableOpacity
-            className={styles.actionButton}
-            onPress={() => handleEditTransaction(item)}
-            accessibilityLabel="Editar transação"
-            accessibilityRole="button">
-            <Edit size={22} color={colors.blue} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            className={styles.actionButton}
-            onPress={() => handleDeleteTransaction(item)}
-            accessibilityLabel="Excluir transação"
-            accessibilityRole="button">
-            <Trash2 size={22} color={colors.red} />
-          </TouchableOpacity>
+
+        <View className={styles.transactionFooter}>
+          <View className={styles.transactionType}>
+            <Text className={styles.transactionTypeText}>
+              {getTransactionDescription(item.desc)}
+            </Text>
+          </View>
+          <View className={styles.transactionActions}>
+            <TouchableOpacity
+              className={styles.actionButton}
+              onPress={() => handleEditTransaction(item)}
+              accessibilityLabel="Editar transação"
+              accessibilityRole="button">
+              <Edit size={22} color={colors.blue} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              className={styles.actionButton}
+              onPress={() => handleDeleteTransaction(item)}
+              accessibilityLabel="Excluir transação"
+              accessibilityRole="button">
+              <Trash2 size={22} color={colors.red} />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </View>
-  ), [handleEditTransaction, handleDeleteTransaction]);
+      </AnimatedView>
+    );
+  }, [handleEditTransaction, handleDeleteTransaction]);
 
   const renderFooter = useCallback(() => {
     if (!loading) return null;
 
     return (
-      <View className={styles.loadingContainer}>
+      <AnimatedView delay={300} className={styles.loadingContainer}>
         <Text className={styles.loadingText}>Carregando mais transações...</Text>
-      </View>
+      </AnimatedView>
     );
   }, [loading]);
 
@@ -197,9 +232,11 @@ export default function TransactionsScreen() {
   return (
     <GradientContainer>
       {/* Header */}
-      <View className={styles.header}>
+      <AnimatedView delay={300} className={styles.header}>
         <View className={styles.headerContent}>
-          <Text className={styles.headerTitle}>Histórico</Text>
+          <AnimatedText className={styles.headerTitle} delay={450}>
+            Histórico
+          </AnimatedText>
           <View className={styles.headerActions}>
             <Button
               variant="blue"
@@ -211,7 +248,7 @@ export default function TransactionsScreen() {
             </Button>
           </View>
         </View>
-      </View>
+      </AnimatedView>
 
       {/* Transactions List */}
       <FlatList
