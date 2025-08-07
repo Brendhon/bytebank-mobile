@@ -113,7 +113,7 @@ export default function SettingsScreen() {
           {/* Dados do usuário */}
           <View className={styles.section}>
             <View className={styles.sectionHeader}>
-              <User size={24} color={colors.blue} />
+              <User size={20} color={colors.blue} />
               <Text className={styles.sectionTitle}>Dados pessoais</Text>
             </View>
             
@@ -143,7 +143,7 @@ export default function SettingsScreen() {
           {/* Alteração de senha */}
           <View className={styles.section}>
             <View className={styles.sectionHeader}>
-              <Shield size={24} color={colors.blue} />
+              <Shield size={20} color={colors.blue} />
               <Text className={styles.sectionTitle}>Segurança</Text>
             </View>
             
@@ -227,14 +227,14 @@ const styles = {
   headerTitle: 'text-dark text-2xl font-bold',
   headerContent: 'gap-2',
   headerSubtitle: 'text-gray text-base',
-  formContainer: 'px-6 py-6 gap-8',
-  section: 'gap-6',
+  formContainer: 'p-4 gap-8',
+  section: 'gap-6 bg-white p-6 rounded-xl border border-light-green',
   sectionHeader: 'flex-row items-center gap-3',
-  sectionTitle: 'text-dark text-2xl font-semibold',
+  sectionTitle: 'text-dark text-xl font-semibold',
   inputGroup: 'gap-4',
   buttonContainer: 'gap-8',
   saveButton: 'w-full',
-  dangerSection: 'bg-orange/5 border border-orange/20 rounded-xl p-6 gap-4',
+  dangerSection: 'bg-orange/5 border border-orange/20 rounded-xl p-6 gap-4 mb-6',
   dangerHeader: 'flex-row items-center gap-3',
   dangerTitle: 'text-orange text-lg font-semibold',
   dangerDescription: 'text-gray text-base',
