@@ -1,6 +1,7 @@
 import { AuthService } from '@/services/api/auth.service';
 import { User, UserUpdateInput } from '@/models/user';
 import { useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface UseAuthServiceReturn {
   // User operations
@@ -18,6 +19,7 @@ interface UseAuthServiceReturn {
  * Hook for user-related operations that require authentication
  */
 export const useAuthService = (): UseAuthServiceReturn => {
+  const { refreshUser } = useAuth();
   const [isUpdatingUser, setIsUpdatingUser] = useState(false);
   const [isDeletingUser, setIsDeletingUser] = useState(false);
   const [isValidatingPassword, setIsValidatingPassword] = useState(false);
@@ -26,6 +28,7 @@ export const useAuthService = (): UseAuthServiceReturn => {
     try {
       setIsUpdatingUser(true);
       const updatedUser = await AuthService.updateUser(updates);
+      await refreshUser();
       return updatedUser;
     } catch (error) {
       console.error('Update user error:', error);
