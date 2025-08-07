@@ -54,7 +54,7 @@ export default function RegisterModal({ visible, onClose }: RegisterModalProps) 
       onClose();
       reset();
     } catch {
-      Alert.alert('Erro', 'Falha no registro. Tente novamente.');
+      Alert.alert('Erro', 'Falha no registro. Usuário já cadastrado com este email.');
     } finally {
       setIsSubmitting(false);
     }
