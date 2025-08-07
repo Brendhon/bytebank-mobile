@@ -1,81 +1,18 @@
 import Button from '@/components/form/Button';
 import { GradientContainer } from '@/components/layout/GradientContainer';
-import { Transaction, TransactionDesc, TransactionType } from '@/models/transaction';
+import TransactionModal from '@/components/modal/TransactionModal';
+import { TransactionService } from '@/services/api/transaction.service';
+import { Transaction, TransactionDesc, TransactionType, TransactionInput } from '@/models/transaction';
 import { colors } from '@/utils/colors';
 import { formatCurrencyWithSign } from '@/utils/currency';
 import { formatDateWithRelative } from '@/utils/date';
 import { Edit, Trash2 } from 'lucide-react-native';
-import { useCallback, useState } from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInUp, FadeOut } from 'react-native-reanimated';
 
-// Mock data based on transaction interfaces
-const mockTransactions: Transaction[] = [
-  {
-    _id: '1',
-    alias: 'Pix Farmácia',
-    date: '2025-01-15',
-    desc: TransactionDesc.PAYMENT,
-    type: TransactionType.OUTFLOW,
-    value: -100.50,
-  },
-  {
-    _id: '2',
-    alias: 'Netflix',
-    date: '2025-01-14',
-    desc: TransactionDesc.PAYMENT,
-    type: TransactionType.OUTFLOW,
-    value: -39.90,
-  },
-  {
-    _id: '3',
-    alias: 'Salario',
-    date: '2025-01-10',
-    desc: TransactionDesc.DEPOSIT,
-    type: TransactionType.INFLOW,
-    value: 600.00,
-  },
-  {
-    _id: '4',
-    alias: 'Transferência',
-    date: '2025-01-08',
-    desc: TransactionDesc.TRANSFER,
-    type: TransactionType.OUTFLOW,
-    value: -250.00,
-  },
-  {
-    _id: '5',
-    alias: 'Freelance',
-    date: '2025-01-05',
-    desc: TransactionDesc.DEPOSIT,
-    type: TransactionType.INFLOW,
-    value: 1200.00,
-  },
-  {
-    _id: '6',
-    alias: 'Uber',
-    date: '2025-01-03',
-    desc: TransactionDesc.PAYMENT,
-    type: TransactionType.OUTFLOW,
-    value: -25.50,
-  },
-  {
-    _id: '7',
-    alias: 'Supermercado',
-    date: '2025-01-02',
-    desc: TransactionDesc.PAYMENT,
-    type: TransactionType.OUTFLOW,
-    value: -320.00,
-  },
-  {
-    _id: '8',
-    alias: 'Depósito',
-    date: '2024-12-30',
-    desc: TransactionDesc.DEPOSIT,
-    type: TransactionType.INFLOW,
-    value: 500.00,
-  },
-];
+// Pagination configuration
+const PAGE_SIZE = 10;
 
 // Animated view component
 const AnimatedView = ({ children, className, delay = 0 }: { children: React.ReactNode, className: string, delay?: number }) => {
@@ -108,9 +45,48 @@ const AnimatedText = ({
 
 
 export default function TransactionsScreen() {
-  const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+  const isInitialLoaded = useRef(false);
+
+  const openCreateModal = useCallback(() => {
+    setEditingTransaction(null);
+    setModalVisible(true);
+  }, []);
+
+  const openEditModal = useCallback((tx: Transaction) => {
+    setEditingTransaction(tx);
+    setModalVisible(true);
+  }, []);
+
+  const closeModal = useCallback(() => {
+    setModalVisible(false);
+  }, []);
+
+  const fetchTransactions = useCallback(async (nextPage: number, append: boolean) => {
+    try {
+      setLoading(true);
+      const data = await TransactionService.getTransactions(PAGE_SIZE, nextPage);
+      setHasMore(Boolean(data?.hasMore));
+      setPage(data?.page ?? nextPage);
+      setTransactions((prev) => (append ? [...prev, ...data.items] : data.items));
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível carregar as transações.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isInitialLoaded.current) {
+      isInitialLoaded.current = true;
+      fetchTransactions(1, false);
+    }
+  }, [fetchTransactions]);
 
   const getTransactionDescription = (desc: TransactionDesc): string => {
     switch (desc) {
@@ -129,49 +105,41 @@ export default function TransactionsScreen() {
 
   const handleLoadMore = useCallback(() => {
     if (loading || !hasMore) return;
-
-    setLoading(true);
-    
-    // Simulate API call delay
-    setTimeout(() => {
-      // In a real app, this would fetch more data from the API
-      const moreTransactions: Transaction[] = [
-        {
-          _id: '9',
-          alias: 'Spotify',
-          date: '2024-12-28',
-          desc: TransactionDesc.PAYMENT,
-          type: TransactionType.OUTFLOW,
-          value: -19.90,
-        },
-        {
-          _id: '10',
-          alias: 'Gasolina',
-          date: '2024-12-25',
-          desc: TransactionDesc.PAYMENT,
-          type: TransactionType.OUTFLOW,
-          value: -150.00,
-        },
-      ];
-
-      setTransactions(prev => [...prev, ...moreTransactions]);
-      setHasMore(false); // No more data in this mock
-      setLoading(false);
-    }, 1000);
-  }, [loading, hasMore]);
+    fetchTransactions(page + 1, true);
+  }, [fetchTransactions, loading, hasMore, page]);
 
   const handleEditTransaction = useCallback((transaction: Transaction) => {
-    // TODO: Navigate to edit transaction screen
-    console.log('Edit transaction:', transaction._id);
-  }, []);
+    openEditModal(transaction);
+  }, [openEditModal]);
 
   const handleDeleteTransaction = useCallback((transaction: Transaction) => {
-    // TODO: Show confirmation dialog and delete transaction
-    console.log('Delete transaction:', transaction._id);
+    Alert.alert(
+      'Excluir transação',
+      'Tem certeza que deseja excluir esta transação?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              const ok = await TransactionService.deleteTransaction(transaction._id);
+              if (ok) {
+                setTransactions((prev) => prev.filter((t) => t._id !== transaction._id));
+              }
+            } catch {
+              Alert.alert('Erro', 'Não foi possível excluir a transação.');
+            }
+          },
+        },
+      ]
+    );
   }, []);
 
   const renderTransactionItem = useCallback(({ item, index }: { item: Transaction, index: number }) => {
     const delay = index * 100 + 600; // Progressive delay for list items
+
+    const valueClass = `${styles.transactionValue} ${item.type === TransactionType.INFLOW ? styles.positiveValue : styles.negativeValue}`;
 
     return (
       <AnimatedView delay={delay} className={styles.transactionItem}>
@@ -180,10 +148,8 @@ export default function TransactionsScreen() {
             <Text className={styles.transactionAlias}>{item.alias || 'Sem descrição'}</Text>
             <Text className={styles.transactionDate}>{formatDateWithRelative(item.date)}</Text>
           </View>
-          <Text
-            className={`${styles.transactionValue} ${item.type === TransactionType.INFLOW ? styles.positiveValue : styles.negativeValue
-              }`}>
-            {formatCurrencyWithSign(item.value)}
+          <Text className={valueClass}>
+            {formatCurrencyWithSign(item.type, item.value)}
           </Text>
         </View>
 
@@ -194,20 +160,28 @@ export default function TransactionsScreen() {
             </Text>
           </View>
           <View className={styles.transactionActions}>
-            <TouchableOpacity
-              className={styles.actionButton}
+            <Button
+              variant="outlineGreen"
+              className={styles.iconButton}
               onPress={() => handleEditTransaction(item)}
               accessibilityLabel="Editar transação"
-              accessibilityRole="button">
-              <Edit size={22} color={colors.blue} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              className={styles.actionButton}
+            >
+              <View className={styles.transactionActionContainer}>
+                <Edit size={18} color={colors.dark} />
+                <Text>Editar</Text>
+              </View>
+            </Button>
+            <Button
+              variant="outlineOrange"
+              className={styles.iconButton}
               onPress={() => handleDeleteTransaction(item)}
               accessibilityLabel="Excluir transação"
-              accessibilityRole="button">
-              <Trash2 size={22} color={colors.red} />
-            </TouchableOpacity>
+            >
+              <View className={styles.transactionActionContainer}>
+                <Trash2 size={18} color={colors.red} />
+                <Text>Excluir</Text>
+              </View>
+            </Button>
           </View>
         </View>
       </AnimatedView>
@@ -225,9 +199,28 @@ export default function TransactionsScreen() {
   }, [loading]);
 
   const handleNewTransaction = useCallback(() => {
-    // TODO: Implement new transaction navigation
-    console.log('New transaction pressed');
+    openCreateModal();
+  }, [openCreateModal]);
+
+  const handleSaved = useCallback((saved: Transaction) => {
+    setTransactions((prev) => {
+      const exists = prev.some((t) => t._id === saved._id);
+      if (exists) {
+        return prev.map((t) => (t._id === saved._id ? saved : t));
+      }
+      return [saved, ...prev];
+    });
   }, []);
+
+  const submitTransactionRequest = useCallback(
+    async (payload: TransactionInput, id?: string) => {
+      if (id) {
+        return TransactionService.updateTransaction(id, payload);
+      }
+      return TransactionService.createTransaction(payload);
+    },
+    []
+  );
 
   return (
     <GradientContainer>
@@ -269,6 +262,15 @@ export default function TransactionsScreen() {
           index,
         })}
       />
+
+      {/* Create/Edit Transaction Modal */}
+      <TransactionModal
+        visible={modalVisible}
+        onClose={closeModal}
+        transaction={editingTransaction}
+        onSaved={handleSaved}
+        onSubmitRequest={submitTransactionRequest}
+      />
     </GradientContainer>
   );
 }
@@ -280,7 +282,7 @@ const styles = {
   headerActions: 'flex-row gap-2',
   searchButton: 'p-2',
   filterButton: 'p-2',
-  newTransactionButton: 'rounded-md px-4',
+  newTransactionButton: 'text-white',
   transactionItem: 'rounded-xl bg-white p-4 border-2 border-light-green',
   transactionHeader: 'mb-6 flex-row items-center justify-between',
   transactionInfo: 'flex-1',
@@ -294,6 +296,8 @@ const styles = {
   transactionTypeText: 'text-base font-medium text-dark',
   transactionActions: 'flex-row gap-4',
   actionButton: 'p-2',
+  iconButton: 'h-9',
   loadingContainer: 'py-4 items-center',
   loadingText: 'text-gray text-sm',
+  transactionActionContainer: 'flex-row items-center gap-1',
 };

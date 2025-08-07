@@ -39,6 +39,8 @@ const Button = ({
 }: ButtonProps) => {
   const isDisabled = disabled || loading;
 
+  const textClass = `${styles.text.base} ${loading ? styles.text.hidden : ''} ${styles.text[variant]}`;
+
   return (
     <TouchableOpacity
       className={`${styles.base} ${styles[variant]} ${isDisabled ? styles.disabled : ''} ${className || ''}`}
@@ -49,7 +51,7 @@ const Button = ({
       accessibilityHint={accessibilityHint}
       accessibilityState={{ disabled: isDisabled }}
       {...props}>
-      <Text className={`${styles.text} ${loading ? styles.textHidden : ''}`}>{children}</Text>
+      <Text className={textClass}>{children}</Text>
       {loading && <ActivityIndicator size="small" color="#FFFFFF" className={styles.loader} />}
     </TouchableOpacity>
   );
@@ -59,10 +61,6 @@ const styles = {
   // Base styles for all button variants
   base: `h-12 rounded-md relative items-center justify-center`,
   disabled: `opacity-70`,
-
-  // Text styles
-  text: `text-white text-base font-semibold`,
-  textHidden: `opacity-0`,
 
   // Loader styles
   loader: `absolute`,
@@ -74,6 +72,18 @@ const styles = {
   orange: `bg-orange`,
   outlineGreen: `bg-transparent border-2 border-green`,
   outlineOrange: `bg-transparent border-2 border-orange`,
+
+  // Text styles
+  text: {
+    base: `text-base font-semibold px-3`,
+    hidden: `opacity-0`,
+    dark: `text-white`,
+    blue: `text-white`,
+    green: `text-white`,
+    orange: `text-white`,
+    outlineGreen: `text-green`,
+    outlineOrange: `text-orange`,
+  },
 };
 
 export default Button;

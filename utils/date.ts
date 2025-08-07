@@ -11,6 +11,9 @@ export const formatDate = (date: Date = new Date()) => {
 
 
 export const formatDateWithRelative = (dateString: string): string => {
+  // Check if date is already in format DD/MM/YYYY
+  if (dateString.includes('/')) return dateString;
+
   const date = new Date(dateString);
   const today = new Date();
   const yesterday = new Date(today);

@@ -1,6 +1,7 @@
-import React, { cloneElement, useState } from 'react';
-import { Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { colors } from '@/utils/colors';
 import { Eye, EyeOff } from 'lucide-react-native';
+import React, { cloneElement, useState } from 'react';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { MaskedTextInput } from 'react-native-mask-text';
 
 // Tipos para o componente
@@ -66,35 +67,35 @@ export default function Input({
 
   // Obter entrada segura
   const getSecureTextEntry = () => {
-    if (secureTextEntry !== undefined) return secureTextEntry;
-    return type === 'password' && !showPassword;
+    return !secureTextEntry ? secureTextEntry : type === 'password' && !showPassword;
   };
 
   // Obter capitalização automática
   const getAutoCapitalize = () => {
     if (autoCapitalize) return autoCapitalize;
-    if (type === 'email') return 'none';
-    return 'sentences';
+    return type === 'email' ? 'none' : 'sentences';
   };
 
   // Obter autocompletar
   const getAutoComplete = () => {
     if (autoComplete) return autoComplete;
-    if (type === 'email') return 'email';
-    if (type === 'password') return 'password';
-    if (type === 'phone') return 'tel';
-    return 'off';
+    switch (type) {
+      case 'email':
+        return 'email';
+      case 'password':
+        return 'password';
+      case 'phone':
+        return 'tel';
+      default:
+        return 'off';
+    }
   };
 
-  // Obter máscara para data
-  const getDateMask = () => {
-    return 'DD/MM/YYYY';
-  };
+  // Obter máscara para data (dd/mm/yyyy)
+  const getDateMask = () => '99/99/9999';
 
   // Obter máscara para telefone
-  const getPhoneMask = () => {
-    return '(99) 99999-9999';
-  };
+  const getPhoneMask = () => '(99) 99999-9999';
 
   // Constantes para classes CSS
   const inputClassName = [
@@ -134,14 +135,19 @@ export default function Input({
           <MaskedTextInput
             value={value}
             onChangeText={(text, rawText) => onChangeText?.(text)}
-            placeholder={placeholder}
+            placeholder={placeholder || 'DD/MM/AAAA'}
             mask={getDateMask()}
             keyboardType={getKeyboardType()}
             autoCapitalize={getAutoCapitalize()}
             autoComplete={getAutoComplete()}
             editable={!disabled}
             autoFocus={autoFocus}
-            className={inputClassName}
+            style={[
+              rnStyles.input,
+              (icon || isPassword) && rnStyles.inputWithIcon,
+              error ? rnStyles.inputError : rnStyles.inputDefault,
+              disabled && rnStyles.inputDisabled,
+            ]}
             accessibilityLabel={getAccessibilityLabel()}
             accessibilityHint={getAccessibilityHint()}
             accessibilityRole="text"
@@ -159,7 +165,12 @@ export default function Input({
             autoComplete={getAutoComplete()}
             editable={!disabled}
             autoFocus={autoFocus}
-            className={inputClassName}
+            style={[
+              rnStyles.input,
+              (icon || isPassword) && rnStyles.inputWithIcon,
+              error ? rnStyles.inputError : rnStyles.inputDefault,
+              disabled && rnStyles.inputDisabled,
+            ]}
             accessibilityLabel={getAccessibilityLabel()}
             accessibilityHint={getAccessibilityHint()}
             accessibilityRole="text"
@@ -242,11 +253,39 @@ const styles = {
   container: 'space-y-2',
   label: 'text-dark text-lg font-bold mb-2',
   inputContainer: 'relative',
-  input: 'w-full bg-white border-2 border-gray rounded-md px-4 py-3 text-dark',
+  input: 'w-full h-13 bg-white border-2 border-gray rounded-md px-4 text-dark text-lg',
   inputWithIcon: 'pr-12',
   inputDefault: 'border-gray',
   inputError: 'border-red border-2',
   inputDisabled: 'opacity-50',
-  iconButton: 'absolute right-3 top-1 p-2',
+  iconButton: 'absolute right-3 top-2 p-2',
   errorText: 'text-red text-sm mt-1',
 };
+
+// React Native style object for MaskedTextInput where className has no effect
+const rnStyles = {
+  input: {
+    width: '100%',
+    height: 52,
+    backgroundColor: colors.white,
+    borderWidth: 2,
+    borderColor: colors.gray,
+    borderRadius: 6,
+    paddingHorizontal: 16,
+    color: colors.dark,
+    fontSize: 16,
+  },
+  inputWithIcon: {
+    paddingRight: 48,
+  },
+  inputDefault: {
+    borderColor: colors.gray,
+  },
+  inputError: {
+    borderColor: colors.red,
+    borderWidth: 2,
+  },
+  inputDisabled: {
+    opacity: 0.5,
+  },
+} as const;

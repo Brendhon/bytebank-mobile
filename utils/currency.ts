@@ -1,3 +1,5 @@
+import { TransactionType } from "../models";
+
 export const formatCurrency = (value: number) => {
   return 'R$ ' + value.toLocaleString('pt-BR', {
     minimumFractionDigits: 2,
@@ -5,10 +7,10 @@ export const formatCurrency = (value: number) => {
   });
 };
 
-export const formatCurrencyWithSign = (value: number): string => {
+export const formatCurrencyWithSign = (type: TransactionType, value: number): string => {
   const formatted = Math.abs(value).toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
   });
-  return value >= 0 ? `+ ${formatted}` : `- ${formatted}`;
+  return type === TransactionType.INFLOW ? `+ ${formatted}` : `- ${formatted}`;
 };
