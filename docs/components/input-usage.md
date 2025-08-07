@@ -135,6 +135,19 @@ import { Eye, Search, Mail } from 'lucide-react-native';
 />
 ```
 
+## Input com Foco Automático
+
+```tsx
+<Input
+  label="Senha"
+  type="password"
+  placeholder="Digite sua senha"
+  value={password}
+  onChangeText={setPassword}
+  autoFocus={true}
+/>
+```
+
 ## Estilização Customizada
 
 ```tsx
@@ -164,6 +177,7 @@ import { Eye, Search, Mail } from 'lucide-react-native';
 | `autoComplete` | `AutoCompleteOptions` | - | Autocompletar |
 | `disabled` | `boolean` | `false` | Estado desabilitado |
 | `className` | `string` | - | Classes CSS customizadas |
+| `autoFocus` | `boolean` | - | Define se o input deve receber foco automaticamente |
 
 ## Tipos de Input Suportados
 

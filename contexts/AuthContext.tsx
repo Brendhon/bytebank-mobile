@@ -17,7 +17,7 @@ interface AuthContextData {
     password: string;
     acceptPrivacy: boolean;
   }): Promise<void>;
-  signOut(): void;
+  signOut(): Promise<void>;
   refreshUser(): Promise<void>;
   session?: string | null;
 }
@@ -115,7 +115,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const signOut = async () => {
+  const signOut = async (): Promise<void> => {
     try {
       // Remove token from storage
       await tokenManager.removeToken();

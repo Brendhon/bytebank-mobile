@@ -1,6 +1,7 @@
 import { Modal as RNModal, Text, TouchableOpacity, View } from 'react-native';
 import { X } from 'lucide-react-native';
 import { ReactNode } from 'react';
+import { colors } from '@/utils/colors';
 
 interface ModalProps {
   visible: boolean;
@@ -14,9 +15,8 @@ export default function Modal({ visible, onClose, title, children, illustration 
   return (
     <RNModal
       visible={visible}
-      transparent={true}
       animationType="slide"
-      presentationStyle="overFullScreen"
+      presentationStyle="fullScreen"
       onRequestClose={onClose}>
       <View className={styles.container}>
         {/* Header */}

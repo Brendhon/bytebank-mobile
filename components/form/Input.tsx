@@ -21,6 +21,7 @@ interface InputProps {
   autoComplete?: 'off' | 'email' | 'password' | 'name' | 'tel';
   disabled?: boolean;
   className?: string;
+  autoFocus?: boolean;
 }
 
 export default function Input({
@@ -38,6 +39,8 @@ export default function Input({
   autoComplete,
   disabled = false,
   className = '',
+  autoFocus,
+  ...props
 }: InputProps) {
   // Estado para mostrar/ocultar senha
   const [showPassword, setShowPassword] = useState(false);
@@ -137,11 +140,13 @@ export default function Input({
             autoCapitalize={getAutoCapitalize()}
             autoComplete={getAutoComplete()}
             editable={!disabled}
+            autoFocus={autoFocus}
             className={inputClassName}
             accessibilityLabel={getAccessibilityLabel()}
             accessibilityHint={getAccessibilityHint()}
             accessibilityRole="text"
             accessibilityState={{ disabled }}
+            {...props}
           />
         ) : isPhone ? (
           <MaskedTextInput
@@ -153,11 +158,13 @@ export default function Input({
             autoCapitalize={getAutoCapitalize()}
             autoComplete={getAutoComplete()}
             editable={!disabled}
+            autoFocus={autoFocus}
             className={inputClassName}
             accessibilityLabel={getAccessibilityLabel()}
             accessibilityHint={getAccessibilityHint()}
             accessibilityRole="text"
             accessibilityState={{ disabled }}
+            {...props}
           />
         ) : (
           <TextInput
@@ -169,11 +176,13 @@ export default function Input({
             autoCapitalize={getAutoCapitalize()}
             autoComplete={getAutoComplete()}
             editable={!disabled}
+            autoFocus={autoFocus}
             className={inputClassName}
             accessibilityLabel={getAccessibilityLabel()}
             accessibilityHint={getAccessibilityHint()}
             accessibilityRole="text"
             accessibilityState={{ disabled }}
+            {...props}
           />
         )}
 

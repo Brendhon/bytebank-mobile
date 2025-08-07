@@ -1,20 +1,22 @@
-import { useAuth } from '@/contexts/AuthContext';
-import { useAuthService } from '@/hooks/useAuthService';
-import { SettingsFormData, settingsSchema } from '@/schemas/index';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Mail, User, Shield, AlertTriangle, Trash2 } from 'lucide-react-native';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Alert, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import Button from '@/components/form/Button';
 import Input from '@/components/form/Input';
 import { GradientContainer } from '@/components/layout/GradientContainer';
+import DeleteAccountModal from '@/components/modal/DeleteAccountModal';
+import { useAuth } from '@/contexts/AuthContext';
+import { useAuthService } from '@/hooks/useAuthService';
+import { SettingsFormData, settingsSchema } from '@/schemas/index';
 import { colors } from '@/utils/colors';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AlertTriangle, Mail, Shield, User } from 'lucide-react-native';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Alert, ScrollView, Text, View } from 'react-native';
 
 export default function SettingsScreen() {
   const { user, signOut } = useAuth();
   const { updateUser, deleteUser, validatePassword, isUpdatingUser } = useAuthService();
   const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const {
     handleSubmit,
@@ -71,33 +73,9 @@ export default function SettingsScreen() {
     }
   };
 
-  // Função para excluir conta
+  // Função para abrir modal de exclusão de conta
   const handleDeleteAccount = () => {
-    Alert.alert(
-      'Excluir Conta',
-      'Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.',
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-        {
-          text: 'Excluir',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              setIsDeleting(true);
-              await deleteUser();
-              await signOut();
-            } catch (error) {
-              Alert.alert('Erro', 'Não foi possível excluir a conta. Tente novamente.');
-            } finally {
-              setIsDeleting(false);
-            }
-          },
-        },
-      ]
-    );
+    setDeleteModalVisible(true);
   };
 
   return (
@@ -210,7 +188,7 @@ export default function SettingsScreen() {
               disabled={isDeleting || isUpdatingUser}
               className={styles.deleteButton}
               accessibilityLabel="Excluir conta permanentemente"
-              accessibilityHint="Abre um alerta para confirmar a exclusão da conta"
+              accessibilityHint="Abre um modal para confirmar a exclusão da conta com validação de senha"
             >
               Excluir conta
             </Button>
@@ -218,6 +196,12 @@ export default function SettingsScreen() {
           </View>
         </View>
       </ScrollView>
+
+      {/* Modal de exclusão de conta */}
+      <DeleteAccountModal 
+        visible={deleteModalVisible} 
+        onClose={() => setDeleteModalVisible(false)} 
+      />
     </GradientContainer>
   );
 }
