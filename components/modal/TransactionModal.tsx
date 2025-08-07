@@ -43,7 +43,7 @@ export default function TransactionModal({
       type: transaction ? transaction.type : deriveTypeFromDesc(TransactionDesc.PAYMENT),
       alias: transaction?.alias ?? '',
       // If editing and server returns negative values for outflows, show absolute number to the user
-      value: typeof transaction?.value === 'number' ? Math.abs(transaction!.value) : 0,
+      value: typeof transaction?.value === 'number' ? Math.abs(transaction!.value) : 1,
       date: transaction?.date || '',
     }),
     [transaction]
@@ -61,7 +61,7 @@ export default function TransactionModal({
       desc: TransactionDesc.PAYMENT,
       type: deriveTypeFromDesc(TransactionDesc.PAYMENT),
       alias: '',
-      value: 0,
+      value: 1,
       date: '',
     },
   });
@@ -177,11 +177,7 @@ export default function TransactionModal({
           placeholder="0,00"
           type="number"
           value={Number.isFinite(watched.value) ? String(watched.value) : ''}
-          onChangeText={(t) => {
-            const normalized = t.replace(/,/g, '.');
-            const parsed = parseFloat(normalized);
-            setValue('value', Number.isFinite(parsed) ? parsed : 0, { shouldValidate: true });
-          }}
+          onChangeText={(t) => setValue('value', +t, { shouldValidate: true })}
           error={errors.value?.message}
         />
 

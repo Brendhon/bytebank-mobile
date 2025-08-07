@@ -10,7 +10,7 @@ export const transactionSchema = z.object({
   desc: z.enum(TransactionDescKeys, { message: 'Selecione uma descrição' }),
   type: z.enum(TransactionTypeKeys, { message: 'Selecione um tipo' }),
   alias: z.string().optional(),
-  value: z.number().min(0, 'Informe um valor maior que 0'),
+  value: z.number().min(1, 'Informe um valor maior que 0'),
   date: z.string().min(1, 'Informe uma data'),
 })
 
