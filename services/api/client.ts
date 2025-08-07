@@ -40,6 +40,9 @@ export const apolloClient = new ApolloClient({
     query: {
       errorPolicy: 'all',
     },
+    mutate: {
+      errorPolicy: 'all',
+    },
   },
 });
 
@@ -67,6 +70,27 @@ export const tokenManager = {
       await SecureStore.deleteItemAsync('auth_token');
     } catch (error) {
       console.error('Error removing auth token:', error);
+    }
+  },
+};
+
+// Cache management utilities
+export const cacheManager = {
+  /**
+   * Clear all Apollo Client cache and reset the store
+   * This ensures all cached data is removed when user logs out or account is deleted
+   */
+  async clearCache(): Promise<void> {
+    try {
+      // Clear the entire Apollo cache
+      await apolloClient.clearStore();
+      
+      // Reset the store to ensure complete cleanup
+      await apolloClient.resetStore();
+      
+      console.log('Apollo Client cache cleared successfully');
+    } catch (error) {
+      console.error('Error clearing Apollo Client cache:', error);
     }
   },
 };

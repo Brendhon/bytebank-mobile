@@ -38,6 +38,8 @@ export default function DeleteAccountModal({ visible, onClose }: DeleteAccountMo
 
       // Excluir conta
       await deleteUser();
+      
+      // Sign out to clear all user data
       await signOut();
 
     } catch (error) {

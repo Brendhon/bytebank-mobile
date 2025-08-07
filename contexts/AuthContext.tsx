@@ -1,7 +1,7 @@
 import { useStorageState } from '@/hooks/useStorageState';
 import { User } from '@/models/user';
 import { AuthService } from '@/services/api/auth.service';
-import { tokenManager } from '@/services/api/client';
+import { tokenManager, cacheManager } from '@/services/api/client';
 import { useRouter } from 'expo-router';
 import { createContext, ReactNode, useContext, useState, useEffect } from 'react';
 
@@ -61,6 +61,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       setIsUserLoading(true);
 
+      // Clear any existing cache before login to ensure fresh data
+      await cacheManager.clearCache();
+
       // Call the real authentication service
       const authPayload = await AuthService.login(credentials.email, credentials.password);
 
@@ -89,6 +92,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }) => {
     try {
       setIsUserLoading(true);
+
+      // Clear any existing cache before registration to ensure fresh data
+      await cacheManager.clearCache();
 
       // Call the real registration service
       const authPayload = await AuthService.register(
@@ -121,6 +127,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       await tokenManager.removeToken();
       setSession(null);
       setUser(null);
+      
+      // Clear Apollo Client cache to remove all cached data
+      await cacheManager.clearCache();
     } catch (error) {
       console.error('Sign out error:', error);
     }
