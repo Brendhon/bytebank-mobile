@@ -1,14 +1,14 @@
 import Button from '@/components/form/Button';
 import { GradientContainer } from '@/components/layout/GradientContainer';
 import TransactionModal from '@/components/modal/TransactionModal';
+import { Transaction, TransactionDesc, TransactionInput, TransactionType } from '@/models/transaction';
 import { TransactionService } from '@/services/api/transaction.service';
-import { Transaction, TransactionDesc, TransactionType, TransactionInput } from '@/models/transaction';
 import { colors } from '@/utils/colors';
 import { formatCurrencyWithSign } from '@/utils/currency';
 import { formatDateWithRelative } from '@/utils/date';
 import { Edit, Trash2 } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, Text, View } from 'react-native';
 import Animated, { FadeInUp, FadeOut } from 'react-native-reanimated';
 
 // Pagination configuration
@@ -215,10 +215,7 @@ export default function TransactionsScreen() {
 
   const submitTransactionRequest = useCallback(
     async (payload: TransactionInput, id?: string) => {
-      if (id) {
-        return TransactionService.updateTransaction(id, payload);
-      }
-      return TransactionService.createTransaction(payload);
+      return id ? TransactionService.updateTransaction(id, payload) : TransactionService.createTransaction(payload);
     },
     []
   );

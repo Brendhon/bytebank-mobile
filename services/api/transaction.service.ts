@@ -103,6 +103,11 @@ export class TransactionService {
         variables: {
           input: transactionData,
         },
+        // Ensure dashboard summary is refreshed after creating a transaction
+        refetchQueries: [
+          { query: GET_TRANSACTION_SUMMARY },
+        ],
+        awaitRefetchQueries: true,
       });
 
       if (!data?.createTransaction) {
@@ -133,6 +138,11 @@ export class TransactionService {
           id,
           input: updates,
         },
+        // Ensure dashboard summary is refreshed after updating a transaction
+        refetchQueries: [
+          { query: GET_TRANSACTION_SUMMARY },
+        ],
+        awaitRefetchQueries: true,
       });
 
       if (!data?.updateTransaction) {
@@ -157,6 +167,11 @@ export class TransactionService {
       >({
         mutation: DELETE_TRANSACTION,
         variables: { id },
+        // Ensure dashboard summary is refreshed after deleting a transaction
+        refetchQueries: [
+          { query: GET_TRANSACTION_SUMMARY },
+        ],
+        awaitRefetchQueries: true,
       });
 
       return data?.deleteTransaction ?? false;
