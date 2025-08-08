@@ -1,6 +1,6 @@
 import { colors } from '@/utils/colors';
 import { Eye, EyeOff } from 'lucide-react-native';
-import React, { cloneElement, useState } from 'react';
+import React, { cloneElement, memo, useCallback, useMemo, useState } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { MaskedTextInput } from 'react-native-mask-text';
 
@@ -25,7 +25,7 @@ interface InputProps {
   autoFocus?: boolean;
 }
 
-export default function Input({
+function Input({
   label,
   placeholder,
   value,
@@ -46,38 +46,35 @@ export default function Input({
   // Estado para mostrar/ocultar senha
   const [showPassword, setShowPassword] = useState(false);
 
-  // Verificar se é senha
+  // Tipos derivados
   const isPassword = type === 'password';
-
-  // Verificar se é data
   const isDate = type === 'date';
-
-  // Verificar se é telefone
   const isPhone = type === 'phone';
 
   // Obter tipo de teclado
-  const getKeyboardType = () => {
+  const keyboardTypeValue = useMemo(() => {
     if (keyboardType) return keyboardType;
     if (type === 'email') return 'email-address';
     if (type === 'number') return 'numeric';
     if (type === 'phone') return 'phone-pad';
     if (isDate) return 'numeric';
     return 'default';
-  };
+  }, [keyboardType, type, isDate]);
 
   // Obter entrada segura
-  const getSecureTextEntry = () => {
-    return !secureTextEntry ? secureTextEntry : type === 'password' && !showPassword;
-  };
+  const secureTextEntryValue = useMemo(() => {
+    // If prop provided, use it. Otherwise, enable for password when not showing
+    return secureTextEntry ?? (type === 'password' && !showPassword);
+  }, [secureTextEntry, type, showPassword]);
 
   // Obter capitalização automática
-  const getAutoCapitalize = () => {
+  const autoCapitalizeValue = useMemo(() => {
     if (autoCapitalize) return autoCapitalize;
     return type === 'email' ? 'none' : 'sentences';
-  };
+  }, [autoCapitalize, type]);
 
   // Obter autocompletar
-  const getAutoComplete = () => {
+  const autoCompleteValue = useMemo(() => {
     if (autoComplete) return autoComplete;
     switch (type) {
       case 'email':
@@ -89,34 +86,69 @@ export default function Input({
       default:
         return 'off';
     }
-  };
+  }, [autoComplete, type]);
 
   // Obter máscara para data (dd/mm/yyyy)
-  const getDateMask = () => '99/99/9999';
+  const dateMask = '99/99/9999';
 
   // Obter máscara para telefone
-  const getPhoneMask = () => '(99) 99999-9999';
+  const phoneMask = '(99) 99999-9999';
 
   // Constantes para classes CSS
-  const inputClassName = [
-    styles.input,
-    (icon || isPassword) && styles.inputWithIcon,
-    error ? styles.inputError : styles.inputDefault,
-    disabled && styles.inputDisabled,
-    className
-  ].filter(Boolean).join(' ');
+  const inputClassName = useMemo(() => (
+    [
+      styles.input,
+      (icon || isPassword) && styles.inputWithIcon,
+      error ? styles.inputError : styles.inputDefault,
+      disabled && styles.inputDisabled,
+      className
+    ].filter(Boolean).join(' ')
+  ), [icon, isPassword, error, disabled, className]);
+
+  // Styles para MaskedTextInput (evita recriar array a cada render)
+  const maskedInputStyle = useMemo(
+    () => [
+      rnStyles.input,
+      (icon || isPassword) && rnStyles.inputWithIcon,
+      error ? rnStyles.inputError : rnStyles.inputDefault,
+      disabled && rnStyles.inputDisabled,
+    ],
+    [icon, isPassword, error, disabled]
+  );
 
   // Constantes para accessibility
-  const getAccessibilityLabel = () => {
+  const accessibilityLabel = useMemo(() => {
     const fieldType = isDate ? 'data' : isPhone ? 'telefone' : type;
     return `${label || 'Campo'} de ${fieldType}`;
-  };
+  }, [isDate, isPhone, type, label]);
 
-  const getAccessibilityHint = () => {
-    if (isDate) return "Digite a data no formato DD/MM/AAAA";
-    if (isPhone) return "Digite o telefone no formato (00) 00000-0000";
+  const accessibilityHint = useMemo(() => {
+    if (isDate) return 'Digite a data no formato DD/MM/AAAA';
+    if (isPhone) return 'Digite o telefone no formato (00) 00000-0000';
     return `Digite ${label?.toLowerCase() || 'o valor'}`;
-  };
+  }, [isDate, isPhone, label]);
+
+  // Handlers estáveis
+  const handleMaskedChange = useCallback(
+    (text: string, _rawText: string) => {
+      onChangeText?.(text);
+    },
+    [onChangeText]
+  );
+
+  const toggleShowPassword = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
+
+  // Ícone clonado memoizado para não recriar a cada render
+  const clonedIcon = useMemo(() => {
+    if (!icon || !React.isValidElement(icon)) return null;
+    return cloneElement(icon, {
+      size: 20,
+      color: '#004D61',
+      ...(icon.props || {}),
+    } as any);
+  }, [icon]);
 
   return (
     <View className={styles.container}>
@@ -134,22 +166,17 @@ export default function Input({
         {isDate ? (
           <MaskedTextInput
             value={value}
-            onChangeText={(text, rawText) => onChangeText?.(text)}
+            onChangeText={handleMaskedChange}
             placeholder={placeholder || 'DD/MM/AAAA'}
-            mask={getDateMask()}
-            keyboardType={getKeyboardType()}
-            autoCapitalize={getAutoCapitalize()}
-            autoComplete={getAutoComplete()}
+            mask={dateMask}
+            keyboardType={keyboardTypeValue}
+            autoCapitalize={autoCapitalizeValue}
+            autoComplete={autoCompleteValue}
             editable={!disabled}
             autoFocus={autoFocus}
-            style={[
-              rnStyles.input,
-              (icon || isPassword) && rnStyles.inputWithIcon,
-              error ? rnStyles.inputError : rnStyles.inputDefault,
-              disabled && rnStyles.inputDisabled,
-            ]}
-            accessibilityLabel={getAccessibilityLabel()}
-            accessibilityHint={getAccessibilityHint()}
+            style={maskedInputStyle}
+            accessibilityLabel={accessibilityLabel}
+            accessibilityHint={accessibilityHint}
             accessibilityRole="text"
             accessibilityState={{ disabled }}
             {...props}
@@ -157,22 +184,17 @@ export default function Input({
         ) : isPhone ? (
           <MaskedTextInput
             value={value}
-            onChangeText={(text, rawText) => onChangeText?.(text)}
+            onChangeText={handleMaskedChange}
             placeholder={placeholder}
-            mask={getPhoneMask()}
-            keyboardType={getKeyboardType()}
-            autoCapitalize={getAutoCapitalize()}
-            autoComplete={getAutoComplete()}
+            mask={phoneMask}
+            keyboardType={keyboardTypeValue}
+            autoCapitalize={autoCapitalizeValue}
+            autoComplete={autoCompleteValue}
             editable={!disabled}
             autoFocus={autoFocus}
-            style={[
-              rnStyles.input,
-              (icon || isPassword) && rnStyles.inputWithIcon,
-              error ? rnStyles.inputError : rnStyles.inputDefault,
-              disabled && rnStyles.inputDisabled,
-            ]}
-            accessibilityLabel={getAccessibilityLabel()}
-            accessibilityHint={getAccessibilityHint()}
+            style={maskedInputStyle}
+            accessibilityLabel={accessibilityLabel}
+            accessibilityHint={accessibilityHint}
             accessibilityRole="text"
             accessibilityState={{ disabled }}
             {...props}
@@ -182,15 +204,15 @@ export default function Input({
             value={value}
             onChangeText={onChangeText}
             placeholder={placeholder}
-            secureTextEntry={getSecureTextEntry()}
-            keyboardType={getKeyboardType()}
-            autoCapitalize={getAutoCapitalize()}
-            autoComplete={getAutoComplete()}
+            secureTextEntry={secureTextEntryValue}
+            keyboardType={keyboardTypeValue}
+            autoCapitalize={autoCapitalizeValue}
+            autoComplete={autoCompleteValue}
             editable={!disabled}
             autoFocus={autoFocus}
             className={inputClassName}
-            accessibilityLabel={getAccessibilityLabel()}
-            accessibilityHint={getAccessibilityHint()}
+            accessibilityLabel={accessibilityLabel}
+            accessibilityHint={accessibilityHint}
             accessibilityRole="text"
             accessibilityState={{ disabled }}
             {...props}
@@ -208,11 +230,7 @@ export default function Input({
             accessibilityRole="button"
             accessibilityState={{ disabled: !onIconClick || disabled }}
           >
-            {icon && React.isValidElement(icon) && cloneElement(icon, {
-              size: 20,
-              color: '#004D61',
-              ...(icon.props || {}),
-            } as any)}
+            {clonedIcon}
           </TouchableOpacity>
         )}
 
@@ -220,7 +238,7 @@ export default function Input({
         {isPassword && (
           <TouchableOpacity
             className={styles.iconButton}
-            onPress={() => setShowPassword((prev) => !prev)}
+            onPress={toggleShowPassword}
             disabled={disabled}
             accessibilityLabel={`${showPassword ? 'Ocultar' : 'Mostrar'} senha`}
             accessibilityHint={`Toque para ${showPassword ? 'ocultar' : 'mostrar'} a senha`}
@@ -248,6 +266,8 @@ export default function Input({
     </View>
   );
 }
+
+export default memo(Input);
 
 const styles = {
   container: 'space-y-2',

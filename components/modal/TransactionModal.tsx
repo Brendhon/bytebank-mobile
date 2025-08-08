@@ -9,9 +9,11 @@ import {
 } from '@/models/transaction';
 import { TransactionFormData, transactionSchema } from '@/schemas/transaction.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useMemo, useState } from 'react';
+import { Calendar, DollarSign } from 'lucide-react-native';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, Text, View } from 'react-native';
+import TransactionIllustration from '../illustrations/TransactionIllustration';
 
 interface TransactionModalProps {
   visible: boolean;
@@ -42,7 +44,6 @@ export default function TransactionModal({
       desc: transaction?.desc ?? TransactionDesc.PAYMENT,
       type: transaction ? transaction.type : deriveTypeFromDesc(TransactionDesc.PAYMENT),
       alias: transaction?.alias ?? '',
-      // If editing and server returns negative values for outflows, show absolute number to the user
       value: typeof transaction?.value === 'number' ? Math.abs(transaction!.value) : 0,
       date: transaction?.date || '',
     }),
@@ -70,8 +71,26 @@ export default function TransactionModal({
 
   // Reset form values whenever the modal opens or the transaction changes
   useEffect(() => {
-    if (visible) reset(defaultValues);
-  }, [visible, defaultValues, reset]);
+    if (visible) {
+      reset(defaultValues);
+    }
+    // "reset" is stable enough; excluding it prevents unnecessary re-runs that may cause loops
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible, defaultValues]);
+
+  const handleAliasChange = useCallback((t: string) => {
+    setValue('alias', t, { shouldValidate: true });
+  }, [setValue]);
+
+  const handleValueChange = useCallback((t: string) => {
+    // Keep numeric conversion simple; empty -> 0 to satisfy schema later via validation
+    const numeric = t.trim() === '' ? 0 : Number(t);
+    setValue('value', Number.isFinite(numeric) ? numeric : 0, { shouldValidate: true });
+  }, [setValue]);
+
+  const handleDateChange = useCallback((t: string) => {
+    setValue('date', t, { shouldValidate: true });
+  }, [setValue]);
 
   const handleSave = async (data: TransactionFormData) => {
     if (isSubmitting) return;
@@ -143,8 +162,12 @@ export default function TransactionModal({
     { label: 'Saída', value: TransactionType.OUTFLOW },
   ];
 
+  const illustration = useMemo(() => <TransactionIllustration />, []);
+  const dollarIcon = useMemo(() => <DollarSign />, []);
+  const calendarIcon = useMemo(() => <Calendar />, []);
+
   return (
-    <Modal visible={visible} onClose={handleClose} title={title}>
+    <Modal visible={visible} onClose={handleClose} title={title} illustration={illustration}>
       <View className={styles.formContainer}>
         {renderSegment<TransactionDesc>(
           'Descrição',
@@ -168,7 +191,7 @@ export default function TransactionModal({
           label="Apelido"
           placeholder="Ex.: Mercado, Uber..."
           value={watched.alias || ''}
-          onChangeText={(t) => setValue('alias', t, { shouldValidate: true })}
+          onChangeText={handleAliasChange}
           error={errors.alias?.message}
         />
 
@@ -177,8 +200,9 @@ export default function TransactionModal({
           placeholder="0,00"
           type="number"
           value={Number.isFinite(watched.value) ? String(watched.value) : ''}
-          onChangeText={(t) => setValue('value', +t, { shouldValidate: true })}
+          onChangeText={handleValueChange}
           error={errors.value?.message}
+          icon={dollarIcon}
         />
 
         <Input
@@ -186,8 +210,9 @@ export default function TransactionModal({
           placeholder="DD/MM/AAAA"
           type="date"
           value={watched.date}
-          onChangeText={(t) => setValue('date', t, { shouldValidate: true })}
+          onChangeText={handleDateChange}
           error={errors.date?.message}
+          icon={calendarIcon}
         />
 
         <View className={styles.buttonContainer}>
