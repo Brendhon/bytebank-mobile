@@ -11,7 +11,10 @@ export const transactionSchema = z.object({
   type: z.enum(TransactionTypeKeys, { message: 'Selecione um tipo' }),
   alias: z.string().optional(),
   value: z.number().min(1, 'Informe um valor maior que 0'),
-  date: z.string().min(1, 'Informe uma data'),
+  date: z.string().min(1, 'Informe uma data').refine((date) => {
+    const [day, month, year] = date.split('/');
+    return !isNaN(new Date(+year, +month - 1, +day).getTime());
+  }, 'Data inválida'),
 })
 
 export type TransactionFormData = z.infer<typeof transactionSchema>
