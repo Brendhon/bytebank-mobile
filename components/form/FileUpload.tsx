@@ -119,9 +119,9 @@ export default function FileUpload({
           activeOpacity={0.7}
         >
           {isLoading ? (
-            <ActivityIndicator size="small" color="#059669" />
+            <ActivityIndicator size="small" color={colors.green} />
           ) : (
-            <Upload size={20} color="#059669" />
+            <Upload size={20} color={colors.green} />
           )}
           <Text className={styles.uploadText}>
             {isLoading ? 'Enviando...' : 'Selecionar Arquivo'}
@@ -160,9 +160,9 @@ export default function FileUpload({
 const styles = {
   container: 'gap-2',
   label: 'text-dark text-lg font-bold',
-  uploadButton: 'flex-row items-center justify-center gap-2 p-4 border-2 border-dashed border-green rounded-lg bg-light-green',
+  uploadButton: 'flex-row items-center justify-center gap-2 p-4 border-2 border-dashed border-green rounded-lg bg-green/10',
   uploadText: 'text-green font-medium',
-  fileContainer: 'flex-row items-center justify-between p-4 border-2 border-blue rounded-lg bg-blue/10',
+  fileContainer: 'flex-row items-center justify-between p-3 border-2 border-blue rounded-lg bg-blue/10',
   fileInfo: 'flex-row items-center gap-2 flex-1',
   fileName: 'text-blue flex-1',
   removeButton: 'p-2 bg-blue rounded-lg',
