@@ -16,6 +16,11 @@ Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida com
   - [🚀 Ambiente de Desenvolvimento](#-ambiente-de-desenvolvimento)
   - [💡 Recomendações para uso de emulador Android no ambiente local](#-recomendações-para-uso-de-emulador-android-no-ambiente-local)
   - [☁️ Implantação (Deploy)](#️-implantação-deploy)
+    - [📱 Configuração de Build APK](#-configuração-de-build-apk)
+    - [🔄 Diferenças entre APK e AAB](#-diferenças-entre-apk-e-aab)
+    - [🚀 Comandos para Gerar APKs](#-comandos-para-gerar-apks)
+    - [📋 Considerações Importantes](#-considerações-importantes)
+    - [🛠️ Build Local (Opcional)](#️-build-local-opcional)
   - [🔗 Links Úteis](#-links-úteis)
   - [📎 Funcionalidade de Upload de Recibos](#-funcionalidade-de-upload-de-recibos)
     - [🎯 Como Funciona](#-como-funciona)
@@ -233,16 +238,82 @@ Para facilitar o uso do emulador sem precisar abrir o Android Studio toda vez, s
 
 ## ☁️ Implantação (Deploy)
 
-A aplicação mobile pode ser construída para produção através do Expo CLI. Para gerar um build de produção (APK/IPA), você pode utilizar os comandos do Expo:
+A aplicação mobile pode ser construída para produção através do Expo CLI. O projeto está configurado para gerar **APKs** ao invés de AABs, permitindo instalação direta em dispositivos Android.
 
-  * **Build para Android:**
-    ```bash
-    eas build --platform android --profile production
-    ```
-  * **Build para iOS:** (macOS apenas)
-    ```bash
-    eas build --platform ios --profile production
-    ```
+Para gerar os builds, deve ter o EAS CLI instalado globalmente:
+
+```bash
+npm install -g eas-cli
+```
+
+### 📱 Configuração de Build APK
+
+O projeto está configurado para gerar APKs através das seguintes configurações no arquivo `eas.json`:
+
+```json
+{
+  "build": {
+    "development": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "apk"
+      }
+    }
+  }
+}
+```
+
+### 🔄 Diferenças entre APK e AAB
+
+| Formato | Uso | Instalação | Tamanho |
+|---------|-----|------------|---------|
+| **APK** | Distribuição interna, testes, instalação direta | Pode ser instalado diretamente | Maior |
+| **AAB** | Google Play Store (obrigatório) | Não pode ser instalado diretamente | Menor |
+
+### 🚀 Comandos para Gerar APKs
+
+```bash
+# Build de desenvolvimento
+eas build --platform android --profile development
+
+# Build de preview
+eas build --platform android --profile preview
+
+# Build de produção
+eas build --platform android --profile production
+```
+
+### 📋 Considerações Importantes
+
+1. **Google Play Store**: Para publicar na Google Play Store, você precisará gerar AABs. Para isso, altere temporariamente `"buildType": "aab"` no `eas.json`.
+
+2. **Distribuição**: APKs são ideais para:
+   - Testes internos
+   - Distribuição direta
+   - Instalação em dispositivos físicos
+   - Demonstrações
+
+3. **Tamanho**: APKs podem ser maiores que AABs devido ao formato universal.
+
+### 🛠️ Build Local (Opcional)
+
+Para builds locais sem usar os servidores do Expo:
+
+```bash
+# Build local para Android
+eas build --platform android --profile production --local
+```
+
+> ⚠️ **Nota**: Builds locais requerem Android Studio e podem demorar mais tempo. **Não é recomendado.**
 
 Para mais detalhes sobre as opções de build e deploy com Expo, consulte a [documentação oficial do EAS Build](https://docs.expo.dev/build/introduction/).
 
