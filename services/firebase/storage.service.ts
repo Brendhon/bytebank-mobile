@@ -19,8 +19,7 @@ export const uploadReceiptService = async (
   userId: string,
   transactionId: string
 ): Promise<string> => {
-  const fileExtension = (file as any).name?.split('.').pop() || 'pdf';
-  const filePath = `${userId}/${transactionId}.${fileExtension}`;
+  const filePath = `${userId}/${transactionId}.pdf`;
   const storageRef = ref(firebaseStorage, filePath);
 
   try {
@@ -63,30 +62,20 @@ export const deleteTransactionReceiptService = async (
   transactionId: string
 ): Promise<void> => {
   try {
-    // Try to find the file with any extension
-    const possibleExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'webp'];
+    const filePath = `${userId}/${transactionId}.pdf`;
+    const storageRef = ref(firebaseStorage, filePath);
     
-    for (const extension of possibleExtensions) {
-      const filePath = `${userId}/${transactionId}.${extension}`;
-      const storageRef = ref(firebaseStorage, filePath);
-      
-      try {
-        await deleteObject(storageRef);
-        return; // File found and deleted
-      } catch (error) {
-        // Continue to next extension if file not found
-        if ((error as any)?.code === 'storage/object-not-found') {
-          continue;
-        }
+    try {
+      await deleteObject(storageRef);
+    } catch (error) {
+      // Don't throw error if file doesn't exist
+      if ((error as any)?.code !== 'storage/object-not-found') {
         throw error;
       }
     }
   } catch (error) {
     console.error('Firebase Storage Delete Receipt Error:', error);
-    // Don't throw error if file doesn't exist
-    if ((error as any)?.code !== 'storage/object-not-found') {
-      throw new Error('Failed to delete transaction receipt.');
-    }
+    throw new Error('Failed to delete transaction receipt.');
   }
 };
 
@@ -101,26 +90,19 @@ export const getReceiptUrlService = async (
   transactionId: string
 ): Promise<string | null> => {
   try {
-    // Try to find the file with any extension
-    const possibleExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'webp'];
+    const filePath = `${userId}/${transactionId}.pdf`;
+    const storageRef = ref(firebaseStorage, filePath);
     
-    for (const extension of possibleExtensions) {
-      const filePath = `${userId}/${transactionId}.${extension}`;
-      const storageRef = ref(firebaseStorage, filePath);
-      
-      try {
-        const downloadUrl = await getDownloadURL(storageRef);
-        return downloadUrl;
-      } catch (error) {
-        // Continue to next extension if file not found
-        if ((error as any)?.code === 'storage/object-not-found') {
-          continue;
-        }
-        throw error;
+    try {
+      const downloadUrl = await getDownloadURL(storageRef);
+      return downloadUrl;
+    } catch (error) {
+      // Return null if file not found
+      if ((error as any)?.code === 'storage/object-not-found') {
+        return null;
       }
+      throw error;
     }
-    
-    return null; // No file found
   } catch (error) {
     console.error('Firebase Storage Get URL Error:', error);
     return null;

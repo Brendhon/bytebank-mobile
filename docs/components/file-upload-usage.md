@@ -11,7 +11,7 @@ The FileUpload component provides a complete file upload interface with document
 | value | string \| null | - | Current file URL (for display purposes) |
 | onUpload | (file: Blob, fileName: string) => Promise<string> | required | Async function to handle file upload |
 | onRemove | () => void | - | Callback when file is removed |
-| accept | string[] | ['application/pdf', 'image/*'] | Accepted file types |
+| accept | string[] | ['application/pdf'] | Accepted file types |
 | maxSize | number | 5 | Maximum file size in MB |
 | loading | boolean | false | External loading state |
 | error | string | - | Error message to display |
@@ -21,7 +21,7 @@ The FileUpload component provides a complete file upload interface with document
 - File size validation
 - Upload progress indication
 - File removal with confirmation
-- Support for PDF and image files
+- Support for PDF files only
 - Responsive design with NativeWind styling
 
 ## States
@@ -31,9 +31,8 @@ The FileUpload component provides a complete file upload interface with document
 - **Error**: Displays error message
 
 ## File Types
-By default, accepts:
-- PDF documents
-- All image formats (JPEG, PNG, etc.)
+Currently accepts:
+- PDF documents only
 
 ## Integration
 Works seamlessly with Firebase Storage service for cloud file storage.

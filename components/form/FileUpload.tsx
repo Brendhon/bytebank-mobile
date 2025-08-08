@@ -19,7 +19,7 @@ export default function FileUpload({
   value,
   onUpload,
   onRemove,
-  accept = ['application/pdf', 'image/*'],
+  accept = ['application/pdf'],
   maxSize = 5,
   loading = false,
   error,
@@ -150,7 +150,7 @@ export default function FileUpload({
       )}
       
       <Text className={styles.helperText}>
-        PDF ou imagem (máx. {maxSize}MB)
+        Apenas PDF (máx. {maxSize}MB)
       </Text>
     </View>
   );

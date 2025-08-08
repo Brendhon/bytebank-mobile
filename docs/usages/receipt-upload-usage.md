@@ -1,7 +1,7 @@
 # Receipt Upload Feature
 
 ## Overview
-The receipt upload feature allows users to attach receipts and documents to their transactions, storing them securely in Firebase Storage using a user-based organization structure.
+The receipt upload feature allows users to attach PDF receipts and documents to their transactions, storing them securely in Firebase Storage using a user-based organization structure.
 
 ## Architecture
 
@@ -24,10 +24,10 @@ The receipt upload feature allows users to attach receipts and documents to thei
 ## Data Flow
 
 ### Upload Process
-1. User selects file via document picker
+1. User selects PDF file via document picker
 2. File is stored temporarily until transaction is saved
 3. After transaction creation, file is uploaded to Firebase Storage
-4. File is stored as `{userId}/{transactionId}.{extension}`
+4. File is stored as `{userId}/{transactionId}.pdf`
 
 ### Deletion Process
 1. When transaction is deleted, associated receipt is removed from storage
@@ -37,12 +37,12 @@ The receipt upload feature allows users to attach receipts and documents to thei
 Files are organized in Firebase Storage as:
 ```
 {userId}/
-  └── {transactionId}.{extension}
+  └── {transactionId}.pdf
 ```
 
 ## File Restrictions
 - Maximum size: 5MB
-- Accepted types: PDF, Images (JPEG, PNG, etc.)
+- Accepted types: PDF only
 - One receipt per transaction
 - Files are named using transaction ID for easy identification
 
