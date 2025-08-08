@@ -310,7 +310,7 @@ export default function TransactionModal({
 
 const styles = {
   formContainer: 'gap-4',
-  buttonContainer: 'flex-col items-center gap-6 pt-4',
+  buttonContainer: 'flex-col items-center gap-6 pt-1',
   segmentLabel: 'text-dark text-lg font-bold',
   segmentGroup: 'flex-row flex-wrap gap-2',
   segmentButton: 'h-10',
