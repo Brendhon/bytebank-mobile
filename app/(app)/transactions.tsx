@@ -1,48 +1,14 @@
-import Button from '@/components/form/Button';
 import { GradientContainer } from '@/components/layout/GradientContainer';
 import TransactionModal from '@/components/modal/TransactionModal';
-import { Transaction, TransactionDesc, TransactionInput, TransactionType } from '@/models/transaction';
+import { LoadingFooter } from '@/components/transaction/LoadingFooter';
+import { TransactionItem } from '@/components/transaction/TransactionItem';
+import { TransactionsHeader } from '@/components/transaction/TransactionsHeader';
+import { Transaction, TransactionInput } from '@/models/transaction';
 import { TransactionService } from '@/services/api/transaction.service';
-import { colors } from '@/utils/colors';
-import { formatCurrencyWithSign } from '@/utils/currency';
-import { formatDateWithRelative } from '@/utils/date';
-import { Edit, Trash2 } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, FlatList, Text, View } from 'react-native';
-import Animated, { FadeInUp, FadeOut } from 'react-native-reanimated';
+import { Alert, FlatList } from 'react-native';
 
-// Pagination configuration
 const PAGE_SIZE = 10;
-
-// Animated view component
-const AnimatedView = ({ children, className, delay = 0 }: { children: React.ReactNode, className: string, delay?: number }) => {
-  return (
-    <Animated.View entering={FadeInUp.delay(delay).springify()} className={className} exiting={FadeOut}>
-      {children}
-    </Animated.View>
-  );
-};
-
-// Animated text component
-const AnimatedText = ({
-  children,
-  className,
-  delay = 0
-}: {
-  children: React.ReactNode;
-  className: string;
-  delay?: number;
-}) => {
-  return (
-    <AnimatedView delay={delay} className={className}>
-      <Text className={className}>
-        {children}
-      </Text>
-    </AnimatedView>
-  );
-};
-
-
 
 export default function TransactionsScreen() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -89,21 +55,6 @@ export default function TransactionsScreen() {
     }
   }, [fetchTransactions]);
 
-  const getTransactionDescription = (desc: TransactionDesc): string => {
-    switch (desc) {
-      case TransactionDesc.DEPOSIT:
-        return 'Depósito';
-      case TransactionDesc.PAYMENT:
-        return 'Pagamento';
-      case TransactionDesc.TRANSFER:
-        return 'Transferência';
-      case TransactionDesc.WITHDRAWAL:
-        return 'Saque';
-      default:
-        return 'Transação';
-    }
-  };
-
   const handleLoadMore = useCallback(() => {
     if (loading || !hasMore) return;
     fetchTransactions(page + 1, true);
@@ -138,65 +89,18 @@ export default function TransactionsScreen() {
   }, []);
 
   const renderTransactionItem = useCallback(({ item, index }: { item: Transaction, index: number }) => {
-    const delay = index * 100 + 600; // Progressive delay for list items
-
-    const valueClass = `${styles.transactionValue} ${item.type === TransactionType.INFLOW ? styles.positiveValue : styles.negativeValue}`;
-
     return (
-      <AnimatedView delay={delay} className={styles.transactionItem}>
-        <View className={styles.transactionHeader}>
-          <View className={styles.transactionInfo}>
-            <Text className={styles.transactionAlias}>{item.alias || 'Sem descrição'}</Text>
-            <Text className={styles.transactionDate}>{formatDateWithRelative(item.date)}</Text>
-          </View>
-          <Text className={valueClass}>
-            {formatCurrencyWithSign(item.type, item.value)}
-          </Text>
-        </View>
-
-        <View className={styles.transactionFooter}>
-          <View className={styles.transactionType}>
-            <Text className={styles.transactionTypeText}>
-              {getTransactionDescription(item.desc)}
-            </Text>
-          </View>
-          <View className={styles.transactionActions}>
-            <Button
-              variant="outlineGreen"
-              className={styles.iconButton}
-              onPress={() => handleEditTransaction(item)}
-              accessibilityLabel="Editar transação"
-            >
-              <View className={styles.transactionActionContainer}>
-                <Edit size={18} color={colors.dark} />
-                <Text>Editar</Text>
-              </View>
-            </Button>
-            <Button
-              variant="outlineOrange"
-              className={styles.iconButton}
-              onPress={() => handleDeleteTransaction(item)}
-              accessibilityLabel="Excluir transação"
-            >
-              <View className={styles.transactionActionContainer}>
-                <Trash2 size={18} color={colors.red} />
-                <Text>Excluir</Text>
-              </View>
-            </Button>
-          </View>
-        </View>
-      </AnimatedView>
+      <TransactionItem
+        transaction={item}
+        index={index}
+        onEdit={handleEditTransaction}
+        onDelete={handleDeleteTransaction}
+      />
     );
   }, [handleEditTransaction, handleDeleteTransaction]);
 
   const renderFooter = useCallback(() => {
-    if (!loading) return null;
-
-    return (
-      <AnimatedView delay={300} className={styles.loadingContainer}>
-        <Text className={styles.loadingText}>Carregando mais transações...</Text>
-      </AnimatedView>
-    );
+    return <LoadingFooter loading={loading} />;
   }, [loading]);
 
   const handleNewTransaction = useCallback(() => {
@@ -223,23 +127,7 @@ export default function TransactionsScreen() {
   return (
     <GradientContainer>
       {/* Header */}
-      <AnimatedView delay={300} className={styles.header}>
-        <View className={styles.headerContent}>
-          <AnimatedText className={styles.headerTitle} delay={450}>
-            Histórico
-          </AnimatedText>
-          <View className={styles.headerActions}>
-            <Button
-              variant="blue"
-              className={styles.newTransactionButton}
-              onPress={handleNewTransaction}
-              accessibilityLabel="Nova transação"
-              accessibilityHint="Toque duas vezes para criar uma nova transação">
-              <Text>Nova transação</Text>
-            </Button>
-          </View>
-        </View>
-      </AnimatedView>
+      <TransactionsHeader onNewTransaction={handleNewTransaction} />
 
       {/* Transactions List */}
       <FlatList
@@ -275,30 +163,3 @@ export default function TransactionsScreen() {
     </GradientContainer>
   );
 }
-
-const styles = {
-  header: 'border-light-green border-b bg-white p-4',
-  headerContent: 'flex-row items-center justify-between',
-  headerTitle: 'text-dark text-2xl font-bold',
-  headerActions: 'flex-row gap-2',
-  searchButton: 'p-2',
-  filterButton: 'p-2',
-  newTransactionButton: 'text-white',
-  transactionItem: 'rounded-xl bg-white p-4 border-2 border-light-green',
-  transactionHeader: 'mb-6 flex-row items-center justify-between',
-  transactionInfo: 'flex-1',
-  transactionAlias: 'text-dark font-semibold text-xl',
-  transactionDate: 'text-dark-gray text-base',
-  transactionValue: 'text-xl font-bold',
-  positiveValue: 'text-green',
-  negativeValue: 'text-red',
-  transactionFooter: 'flex-row items-center justify-between',
-  transactionType: 'rounded-xl px-2 py-1 bg-light-green',
-  transactionTypeText: 'text-base font-medium text-dark',
-  transactionActions: 'flex-row gap-4',
-  actionButton: 'p-2',
-  iconButton: 'h-9',
-  loadingContainer: 'py-4 items-center',
-  loadingText: 'text-gray text-sm',
-  transactionActionContainer: 'flex-row items-center gap-1',
-};
