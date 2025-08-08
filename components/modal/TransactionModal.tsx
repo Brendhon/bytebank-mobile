@@ -1,6 +1,9 @@
 import Button from '@/components/form/Button';
+import FileUpload from '@/components/form/FileUpload';
 import Input from '@/components/form/Input';
 import Modal from '@/components/modal/Modal';
+import { useAuth } from '@/contexts/AuthContext';
+import { useReceiptUpload } from '@/hooks/useReceiptUpload';
 import {
   Transaction,
   TransactionDesc,
@@ -37,6 +40,19 @@ export default function TransactionModal({
   onSubmitRequest,
 }: TransactionModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pendingFile, setPendingFile] = useState<Blob | null>(null);
+  const [pendingFileName, setPendingFileName] = useState<string | null>(null);
+  const { user } = useAuth();
+
+  const {
+    receiptUrl,
+    isUploading,
+    uploadError,
+    uploadReceipt,
+    deleteReceipt,
+    getReceiptUrl,
+    clearReceipt
+  } = useReceiptUpload();
 
   const title = transaction ? 'Editar Transação' : 'Nova Transação';
 
@@ -71,7 +87,20 @@ export default function TransactionModal({
 
   // Reset form values only when modal becomes visible
   useEffect(() => {
-    if (visible) reset(defaultValues);
+    if (visible) {
+      reset(defaultValues);
+      setPendingFile(null);
+      setPendingFileName(null);
+
+      // If editing, try to get receipt URL
+      if (transaction?._id && user?._id) {
+        getReceiptUrl(user._id, transaction._id);
+      }
+    } else {
+      clearReceipt();
+      setPendingFile(null);
+      setPendingFileName(null);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
@@ -97,9 +126,32 @@ export default function TransactionModal({
     setValue('type', deriveTypeFromDesc(v), { shouldValidate: true });
   }, [setValue]);
 
+  // Handle file upload
+  const handleFileUpload = useCallback(async (file: Blob, fileName: string): Promise<string> => {
+    // Store file for later upload after transaction is saved
+    setPendingFile(file);
+    setPendingFileName(fileName);
+
+    // Return a temporary URL for UI purposes
+    return 'pending://' + fileName;
+  }, []);
+
+  // Handle file removal
+  const handleFileRemove = useCallback(() => {
+    if (receiptUrl) {
+      // Only delete from storage if this is an existing transaction
+      if (transaction?._id && user?._id) {
+        deleteReceipt(user._id, transaction._id).catch(console.error);
+      }
+      clearReceipt();
+    }
+    setPendingFile(null);
+    setPendingFileName(null);
+  }, [receiptUrl, transaction, user, deleteReceipt, clearReceipt]);
+
   // Save transaction
   const handleSave = async (data: TransactionFormData) => {
-    if (isSubmitting) return;
+    if (isSubmitting || isUploading) return;
 
     try {
       setIsSubmitting(true);
@@ -113,6 +165,20 @@ export default function TransactionModal({
       };
 
       const saved = await onSubmitRequest(payload, transaction?._id);
+
+      // Upload receipt after transaction is saved
+      if (pendingFile && user?._id) {
+        try {
+          await uploadReceipt(pendingFile, user._id, saved._id);
+        } catch (uploadError) {
+          console.error('Failed to upload receipt:', uploadError);
+          Alert.alert(
+            'Aviso',
+            'Transação salva com sucesso, mas houve um problema ao fazer upload do recibo.'
+          );
+        }
+      }
+
       onSaved(saved);
       handleClose();
     } catch (error) {
@@ -217,12 +283,21 @@ export default function TransactionModal({
           icon={calendarIcon}
         />
 
+        <FileUpload
+          label="Recibo/Comprovante"
+          value={receiptUrl || (pendingFileName ? `pending://${pendingFileName}` : null)}
+          onUpload={handleFileUpload}
+          onRemove={handleFileRemove}
+          loading={isUploading}
+          error={uploadError || undefined}
+        />
+
         <View className={styles.buttonContainer}>
           <Button
             variant="green"
             onPress={handleSubmit(handleSave)}
-            loading={isSubmitting}
-            disabled={isSubmitting}
+            loading={isSubmitting || isUploading}
+            disabled={isSubmitting || isUploading}
             className="w-full"
           >
             {isSubmitting ? 'Salvando...' : 'Salvar'}

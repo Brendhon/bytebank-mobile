@@ -1,6 +1,6 @@
 import { X } from 'lucide-react-native';
 import { memo, ReactNode } from 'react';
-import { Modal as RNModal, Text, TouchableOpacity, View } from 'react-native';
+import { Modal as RNModal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 interface ModalProps {
   visible: boolean;
@@ -20,7 +20,7 @@ function Modal({ visible, onClose, title, children, illustration }: ModalProps) 
       animationType="slide"
       presentationStyle="fullScreen"
       onRequestClose={onClose}>
-      <View className={styles.container}>
+      <ScrollView className={styles.container}>
         {/* Header */}
         <View className={styles.header}>
           <View className={styles.headerSpacer} />
@@ -37,7 +37,7 @@ function Modal({ visible, onClose, title, children, illustration }: ModalProps) 
         <View className={styles.content}>
           {children}
         </View>
-      </View>
+      </ScrollView>
     </RNModal>
   );
 }
