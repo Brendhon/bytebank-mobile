@@ -15,6 +15,11 @@ import { useForm } from 'react-hook-form';
 import { Alert, Text, View } from 'react-native';
 import TransactionIllustration from '../illustrations/TransactionIllustration';
 
+// Move function outside component to prevent recreation
+const deriveTypeFromDesc = (desc: TransactionDesc): TransactionType => {
+  return desc === TransactionDesc.DEPOSIT ? TransactionType.INFLOW : TransactionType.OUTFLOW;
+};
+
 interface TransactionModalProps {
   visible: boolean;
   onClose: () => void;
@@ -33,11 +38,6 @@ export default function TransactionModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const title = transaction ? 'Editar Transação' : 'Nova Transação';
-
-  // Derive type from description (only deposit is inflow)
-  const deriveTypeFromDesc = (desc: TransactionDesc): TransactionType => {
-    return desc === TransactionDesc.DEPOSIT ? TransactionType.INFLOW : TransactionType.OUTFLOW;
-  };
 
   const defaultValues: TransactionFormData = useMemo(
     () => ({
@@ -67,16 +67,22 @@ export default function TransactionModal({
     },
   });
 
-  const watched = watch();
+  // Watch specific fields instead of entire form to reduce re-renders
+  const watchedDesc = watch('desc');
+  const watchedType = watch('type');
+  const watchedAlias = watch('alias');
+  const watchedValue = watch('value');
+  const watchedDate = watch('date');
 
-  // Reset form values whenever the modal opens or the transaction changes
+  // Reset form values only when modal becomes visible
   useEffect(() => {
     if (visible) {
       reset(defaultValues);
     }
-    // "reset" is stable enough; excluding it prevents unnecessary re-runs that may cause loops
+    // We intentionally depend only on `visible` to avoid reset loops caused by object identity changes
+    // in `transaction`. `defaultValues` captures the latest `transaction` from the render that toggled visibility.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible, defaultValues]);
+  }, [visible]);
 
   const handleAliasChange = useCallback((t: string) => {
     setValue('alias', t, { shouldValidate: true });
@@ -90,6 +96,11 @@ export default function TransactionModal({
 
   const handleDateChange = useCallback((t: string) => {
     setValue('date', t, { shouldValidate: true });
+  }, [setValue]);
+
+  const handleDescChange = useCallback((v: TransactionDesc) => {
+    setValue('desc', v, { shouldValidate: true });
+    setValue('type', deriveTypeFromDesc(v), { shouldValidate: true });
   }, [setValue]);
 
   const handleSave = async (data: TransactionFormData) => {
@@ -116,12 +127,12 @@ export default function TransactionModal({
     }
   };
 
-  const handleClose = () => {
-    reset();
+  const handleClose = useCallback(() => {
+    // Don't reset here to avoid conflicts with the useEffect reset
     onClose();
-  };
+  }, [onClose]);
 
-  const renderSegment = <T extends string>(
+  const renderSegment = useCallback(<T extends string>(
     label: string,
     options: { label: string; value: T }[],
     selected: T,
@@ -148,7 +159,7 @@ export default function TransactionModal({
         </View>
       </View>
     );
-  };
+  }, []);
 
   const descOptions: { label: string; value: TransactionDesc }[] = [
     { label: 'Depósito', value: TransactionDesc.DEPOSIT },
@@ -172,17 +183,14 @@ export default function TransactionModal({
         {renderSegment<TransactionDesc>(
           'Descrição',
           descOptions,
-          watched.desc,
-          (v) => {
-            setValue('desc', v, { shouldValidate: true });
-            setValue('type', deriveTypeFromDesc(v), { shouldValidate: true });
-          }
+          watchedDesc,
+          handleDescChange
         )}
 
         {renderSegment<TransactionType>(
           'Tipo',
           typeOptions,
-          watched.type,
+          watchedType,
           () => { },
           true
         )}
@@ -190,7 +198,7 @@ export default function TransactionModal({
         <Input
           label="Apelido"
           placeholder="Ex.: Mercado, Uber..."
-          value={watched.alias || ''}
+          value={watchedAlias || ''}
           onChangeText={handleAliasChange}
           error={errors.alias?.message}
         />
@@ -199,7 +207,7 @@ export default function TransactionModal({
           label="Valor"
           placeholder="0,00"
           type="number"
-          value={Number.isFinite(watched.value) ? String(watched.value) : ''}
+          value={Number.isFinite(watchedValue) ? String(watchedValue) : ''}
           onChangeText={handleValueChange}
           error={errors.value?.message}
           icon={dollarIcon}
@@ -209,7 +217,7 @@ export default function TransactionModal({
           label="Data"
           placeholder="DD/MM/AAAA"
           type="date"
-          value={watched.date}
+          value={watchedDate}
           onChangeText={handleDateChange}
           error={errors.date?.message}
           icon={calendarIcon}

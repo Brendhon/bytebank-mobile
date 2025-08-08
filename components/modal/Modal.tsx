@@ -1,7 +1,6 @@
-import { Modal as RNModal, Text, TouchableOpacity, View } from 'react-native';
 import { X } from 'lucide-react-native';
-import { ReactNode } from 'react';
-import { colors } from '@/utils/colors';
+import { memo, ReactNode } from 'react';
+import { Modal as RNModal, Text, TouchableOpacity, View } from 'react-native';
 
 interface ModalProps {
   visible: boolean;
@@ -11,7 +10,10 @@ interface ModalProps {
   children: ReactNode;
 }
 
-export default function Modal({ visible, onClose, title, children, illustration }: ModalProps) {
+function Modal({ visible, onClose, title, children, illustration }: ModalProps) {
+  // Avoid mounting modal tree when not visible to prevent unnecessary renders
+  if (!visible) return null;
+
   return (
     <RNModal
       visible={visible}
@@ -48,4 +50,6 @@ const styles = {
   title: 'text-dark text-2xl font-bold',
   closeButton: 'p-1',
   content: 'flex-1',
-}; 
+};
+
+export default memo(Modal); 

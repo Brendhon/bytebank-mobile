@@ -65,6 +65,7 @@ export default function TransactionsScreen() {
 
   const closeModal = useCallback(() => {
     setModalVisible(false);
+    setEditingTransaction(null);
   }, []);
 
   const fetchTransactions = useCallback(async (nextPage: number, append: boolean) => {
@@ -264,13 +265,16 @@ export default function TransactionsScreen() {
       />
 
       {/* Create/Edit Transaction Modal */}
-      <TransactionModal
-        visible={modalVisible}
-        onClose={closeModal}
-        transaction={editingTransaction}
-        onSaved={handleSaved}
-        onSubmitRequest={submitTransactionRequest}
-      />
+      {modalVisible && (
+        <TransactionModal
+          key={editingTransaction?._id ?? 'new'}
+          visible={modalVisible}
+          onClose={closeModal}
+          transaction={editingTransaction}
+          onSaved={handleSaved}
+          onSubmitRequest={submitTransactionRequest}
+        />
+      )}
     </GradientContainer>
   );
 }
