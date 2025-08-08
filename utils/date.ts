@@ -9,7 +9,6 @@ export const formatDate = (date: Date = new Date()) => {
   return date.toLocaleDateString('pt-BR', options);
 };
 
-
 export const formatDateWithRelative = (dateString: string): string => {
   // Check if date is already in format DD/MM/YYYY
   if (dateString.includes('/')) return dateString;
@@ -26,4 +25,13 @@ export const formatDateWithRelative = (dateString: string): string => {
   } else {
     return date.toLocaleDateString('pt-BR');
   }
+};
+
+// Format date to DD/MM/YYYY
+export const formatDateToInput = (date: Date = new Date()) => {
+  return date.toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
 };

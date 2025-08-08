@@ -36,6 +36,8 @@ export class AuthService {
         variables: {
           input: { email, password },
         },
+        refetchQueries: [{ query: GET_ME }],
+        awaitRefetchQueries: true,
       });
 
       if (!data?.login) {
@@ -64,6 +66,8 @@ export class AuthService {
         variables: {
           input: { name, email, password, acceptPrivacy },
         },
+        refetchQueries: [{ query: GET_ME }],
+        awaitRefetchQueries: true,
       });
 
       if (!data?.register) {
@@ -103,6 +107,8 @@ export class AuthService {
         variables: {
           input: updates,
         },
+        refetchQueries: [{ query: GET_ME }],
+        awaitRefetchQueries: true,
       });
 
       if (!data?.updateUser) {
@@ -123,6 +129,8 @@ export class AuthService {
     try {
       const { data } = await apolloClient.mutate<DeleteUserResponse>({
         mutation: DELETE_USER,
+        refetchQueries: [{ query: GET_ME }],
+        awaitRefetchQueries: true,
       });
 
       return data?.deleteUser ?? false;

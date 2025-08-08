@@ -8,6 +8,7 @@ import {
   TransactionType,
 } from '@/models/transaction';
 import { TransactionFormData, transactionSchema } from '@/schemas/transaction.schema';
+import { formatDateToInput } from '@/utils/date';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Calendar, DollarSign } from 'lucide-react-native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -41,11 +42,11 @@ export default function TransactionModal({
 
   const defaultValues: TransactionFormData = useMemo(
     () => ({
-      desc: transaction?.desc ?? TransactionDesc.PAYMENT,
-      type: transaction ? transaction.type : deriveTypeFromDesc(TransactionDesc.PAYMENT),
+      desc: transaction?.desc ?? TransactionDesc.DEPOSIT,
+      type: transaction ? transaction.type : deriveTypeFromDesc(TransactionDesc.DEPOSIT),
       alias: transaction?.alias ?? '',
       value: typeof transaction?.value === 'number' ? Math.abs(transaction!.value) : 0,
-      date: transaction?.date || '',
+      date: transaction?.date || formatDateToInput(),
     }),
     [transaction]
   );
@@ -58,13 +59,7 @@ export default function TransactionModal({
     watch,
   } = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
-    defaultValues: {
-      desc: TransactionDesc.PAYMENT,
-      type: deriveTypeFromDesc(TransactionDesc.PAYMENT),
-      alias: '',
-      value: 0,
-      date: '',
-    },
+    defaultValues,
   });
 
   // Watch specific fields instead of entire form to reduce re-renders
@@ -76,33 +71,33 @@ export default function TransactionModal({
 
   // Reset form values only when modal becomes visible
   useEffect(() => {
-    if (visible) {
-      reset(defaultValues);
-    }
-    // We intentionally depend only on `visible` to avoid reset loops caused by object identity changes
-    // in `transaction`. `defaultValues` captures the latest `transaction` from the render that toggled visibility.
+    if (visible) reset(defaultValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
+  // Handle alias change
   const handleAliasChange = useCallback((t: string) => {
     setValue('alias', t, { shouldValidate: true });
   }, [setValue]);
 
+  // Handle value change
   const handleValueChange = useCallback((t: string) => {
-    // Keep numeric conversion simple; empty -> 0 to satisfy schema later via validation
     const numeric = t.trim() === '' ? 0 : Number(t);
     setValue('value', Number.isFinite(numeric) ? numeric : 0, { shouldValidate: true });
   }, [setValue]);
 
+  // Handle date change
   const handleDateChange = useCallback((t: string) => {
     setValue('date', t, { shouldValidate: true });
   }, [setValue]);
 
+  // Handle description change
   const handleDescChange = useCallback((v: TransactionDesc) => {
     setValue('desc', v, { shouldValidate: true });
     setValue('type', deriveTypeFromDesc(v), { shouldValidate: true });
   }, [setValue]);
 
+  // Save transaction
   const handleSave = async (data: TransactionFormData) => {
     if (isSubmitting) return;
 
@@ -127,11 +122,10 @@ export default function TransactionModal({
     }
   };
 
-  const handleClose = useCallback(() => {
-    // Don't reset here to avoid conflicts with the useEffect reset
-    onClose();
-  }, [onClose]);
+  // Close modal
+  const handleClose = useCallback(() => onClose(), [onClose]);
 
+  // Render segment
   const renderSegment = useCallback(<T extends string>(
     label: string,
     options: { label: string; value: T }[],
