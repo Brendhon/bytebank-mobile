@@ -233,7 +233,7 @@ export default function TransactionModal({
     { label: 'Saída', value: TransactionType.OUTFLOW },
   ];
 
-  const illustration = useMemo(() => <TransactionIllustration />, []);
+  const illustration = useMemo(() => <TransactionIllustration height={150} />, []);
   const dollarIcon = useMemo(() => <DollarSign />, []);
   const calendarIcon = useMemo(() => <Calendar />, []);
 

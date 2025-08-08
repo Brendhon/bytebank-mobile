@@ -164,6 +164,7 @@ Para configurar e executar o projeto localmente, siga os passos abaixo:
         EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
         EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_firebase_Messaginger_id
         EXPO_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
+        EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id
         ```
 
           * **Obtendo as chaves do Firebase:** Para obter as chaves do Firebase, você precisará criar um projeto no [Console do Firebase](https://console.firebase.google.com/). Após criar o projeto, vá em "Configurações do projeto" (Project settings) \> "Geral" (General) e copie as chaves de configuração do seu aplicativo web. Estas chaves serão utilizadas para inicializar o SDK do Firebase em seu aplicativo React Native.

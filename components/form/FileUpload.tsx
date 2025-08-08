@@ -2,6 +2,7 @@ import { Alert, Text, TouchableOpacity, View, ActivityIndicator } from 'react-na
 import { FileText, Trash2, Upload } from 'lucide-react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { useCallback, useState } from 'react';
+import { colors } from '@/utils/colors';
 
 interface FileUploadProps {
   label?: string;
@@ -129,7 +130,7 @@ export default function FileUpload({
       ) : (
         <View className={styles.fileContainer}>
           <View className={styles.fileInfo}>
-            <FileText size={20} color="#059669" />
+            <FileText size={20} color={colors.blue} />
             <Text className={styles.fileName} numberOfLines={1}>
               {fileName || 'Arquivo anexado'}
             </Text>
@@ -140,7 +141,7 @@ export default function FileUpload({
             className={styles.removeButton}
             activeOpacity={0.7}
           >
-            <Trash2 size={18} color="#DC2626" />
+            <Trash2 size={18} color={colors.white} />
           </TouchableOpacity>
         </View>
       )}
@@ -161,10 +162,10 @@ const styles = {
   label: 'text-dark text-lg font-bold',
   uploadButton: 'flex-row items-center justify-center gap-2 p-4 border-2 border-dashed border-green rounded-lg bg-light-green',
   uploadText: 'text-green font-medium',
-  fileContainer: 'flex-row items-center justify-between p-4 border border-gray rounded-lg bg-gray',
+  fileContainer: 'flex-row items-center justify-between p-4 border-2 border-blue rounded-lg bg-blue/10',
   fileInfo: 'flex-row items-center gap-2 flex-1',
-  fileName: 'text-dark flex-1',
-  removeButton: 'p-2 bg-red rounded-lg',
+  fileName: 'text-blue flex-1',
+  removeButton: 'p-2 bg-blue rounded-lg',
   error: 'text-red ext-sm',
   helperText: 'text-dark-gray text-xs',
 };

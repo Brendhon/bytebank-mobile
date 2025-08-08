@@ -43,7 +43,7 @@ function Modal({ visible, onClose, title, children, illustration }: ModalProps) 
 }
 
 const styles = {
-  container: 'flex-1 bg-white p-8',
+  container: 'bg-white p-8',
   header: 'flex-row items-center justify-between mb-6',
   illustration: 'flex items-center justify-center mb-6',
   headerSpacer: 'w-6',
