@@ -5,6 +5,7 @@ import { TransactionItem } from '@/components/transaction/TransactionItem';
 import { TransactionsHeader } from '@/components/transaction/TransactionsHeader';
 import { Transaction, TransactionInput } from '@/models/transaction';
 import { TransactionService } from '@/services/api/transaction.service';
+import { insertTransactionInOrder, updateTransactionInOrder } from '@/utils/transaction';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, FlatList } from 'react-native';
 
@@ -110,10 +111,7 @@ export default function TransactionsScreen() {
   const handleSaved = useCallback((saved: Transaction) => {
     setTransactions((prev) => {
       const exists = prev.some((t) => t._id === saved._id);
-      if (exists) {
-        return prev.map((t) => (t._id === saved._id ? saved : t));
-      }
-      return [saved, ...prev];
+      return exists ? updateTransactionInOrder(prev, saved) : insertTransactionInOrder(prev, saved);
     });
   }, []);
 
