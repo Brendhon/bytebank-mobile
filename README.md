@@ -17,6 +17,11 @@ Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida com
   - [💡 Recomendações para uso de emulador Android no ambiente local](#-recomendações-para-uso-de-emulador-android-no-ambiente-local)
   - [☁️ Implantação (Deploy)](#️-implantação-deploy)
   - [🔗 Links Úteis](#-links-úteis)
+  - [📎 Funcionalidade de Upload de Recibos](#-funcionalidade-de-upload-de-recibos)
+    - [🎯 Como Funciona](#-como-funciona)
+    - [📋 Restrições e Limitações](#-restrições-e-limitações)
+    - [🔒 Segurança](#-segurança)
+    - [💡 Dicas de Uso](#-dicas-de-uso)
   - [💡 Melhorias Futuras](#-melhorias-futuras)
   - [👥 Autor](#-autor)
 
@@ -50,7 +55,7 @@ O **Bytebank Mobile** é um aplicativo completo para o gerenciamento das suas fi
       * Visualização detalhada das transações, com filtros avançados (por data, categoria, etc.) e paginação.
       * Modal dedicado para criar e editar transações.
       * Validação rigorosa dos campos para garantir a qualidade dos dados.
-      * Upload seguro de recibos e documentos relacionados a cada transação.
+      * **Upload de Recibos**: Anexe recibos PDF às suas transações para manter um registro completo das suas movimentações financeiras.
   * **Armazenamento em Nuvem**: Utiliza MongoDB para armazenar os dados das transações (via API) e Firebase Storage para os recibos.
   * **Atualização Automática de Dados**: Informações do usuário, como nome e saldo, são atualizadas automaticamente por meio de queries GraphQL.
 
@@ -247,6 +252,40 @@ Para mais detalhes sobre as opções de build e deploy com Expo, consulte a [doc
   * **Bytebank API GraphQL (Backend)**: O código-fonte da API que serve como backend para este aplicativo está disponível em um [repositório separado](https://github.com/Brendhon/bytebank-api).
   * **Bytebank PRO (Microfrontends)**: O projeto da fase anterior, que utiliza microfrontends, está disponível [aqui](https://github.com/Brendhon/bytebank-pro).
   * **Bytebank (Web)**: O projeto da fase 1, desenvolvido em Next.js, está disponível [aqui](https://github.com/Brendhon/Bytebank).
+
+---
+
+## 📎 Funcionalidade de Upload de Recibos
+
+O Bytebank Mobile oferece uma funcionalidade completa para anexar recibos às suas transações, permitindo manter um registro organizado e seguro de todos os seus documentos financeiros.
+
+### 🎯 Como Funciona
+
+1. **Seleção de Arquivo**: Ao criar ou editar uma transação, você pode anexar um recibo PDF através do botão "Selecionar Arquivo".
+2. **Upload Automático**: O arquivo é armazenado temporariamente e enviado para o Firebase Storage após a transação ser salva.
+3. **Visualização**: Recibos anexados aparecem na lista de transações com um ícone de documento, permitindo visualização rápida.
+4. **Acesso Externo**: Clique no ícone do recibo para abri-lo em seu visualizador de PDF padrão.
+
+### 📋 Restrições e Limitações
+
+- **Formato**: Apenas arquivos PDF são aceitos
+- **Tamanho**: Máximo de 5MB por arquivo
+- **Quantidade**: Um recibo por transação
+- **Armazenamento**: Arquivos são organizados por usuário e transação
+
+### 🔒 Segurança
+
+- **Isolamento por Usuário**: Cada usuário tem sua própria área de armazenamento
+- **Limpeza Automática**: Recibos são automaticamente removidos quando a transação é deletada
+- **URLs Seguras**: Links de download são autenticados e temporários
+- **Firebase Storage**: Utiliza infraestrutura segura do Google Cloud
+
+### 💡 Dicas de Uso
+
+- **Organização**: Use nomes descritivos para seus arquivos antes do upload
+- **Backup**: Mantenha cópias importantes em outro local
+- **Conectividade**: Certifique-se de ter uma conexão estável para uploads
+- **Visualização**: Os recibos podem ser visualizados offline após o download inicial
 
 ---
 
