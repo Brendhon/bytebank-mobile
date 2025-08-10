@@ -42,6 +42,7 @@ export default function TransactionModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pendingFile, setPendingFile] = useState<Blob | null>(null);
   const [pendingFileName, setPendingFileName] = useState<string | null>(null);
+  const [isReceiptRemoved, setIsReceiptRemoved] = useState<boolean>(false);
   const { user } = useAuth();
 
   const {
@@ -91,6 +92,7 @@ export default function TransactionModal({
       reset(defaultValues);
       setPendingFile(null);
       setPendingFileName(null);
+      setIsReceiptRemoved(false);
 
       // If editing, try to get receipt URL
       if (transaction?._id && user?._id) {
@@ -100,6 +102,7 @@ export default function TransactionModal({
       clearReceipt();
       setPendingFile(null);
       setPendingFileName(null);
+      setIsReceiptRemoved(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
@@ -138,16 +141,18 @@ export default function TransactionModal({
 
   // Handle file removal
   const handleFileRemove = useCallback(() => {
-    if (receiptUrl) {
-      // Only delete from storage if this is an existing transaction
-      if (transaction?._id && user?._id) {
-        deleteReceipt(user._id, transaction._id).catch(console.error);
-      }
-      clearReceipt();
+    // If user selected a new file in this session, just clear the pending state
+    if (pendingFile || pendingFileName) {
+      setPendingFile(null);
+      setPendingFileName(null);
+      return;
     }
-    setPendingFile(null);
-    setPendingFileName(null);
-  }, [receiptUrl, transaction, user, deleteReceipt, clearReceipt]);
+
+    // If there is an existing receipt, mark it as removed and only delete on save
+    if (receiptUrl) {
+      setIsReceiptRemoved(true);
+    }
+  }, [pendingFile, pendingFileName, receiptUrl]);
 
   // Save transaction
   const handleSave = async (data: TransactionFormData) => {
@@ -165,6 +170,16 @@ export default function TransactionModal({
       };
 
       const saved = await onSubmitRequest(payload, transaction?._id);
+
+      // If user marked existing receipt for deletion, delete it now (before potential re-upload)
+      if (isReceiptRemoved && user?._id) {
+        try {
+          await deleteReceipt(user._id, saved._id);
+          clearReceipt();
+        } catch (deleteError) {
+          console.error('Failed to delete receipt:', deleteError);
+        }
+      }
 
       // Upload receipt after transaction is saved
       if (pendingFile && user?._id) {
@@ -285,7 +300,13 @@ export default function TransactionModal({
 
         <FileUpload
           label="Recibo/Comprovante"
-          value={receiptUrl || (pendingFileName ? `pending://${pendingFileName}` : null)}
+          value={
+            pendingFileName
+              ? `pending://${pendingFileName}`
+              : isReceiptRemoved
+                ? null
+                : receiptUrl
+          }
           onUpload={handleFileUpload}
           onRemove={handleFileRemove}
           loading={isUploading}
