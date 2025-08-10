@@ -1,6 +1,15 @@
 import { X } from 'lucide-react-native';
 import { memo, ReactNode } from 'react';
-import { Modal as RNModal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { 
+  Modal as RNModal, 
+  ScrollView, 
+  Text, 
+  TouchableOpacity, 
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView
+} from 'react-native';
 
 interface ModalProps {
   visible: boolean;
@@ -20,24 +29,35 @@ function Modal({ visible, onClose, title, children, illustration }: ModalProps) 
       animationType="slide"
       presentationStyle="fullScreen"
       onRequestClose={onClose}>
-      <ScrollView className={styles.container}>
-        {/* Header */}
-        <View className={styles.header}>
-          <View className={styles.headerSpacer} />
-          <Text className={styles.title}>{title}</Text>
-          <TouchableOpacity onPress={onClose} className={styles.closeButton}>
-            <X size={24} color="gray" />
-          </TouchableOpacity>
-        </View>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+        <KeyboardAvoidingView 
+          style={{ flex: 1 }}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}>
+          <ScrollView 
+            className={styles.container}
+            contentContainerStyle={{ flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled">
+            {/* Header */}
+            <View className={styles.header}>
+              <View className={styles.headerSpacer} />
+              <Text className={styles.title}>{title}</Text>
+              <TouchableOpacity onPress={onClose} className={styles.closeButton}>
+                <X size={24} color="gray" />
+              </TouchableOpacity>
+            </View>
 
-        {/* Illustration */}
-        {illustration && <View className={styles.illustration}>{illustration}</View>}
+            {/* Illustration */}
+            {illustration && <View className={styles.illustration}>{illustration}</View>}
 
-        {/* Content */}
-        <View className={styles.content}>
-          {children}
-        </View>
-      </ScrollView>
+            {/* Content */}
+            <View className={styles.content}>
+              {children}
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </RNModal>
   );
 }
@@ -52,4 +72,4 @@ const styles = {
   content: 'flex-1',
 };
 
-export default memo(Modal); 
+export default memo(Modal);  

@@ -23,10 +23,9 @@ export const TransactionItem = ({ transaction, index, onEdit, onDelete }: Transa
   const delay = index * 100 + 600; // Progressive delay for list items
   const { user } = useAuth();
   const { receiptUrl, getReceiptUrl } = useReceiptUpload();
-  
-  const valueClass = `${styles.transactionValue} ${
-    transaction.type === TransactionType.INFLOW ? styles.positiveValue : styles.negativeValue
-  }`;
+
+  const valueClass = `${styles.transactionValue} ${transaction.type === TransactionType.INFLOW ? styles.positiveValue : styles.negativeValue
+    }`;
 
   // Try to get receipt URL when component mounts
   useEffect(() => {
@@ -47,6 +46,16 @@ export const TransactionItem = ({ transaction, index, onEdit, onDelete }: Transa
         </Text>
       </View>
 
+      <View>
+        {receiptUrl && (
+          <ReceiptViewer
+            className={styles.receipt}
+            receiptUrl={receiptUrl}
+            variant="button"
+          />
+        )}
+      </View>
+
       <View className={styles.footer}>
         <View className={styles.footerLeft}>
           <View className={styles.typeContainer}>
@@ -54,14 +63,8 @@ export const TransactionItem = ({ transaction, index, onEdit, onDelete }: Transa
               {getTransactionDescription(transaction.desc)}
             </Text>
           </View>
-          {receiptUrl && (
-            <ReceiptViewer 
-              receiptUrl={receiptUrl} 
-              variant="inline"
-            />
-          )}
         </View>
-        <TransactionActions 
+        <TransactionActions
           transaction={transaction}
           onEdit={onEdit}
           onDelete={onDelete}
@@ -98,6 +101,7 @@ const styles = {
   transactionValue: 'text-xl font-bold',
   positiveValue: 'text-green',
   negativeValue: 'text-red',
+  receipt: 'mb-8',
   footer: 'flex-row items-center justify-between',
   footerLeft: 'flex-row items-center gap-2',
   typeContainer: 'rounded-xl px-2 py-1 bg-light-green',

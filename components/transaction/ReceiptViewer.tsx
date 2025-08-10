@@ -1,6 +1,8 @@
-import { TouchableOpacity, Text, View, Linking, Alert } from 'react-native';
-import { FileText, ExternalLink } from 'lucide-react-native';
+import { TouchableOpacity, Text, Linking, Alert, View } from 'react-native';
+import { FileText } from 'lucide-react-native';
 import { useCallback } from 'react';
+import { colors } from '@/utils/colors';
+import Button from '@/components/form/Button';
 
 interface ReceiptViewerProps {
   receiptUrl: string;
@@ -10,7 +12,7 @@ interface ReceiptViewerProps {
 
 export default function ReceiptViewer({ 
   receiptUrl, 
-  variant = 'inline',
+  variant = 'button',
   className = '' 
 }: ReceiptViewerProps) {
   
@@ -37,15 +39,18 @@ export default function ReceiptViewer({
 
   if (variant === 'button') {
     return (
-      <TouchableOpacity
+      <Button
+        variant="outlineBlue"
         onPress={handleOpenReceipt}
-        className={`${styles.button} ${className}`}
-        activeOpacity={0.7}
+        className={`${styles.container} ${className}`}
+        accessibilityLabel="Abrir recibo"
+        accessibilityHint="Abre o recibo em uma nova janela"
       >
-        <FileText size={18} color="#059669" />
-        <Text className={styles.buttonText}>Ver Recibo</Text>
-        <ExternalLink size={14} color="#059669" />
-      </TouchableOpacity>
+        <View className={styles.button}>
+          <FileText size={16} color={colors.blue} />
+          <Text className={styles.buttonText}>Ver Recibo</Text>
+        </View>
+      </Button>
     );
   }
 
@@ -55,15 +60,16 @@ export default function ReceiptViewer({
       className={`${styles.inline} ${className}`}
       activeOpacity={0.7}
     >
-      <FileText size={16} color="#059669" />
+      <FileText size={16} color={colors.blue} />
       <Text className={styles.inlineText}>Recibo anexado</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = {
-  button: 'flex-row items-center justify-center gap-2 px-4 py-2 bg-green-50 border border-green-600 rounded-lg',
-  buttonText: 'text-green-600 font-medium',
+  container: 'h-10 w-full',
+  button: 'flex-row items-center justify-center gap-2',
+  buttonText: 'text-blue font-semibold',
   inline: 'flex-row items-center gap-1',
-  inlineText: 'text-green-600 text-sm underline',
+  inlineText: 'text-blue text-sm underline',
 };
