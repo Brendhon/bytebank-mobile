@@ -1,3 +1,4 @@
+import { AnimatedView } from '@/components/animation/AnimatedComponents';
 import { Spinner } from '@/components/animation/Spinner';
 import { GradientContainer } from '@/components/layout/GradientContainer';
 import { useAuth } from '@/contexts/AuthContext';
@@ -5,19 +6,10 @@ import { useTransactionSummary } from '@/hooks/useTransactionSummary';
 import { colors } from '@/utils/colors';
 import { formatCurrency } from '@/utils/currency';
 import { formatDate } from '@/utils/date';
-import { AlertCircle, Eye, EyeOff, Loader2 } from 'lucide-react-native';
+import { AlertCircle, Eye, EyeOff } from 'lucide-react-native';
 import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeInUp, FadeOut } from 'react-native-reanimated';
 
-// Animated view component
-const AnimatedView = ({ children, className, delay = 0 }: { children: React.ReactNode, className: string, delay?: number }) => {
-  return (
-    <Animated.View entering={FadeInUp.delay(delay).springify()} className={className} exiting={FadeOut}>
-      {children}
-    </Animated.View>
-  );
-};
 
 // Animated text component
 const AnimatedText = ({
@@ -48,8 +40,8 @@ type Movement = {
 
 // Memoized icon components for better performance
 const VisibilityIcon = ({ isVisible }: { isVisible: boolean }) => isVisible
-  ? <EyeOff size={32} color={colors.dark} />
-  : <Eye size={32} color={colors.dark} />;
+  ? <EyeOff size={28} color={colors.dark} />
+  : <Eye size={28} color={colors.dark} />;
 
 export default function DashboardScreen() {
   const { user } = useAuth();
@@ -216,22 +208,22 @@ const styles = {
   header: 'p-6 mt-6',
   headerContent: 'flex-row items-start justify-between',
   greetingContainer: 'flex items-start justify-start gap-1',
-  greetingText: 'mb-2 text-3xl font-bold text-dark',
-  dateText: 'text-dark-gray text-lg',
+  greetingText: 'text-2xl font-bold text-dark',
+  dateText: 'text-dark-gray text-base',
   visibilityButton: 'p-2',
   balanceSection: 'p-6',
   balanceCard: 'mb-8 rounded-lg bg-dark p-6 shadow-sm flex-row justify-between',
   balanceInfo: 'flex items-start justify-start gap-1',
-  balanceLabel: 'text-white text-2xl font-semibold',
+  balanceLabel: 'text-white text-xl font-semibold',
   accountType: 'text-white text-sm',
   balanceValueContainer: 'flex items-center justify-center',
-  balanceValue: 'text-white mb-2 text-3xl font-bold',
+  balanceValue: 'text-white mb-2 text-2xl font-bold',
   movementsSection: 'bg-white rounded-lg p-6 border border-light-green',
   movementsTitle: 'text-dark mb-4 text-2xl font-semibold',
   movementsList: 'flex gap-4',
   movementCard: 'rounded-lg p-6 shadow-sm',
-  movementValue: 'mb-2 text-2xl font-bold text-white',
-  movementType: 'text-white',
+  movementValue: 'text-xl font-bold text-white',
+  movementType: 'text-white text-sm',
   loadingContainer: 'flex-1 justify-center items-center bg-white rounded-lg p-6 border border-light-green flex-row gap-2',
   loadingText: 'text-dark text-lg font-semibold',
 };
