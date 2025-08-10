@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "scripts": {
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "dev": "docker compose up -d && expo start",
-    "dev:mobile": "expo start",
+    "android": "expo start --android --clear",
+    "ios": "expo start --ios --clear",
+    "dev": "docker compose up -d && expo start --clear",
+    "dev:mobile": "expo start --clear",
     "dev:api": "docker compose up -d",
     "dev:stop": "docker compose down",
     "prebuild": "expo prebuild",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" && prettier -c \"**/*.{js,jsx,ts,tsx,json}\"",
     "format": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix && prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
-    "web": "expo start --web"
+    "web": "expo start --web --clear"
   },
   "dependencies": {
     "@apollo/client": "^3.13.9",
