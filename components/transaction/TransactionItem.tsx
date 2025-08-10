@@ -29,10 +29,10 @@ export const TransactionItem = ({ transaction, index, onEdit, onDelete }: Transa
 
   // Try to get receipt URL when component mounts
   useEffect(() => {
-    if (user?._id && transaction._id) {
+    if (user?._id && transaction._id && transaction) {
       getReceiptUrl(user._id, transaction._id);
     }
-  }, [user?._id, transaction._id, getReceiptUrl]);
+  }, [user?._id, transaction._id, transaction, getReceiptUrl]);
 
   return (
     <AnimatedView delay={delay} className={styles.container}>
