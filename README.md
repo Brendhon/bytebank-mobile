@@ -253,11 +253,6 @@ O projeto está configurado para gerar APKs através das seguintes configuraçõ
 ```json
 {
   "build": {
-    "development": {
-      "android": {
-        "buildType": "apk"
-      }
-    },
     "preview": {
       "android": {
         "buildType": "apk"
@@ -272,6 +267,8 @@ O projeto está configurado para gerar APKs através das seguintes configuraçõ
 }
 ```
 
+> ⚠️ **Nota**: O projeto não possui mais suporte a builds de desenvolvimento (`development`). Para desenvolvimento local, utilize o Expo Go ou emuladores com `npm run dev:mobile`.
+
 ### 🔄 Diferenças entre APK e AAB
 
 | Formato | Uso | Instalação | Tamanho |
@@ -282,38 +279,43 @@ O projeto está configurado para gerar APKs através das seguintes configuraçõ
 ### 🚀 Comandos para Gerar APKs
 
 ```bash
-# Build de desenvolvimento
-eas build --platform android --profile development
-
-# Build de preview
+# Build de preview (para testes internos e demonstrações)
 eas build --platform android --profile preview
 
-# Build de produção
+# Build de produção (para distribuição final)
 eas build --platform android --profile production
 ```
+
+> ⚠️ **Nota**: Builds de desenvolvimento não estão mais disponíveis. Para desenvolvimento local, use `npm run dev:mobile` com Expo Go ou emuladores.
 
 ### 📋 Considerações Importantes
 
 1. **Google Play Store**: Para publicar na Google Play Store, você precisará gerar AABs. Para isso, altere temporariamente `"buildType": "aab"` no `eas.json`.
 
 2. **Distribuição**: APKs são ideais para:
-   - Testes internos
+   - Testes internos (usando o perfil `preview`)
    - Distribuição direta
    - Instalação em dispositivos físicos
    - Demonstrações
 
 3. **Tamanho**: APKs podem ser maiores que AABs devido ao formato universal.
 
+4. **Desenvolvimento Local**: Para desenvolvimento e testes locais, utilize:
+   - `npm run dev:mobile` com Expo Go
+   - Emuladores Android/iOS
+   - Não é necessário gerar builds para desenvolvimento
+
 ### 🛠️ Build Local (Opcional)
 
 Para builds locais sem usar os servidores do Expo:
 
 ```bash
-# Build local para Android
+# Build local para Android (preview ou production)
+eas build --platform android --profile preview --local
 eas build --platform android --profile production --local
 ```
 
-> ⚠️ **Nota**: Builds locais requerem Android Studio e podem demorar mais tempo. **Não é recomendado.**
+> ⚠️ **Nota**: Builds locais requerem Android Studio e podem demorar mais tempo. **Não é recomendado para desenvolvimento diário.** Use apenas quando necessário para builds específicos ou quando os servidores do Expo não estiverem disponíveis.
 
 Para mais detalhes sobre as opções de build e deploy com Expo, consulte a [documentação oficial do EAS Build](https://docs.expo.dev/build/introduction/).
 
