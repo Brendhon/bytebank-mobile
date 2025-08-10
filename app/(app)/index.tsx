@@ -1,3 +1,4 @@
+import { Spinner } from '@/components/animation/Spinner';
 import { GradientContainer } from '@/components/layout/GradientContainer';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTransactionSummary } from '@/hooks/useTransactionSummary';
@@ -104,7 +105,7 @@ export default function DashboardScreen() {
   const balanceDisplayValue = useMemo(() => {
     switch (true) {
       case loading:
-        return <Loader2 size={20} color={colors.white} className="animate-spin" />;
+        return <Spinner color="white" size={20} />;
       case !!error:
         return <AlertCircle size={20} color={colors.red} />;
       default:
@@ -116,9 +117,9 @@ export default function DashboardScreen() {
   if (loading) {
     return (
       <GradientContainer>
-        <View className="flex-1 justify-center items-center">
-          <Loader2 size={32} color={colors.white} className="animate-spin" />
-          <Text className="mt-4 text-dark text-lg">Carregando dados...</Text>
+        <View className={styles.loadingContainer}>
+          <Spinner color="dark-gray" size={32} />
+          <Text className={styles.loadingText}>Carregando dados...</Text>
         </View>
       </GradientContainer>
     );
@@ -231,4 +232,6 @@ const styles = {
   movementCard: 'rounded-lg p-6 shadow-sm',
   movementValue: 'mb-2 text-2xl font-bold text-white',
   movementType: 'text-white',
+  loadingContainer: 'flex-1 justify-center items-center bg-white rounded-lg p-6 border border-light-green flex-row gap-2',
+  loadingText: 'text-dark text-lg font-semibold',
 };
