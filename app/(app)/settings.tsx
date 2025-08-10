@@ -1,3 +1,4 @@
+import { AnimatedView } from '@/components/animation/AnimatedComponents';
 import Button from '@/components/form/Button';
 import Input from '@/components/form/Input';
 import { GradientContainer } from '@/components/layout/GradientContainer';
@@ -11,16 +12,6 @@ import { AlertTriangle, Mail, Shield, User } from 'lucide-react-native';
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, ScrollView, Text, View } from 'react-native';
-import Animated, { FadeInUp, FadeOut } from 'react-native-reanimated';
-
-// Animated view component
-const AnimatedView = ({ children, className, delay = 0 }: { children: React.ReactNode, className: string, delay?: number }) => {
-  return (
-    <Animated.View entering={FadeInUp.delay(delay).springify()} className={className} exiting={FadeOut}>
-      {children}
-    </Animated.View>
-  );
-};
 
 // Animated text component
 const AnimatedText = ({
@@ -241,9 +232,7 @@ export default function SettingsScreen() {
 
 const styles = {
   header: 'border-light-green border-b bg-white p-6',
-  headerTitle: 'text-dark text-2xl font-bold',
-  headerContent: 'gap-2',
-  headerSubtitle: 'text-gray text-base',
+  headerTitle: 'text-dark text-xl font-semibold',
   formContainer: 'gap-8 bg-white p-6 rounded-xl border border-light-green m-4',
   section: 'gap-6',
   sectionHeader: 'flex-row items-center gap-3',

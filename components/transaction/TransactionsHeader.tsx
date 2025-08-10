@@ -35,7 +35,7 @@ export const TransactionsHeader = ({ onNewTransaction }: TransactionsHeaderProps
 const styles = {
   header: 'border-light-green border-b bg-white p-4',
   headerContent: 'flex-row items-center justify-between',
-  headerTitle: 'text-dark text-2xl font-bold',
+  headerTitle: 'text-dark text-xl font-semibold',
   headerActions: 'flex-row gap-2',
   newTransactionButton: 'text-white',
 };

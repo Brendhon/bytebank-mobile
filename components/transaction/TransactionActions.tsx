@@ -23,8 +23,8 @@ export const TransactionActions = ({ transaction, onEdit, onDelete }: Transactio
         accessibilityLabel="Editar transação"
       >
         <View className={styles.actionContainer}>
-          <Edit size={18} color={colors.dark} />
-          <Text>Editar</Text>
+          <Edit size={16} color={colors.green} />
+          <Text className={styles.actionText}>Editar</Text>
         </View>
       </Button>
       <Button
@@ -34,8 +34,8 @@ export const TransactionActions = ({ transaction, onEdit, onDelete }: Transactio
         accessibilityLabel="Excluir transação"
       >
         <View className={styles.actionContainer}>
-          <Trash2 size={18} color={colors.red} />
-          <Text>Excluir</Text>
+          <Trash2 size={16} color={colors.red} />
+          <Text className={styles.actionText}>Excluir</Text>
         </View>
       </Button>
     </View>
@@ -46,4 +46,5 @@ const styles = {
   container: 'flex-row gap-4',
   iconButton: 'h-9',
   actionContainer: 'flex-row items-center gap-1',
+  actionText: 'text-sm font-medium',
 };
