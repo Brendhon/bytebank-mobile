@@ -69,7 +69,7 @@ const styles = {
   headerSpacer: 'w-6',
   title: 'text-dark text-2xl font-bold',
   closeButton: 'p-1',
-  content: 'flex-1',
+  content: 'flex-1 mb-8',
 };
 
 export default memo(Modal);  
