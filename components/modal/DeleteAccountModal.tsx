@@ -2,6 +2,7 @@ import Button from '@/components/form/Button';
 import Input from '@/components/form/Input';
 import Modal from '@/components/modal/Modal';
 import { useAuth } from '@/contexts/AuthContext';
+import { useUserStorageCleanup } from '@/hooks/storage';
 import { useAuthService } from '@/hooks/auth';
 import { colors } from '@/utils/colors';
 import { AlertTriangle } from 'lucide-react-native';
@@ -14,10 +15,11 @@ interface DeleteAccountModalProps {
 }
 
 export default function DeleteAccountModal({ visible, onClose }: DeleteAccountModalProps) {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
   const { deleteUser, validatePassword } = useAuthService();
   const [password, setPassword] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+  const { deleteUserFolder } = useUserStorageCleanup();
 
   // Handle delete account
   const handleDeleteAccount = async () => {
@@ -34,6 +36,16 @@ export default function DeleteAccountModal({ visible, onClose }: DeleteAccountMo
       if (!isValidPassword) {
         Alert.alert('Erro', 'Senha incorreta. Tente novamente.');
         return;
+      }
+
+      // Delete user folder in storage
+      if (user?._id) {
+        try {
+          await deleteUserFolder(user._id);
+        } catch (e) {
+          // Continue even if storage cleanup fails
+          console.warn('Cleanup storage failed:', e);
+        }
       }
 
       // Excluir conta

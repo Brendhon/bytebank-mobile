@@ -1,5 +1,6 @@
 import { GradientContainer } from '@/components/layout/GradientContainer';
 import TransactionModal from '@/components/modal/TransactionModal';
+import { EmptyState } from '@/components/transaction/EmptyState';
 import { LoadingFooter } from '@/components/transaction/LoadingFooter';
 import { TransactionItem } from '@/components/transaction/TransactionItem';
 import { TransactionsHeader } from '@/components/transaction/TransactionsHeader';
@@ -108,6 +109,10 @@ export default function TransactionsScreen() {
     openCreateModal();
   }, [openCreateModal]);
 
+  const renderEmptyState = useCallback(() => {
+    return <EmptyState onNewTransaction={handleNewTransaction} />;
+  }, [handleNewTransaction]);
+
   const handleSaved = useCallback((saved: Transaction) => {
     setTransactions((prev) => {
       const exists = prev.some((t) => t._id === saved._id);
@@ -131,6 +136,7 @@ export default function TransactionsScreen() {
       <FlatList
         data={transactions}
         renderItem={renderTransactionItem}
+        ListEmptyComponent={renderEmptyState}
         keyExtractor={(item) => item._id}
         contentContainerStyle={{ padding: 12, gap: 16 }}
         showsVerticalScrollIndicator={false}

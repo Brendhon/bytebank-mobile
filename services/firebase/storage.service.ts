@@ -108,3 +108,43 @@ export const getReceiptUrlService = async (
     return null;
   }
 };
+
+/**
+ * Deletes all files and subfolders under a user's folder in Firebase Storage.
+ * This is used when the user deletes the account to ensure all artifacts are removed.
+ * @param userId The ID of the user whose folder should be deleted.
+ */
+export const deleteUserFolderService = async (userId: string): Promise<void> => {
+  const deleteFolderRecursively = async (path: string): Promise<void> => {
+    const folderRef = ref(firebaseStorage, path);
+    const { items, prefixes } = await listAll(folderRef);
+
+    // Delete all files in the current folder
+    await Promise.all(
+      items.map(async (itemRef) => {
+        try {
+          await deleteObject(itemRef);
+        } catch (error) {
+          // Ignore if object does not exist; rethrow others
+          if ((error as any)?.code !== 'storage/object-not-found') {
+            throw error;
+          }
+        }
+      })
+    );
+
+    // Recurse into subfolders
+    await Promise.all(
+      prefixes.map(async (prefixRef) => {
+        await deleteFolderRecursively(prefixRef.fullPath);
+      })
+    );
+  };
+
+  try {
+    await deleteFolderRecursively(`${userId}/`);
+  } catch (error) {
+    console.error('Firebase Storage Delete User Folder Error:', error);
+    throw new Error('Failed to delete user storage folder.');
+  }
+};
