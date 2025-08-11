@@ -46,7 +46,7 @@ const VisibilityIcon = ({ isVisible }: { isVisible: boolean }) => isVisible
 export default function DashboardScreen() {
   const { user } = useAuth();
   const [isBalanceVisible, setIsBalanceVisible] = useState(false);
-  
+
   // Fetch transaction summary data
   const { summary, loading, error } = useTransactionSummary();
 
@@ -109,9 +109,11 @@ export default function DashboardScreen() {
   if (loading) {
     return (
       <GradientContainer>
-        <View className={styles.loadingContainer}>
-          <Spinner color="dark-gray" size={32} />
-          <Text className={styles.loadingText}>Carregando dados...</Text>
+        <View className={styles.emptyStateContainer}>
+          <View className={styles.emptyStateContent}>
+            <Spinner color="dark-gray" size={32} />
+            <Text className={styles.loadingText}>Carregando dados...</Text>
+          </View>
         </View>
       </GradientContainer>
     );
@@ -224,6 +226,7 @@ const styles = {
   movementCard: 'rounded-lg p-6 shadow-sm',
   movementValue: 'text-xl font-bold text-white',
   movementType: 'text-white text-sm',
-  loadingContainer: 'flex-1 justify-center items-center bg-white rounded-lg p-6 border border-light-green flex-row gap-2',
+  emptyStateContainer: 'flex-1 justify-center items-center',
+  emptyStateContent: 'justify-center items-center bg-white rounded-lg p-6 flex-row gap-2',
   loadingText: 'text-dark text-lg font-semibold',
 };
