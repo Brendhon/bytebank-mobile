@@ -1,33 +1,32 @@
 # 📱 Bytebank Mobile – Gerenciamento Financeiro
 
-Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida como parte do Tech Challenge da Fase 3 da pós-graduação em Engenharia de Front-end (FIAP). O projeto visa oferecer uma experiência completa de gerenciamento financeiro em dispositivos móveis, com foco em usabilidade, segurança e integração com serviços cloud.
+Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida como parte do Tech Challenge da Fase 3 da pós-graduação em Engenharia de Front-end (FIAP). O projeto oferece uma experiência completa de gerenciamento financeiro em dispositivos móveis, com foco em usabilidade, segurança e integração com serviços cloud.
 
 ## 📝 Sumário
 
 - [📱 Bytebank Mobile – Gerenciamento Financeiro](#-bytebank-mobile--gerenciamento-financeiro)
   - [📝 Sumário](#-sumário)
   - [📄 Desafio Original](#-desafio-original)
-  - [🚀 URLs de Acesso](#-urls-de-acesso)
   - [✨ Visão Geral](#-visão-geral)
   - [📦 Tecnologias](#-tecnologias)
   - [📁 Estrutura do Projeto](#-estrutura-do-projeto)
-  - [🛠️ Qualidade de Código](#️-qualidade-de-código)
+  - [🚀 URLs de Acesso](#-urls-de-acesso)
   - [📋 Pré-requisitos](#-pré-requisitos)
   - [🚀 Ambiente de Desenvolvimento](#-ambiente-de-desenvolvimento)
-  - [💡 Recomendações para uso de emulador Android no ambiente local](#-recomendações-para-uso-de-emulador-android-no-ambiente-local)
+    - [1. Clone e Instalação](#1-clone-e-instalação)
+    - [2. Configuração do Ambiente](#2-configuração-do-ambiente)
+    - [3. Executando o Projeto](#3-executando-o-projeto)
+    - [4. Testando a Aplicação](#4-testando-a-aplicação)
   - [☁️ Implantação (Deploy)](#️-implantação-deploy)
-    - [📱 Configuração de Build APK](#-configuração-de-build-apk)
-    - [🔄 Diferenças entre APK e AAB](#-diferenças-entre-apk-e-aab)
-    - [🚀 Comandos para Gerar APKs](#-comandos-para-gerar-apks)
-    - [📋 Considerações Importantes](#-considerações-importantes)
-    - [🛠️ Build Local (Opcional)](#️-build-local-opcional)
-  - [🔗 Links Úteis](#-links-úteis)
+    - [Build APK](#build-apk)
+    - [Configuração](#configuração)
+    - [APK para Testes](#apk-para-testes)
   - [📎 Funcionalidade de Upload de Recibos](#-funcionalidade-de-upload-de-recibos)
-    - [🎯 Como Funciona](#-como-funciona)
-    - [📋 Restrições e Limitações](#-restrições-e-limitações)
-    - [🔒 Segurança](#-segurança)
-    - [💡 Dicas de Uso](#-dicas-de-uso)
+    - [Como Funciona](#como-funciona)
+    - [Restrições](#restrições)
+    - [Segurança](#segurança)
   - [💡 Melhorias Futuras](#-melhorias-futuras)
+  - [🔗 Links Úteis](#-links-úteis)
   - [👥 Autor](#-autor)
 
 ---
@@ -40,55 +39,43 @@ O documento contendo os requisitos e objetivos do desafio original da pós-tech 
 
 ---
 
-## 🚀 URLs de Acesso
-
-  * **API GraphQL (Backend):** [https://bytebank-api.onrender.com/graphql](https://bytebank-api.onrender.com/graphql)
-
-> ⚠️ **Nota Importante sobre a API:** A API GraphQL está hospedada no Render utilizando o plano gratuito. Devido às limitações deste plano, a API pode demorar alguns segundos para responder na primeira requisição após um período de inatividade (quando o serviço "dorme"). As requisições subsequentes serão mais rápidas. Esta é uma limitação conhecida do plano gratuito do Render e não afeta a funcionalidade da aplicação.
-
----
-
 ## ✨ Visão Geral
 
 O **Bytebank Mobile** é um aplicativo completo para o gerenciamento das suas finanças pessoais, projetado para ser simples, seguro e eficiente. Com ele, você pode acessar todas as suas transações, cadastrar e editar movimentações financeiras, além de anexar recibos de forma prática.
 
 **Principais funcionalidades:**
 
-  * **Autenticação de Usuário**: Página inicial com um Modal intuitivo para login e cadastro, totalmente integrado à API GraphQL do Bytebank.
-  * **Dashboard Interativo**: Painel financeiro com gráficos e análises dinâmicas das suas transações, incluindo animações para uma experiência visual agradável.
-  * **Gestão de Transações**:
-      * Visualização detalhada das transações, com filtros avançados (por data, categoria, etc.) e paginação.
-      * Modal dedicado para criar e editar transações.
-      * Validação rigorosa dos campos para garantir a qualidade dos dados.
-      * **Upload de Recibos**: Anexe recibos PDF às suas transações para manter um registro completo das suas movimentações financeiras.
-  * **Armazenamento em Nuvem**: Utiliza MongoDB para armazenar os dados das transações (via API) e Firebase Storage para os recibos.
-  * **Atualização Automática de Dados**: Informações do usuário, como nome e saldo, são atualizadas automaticamente por meio de queries GraphQL.
+- **Autenticação de Usuário**: Página inicial com Modal intuitivo para login e cadastro, totalmente integrado à API GraphQL do Bytebank.
+- **Dashboard Interativo**: Painel financeiro com gráficos e análises dinâmicas das suas transações, incluindo animações para uma experiência visual agradável.
+- **Gestão de Transações**:
+  - Visualização detalhada das transações, com filtros avançados (por data, categoria, etc.) e paginação.
+  - Modal dedicado para criar e editar transações.
+  - Validação rigorosa dos campos para garantir a qualidade dos dados.
+  - **Upload de Recibos**: Anexe recibos PDF às suas transações para manter um registro completo das suas movimentações financeiras.
+- **Armazenamento em Nuvem**: Utiliza MongoDB para armazenar os dados das transações (via API) e Firebase Storage para os recibos.
+- **Atualização Automática de Dados**: Informações do usuário, como nome e saldo, são atualizadas automaticamente por meio de queries GraphQL.
 
-Esses recursos garantem uma experiência completa e confiável para o controle das suas finanças, com foco em praticidade e segurança.
+---
 
 ## 📦 Tecnologias
 
-As seguintes tecnologias foram utilizadas na construção do Bytebank Mobile:
-
-  * **Framework**: [React Native](https://reactnative.dev/)
-  * **Configuração/Abstração**: [Expo](https://expo.dev/)
-  * **Linguagem**: [TypeScript](https://www.typescriptlang.org/)
-  * **Estilização**: [Tailwind CSS](https://tailwindcss.com/) com [NativeWind](https://www.nativewind.dev/)
-  * **Gerenciamento de Estado**: [Context API](https://react.dev/reference/react/createContext)
-  * **Navegação**: [Expo Router](https://docs.expo.dev/router/introduction/)
-  * **Animações**: [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/)
-  * **Validação de Formulários**: [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
-  * **Comunicação API**: [Apollo Client](https://www.apollographql.com/docs/react/) para consumo da API GraphQL.
-  * **Backend de Dados**: [MongoDB](https://www.mongodb.com/) (através da [Bytebank API GraphQL](https://github.com/Brendhon/bytebank-api))
-  * **Armazenamento de Arquivos**: [Firebase Storage](https://firebase.google.com/docs/storage)
-  * **Ferramentas de Qualidade**: ESLint, Prettier
-  * **Monitoramento e Depuração**: [Flipper](https://fbflipper.com/)
+- **Framework**: [React Native](https://reactnative.dev/)
+- **Configuração/Abstração**: [Expo](https://expo.dev/)
+- **Linguagem**: [TypeScript](https://www.typescriptlang.org/)
+- **Estilização**: [Tailwind CSS](https://tailwindcss.com/) com [NativeWind](https://www.nativewind.dev/)
+- **Gerenciamento de Estado**: [Context API](https://react.dev/reference/react/createContext)
+- **Navegação**: [Expo Router](https://docs.expo.dev/router/introduction/)
+- **Animações**: [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/)
+- **Validação de Formulários**: [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
+- **Comunicação API**: [Apollo Client](https://www.apollographql.com/docs/react/) para consumo da API GraphQL
+- **Backend de Dados**: [MongoDB](https://www.mongodb.com/) (através da [Bytebank API GraphQL](https://github.com/Brendhon/bytebank-api))
+- **Armazenamento de Arquivos**: [Firebase Storage](https://firebase.google.com/docs/storage)
+- **Ferramentas de Qualidade**: ESLint, Prettier
+- **Monitoramento e Depuração**: [Flipper](https://fbflipper.com/)
 
 ---
 
 ## 📁 Estrutura do Projeto
-
-A estrutura de pastas do projeto está organizada para facilitar a modularidade e manutenção:
 
 ```
 bytebank-mobile/
@@ -96,159 +83,125 @@ bytebank-mobile/
 ├── components/               # Componentes React Native reutilizáveis
 ├── contexts/                 # Contextos para gerenciamento de estado (Context API)
 ├── hooks/                    # Hooks personalizados
-├── app/                     # Configurações de navegação (Expo Router)
-│   ├── _layout.tsx          # Layout principal da aplicação
-│   ├── index.tsx            # Página inicial com login e cadastro
-│   ├── dashboard.tsx        # Página de dashboard com gráficos e análises
-│   ├── transactions.tsx     # Página de transações com criação, edição e upload de recibos
-│   └── settings.tsx         # Página de configurações
-├── services/                 # Funções para comunicação com API e Firebase (GraphQL, Firebase Storage, etc.)
+├── app/                      # Configurações de navegação (Expo Router)
+│   ├── _layout.tsx           # Layout principal da aplicação
+│   ├── index.tsx             # Página inicial com login e cadastro
+│   ├── dashboard.tsx         # Página de dashboard com gráficos e análises
+│   ├── transactions.tsx      # Página de transações com criação, edição e upload de recibos
+│   └── settings.tsx          # Página de configurações
+├── services/                 # Funções para comunicação com API e Firebase
 ├── utils/                    # Funções utilitárias diversas
 ├── app.json
 ├── babel.config.js
 ├── package.json
-├── package-lock.json
-├── .env.example
-├── .gitignore
-├── .prettierignore
 ├── tailwind.config.js
 └── tsconfig.json
 ```
 
 ---
 
-## 🛠️ Qualidade de Código
+## 🚀 URLs de Acesso
 
-O projeto utiliza um conjunto de ferramentas para garantir a consistência e a qualidade do código. **Prettier** e **ESLint** são configurados para formatar e analisar os arquivos, prevenindo a introdução de erros e inconsistências. Além disso, o **Flipper** é utilizado para monitorar o desempenho da aplicação, inspecionar a rede e depurar o estado dos componentes em tempo real, garantindo uma experiência de alta qualidade para o usuário.
+- **API GraphQL (Backend)**: [https://bytebank-api.onrender.com/graphql](https://bytebank-api.onrender.com/graphql)
+
+> ⚠️ **Nota sobre a API**: A API GraphQL está hospedada no Render utilizando o plano gratuito. Devido às limitações deste plano, a API pode demorar alguns segundos para responder na primeira requisição após um período de inatividade. As requisições subsequentes serão mais rápidas.
 
 ---
 
 ## 📋 Pré-requisitos
 
-Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em seu ambiente:
-
-- **[Git](https://git-scm.com/):** Controle de versão do código.
-- **[Node.js](https://nodejs.org/):** Recomendado: versão 18.x ou superior.
-- **[Expo CLI](https://docs.expo.dev/workflow/expo-cli/):** Instale globalmente com `npm install -g expo-cli`.
-- **[Docker](https://www.docker.com/):** Necessário para rodar a API GraphQL e o MongoDB.
-- **Dispositivo para testes:** Você pode utilizar um dispositivo físico com o aplicativo Expo Go instalado **ou** um emulador de dispositivo móvel (Android Studio ou Xcode).
+- **[Git](https://git-scm.com/)**: Controle de versão do código
+- **[Node.js](https://nodejs.org/)**: Versão 18.x ou superior
+- **[Expo CLI](https://docs.expo.dev/workflow/expo-cli/)**: Instale globalmente com `npm install -g expo-cli`
+- **[Docker](https://www.docker.com/)**: Necessário para rodar a API GraphQL e o MongoDB localmente
+- **Dispositivo para testes**: Utilize um dispositivo físico com o aplicativo Expo Go instalado **ou** um emulador de dispositivo móvel
 
 ---
 
 ## 🚀 Ambiente de Desenvolvimento
 
-Para configurar e executar o projeto localmente, siga os passos abaixo:
+### 1. Clone e Instalação
 
-1.  **Clone o repositório:**
+```bash
+git clone https://github.com/Brendhon/bytebank-mobile.git
+cd bytebank-mobile
+npm install
+```
 
-    ```bash
-    git clone https://github.com/Brendhon/bytebank-mobile.git
-    cd bytebank-mobile
-    ```
+### 2. Configuração do Ambiente
 
-2.  **Instale as dependências:**
+Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 
-    ```bash
-    npm install
-    ```
+```env
+# URL da API GraphQL do Bytebank
+EXPO_PUBLIC_GRAPHQL_API_URL=https://bytebank-api.onrender.com/graphql
 
-3.  **Crie e configure o arquivo `.env`:**
+# Chaves de configuração do Firebase para o Storage
+EXPO_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+EXPO_PUBLIC_FIREBASE_PROJECT_ID=your_firebase_project_id
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
+EXPO_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
+EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id
+```
 
-      * Crie um arquivo `.env` na raiz do projeto.
+> 💡 **Obtendo as chaves do Firebase**: Crie um projeto no [Console do Firebase](https://console.firebase.google.com/), vá em "Configurações do projeto" > "Geral" e copie as chaves de configuração do seu aplicativo web.
 
-      * O arquivo `.env` deve conter as seguintes variáveis:
+### 3. Executando o Projeto
 
-        ```env
-        # URL da sua API GraphQL do Bytebank
-        EXPO_PUBLIC_GRAPHQL_API_URL=https://bytebank-api.onrender.com/graphql
+- **Ambiente Completo (API + Mobile)**:
+  ```bash
+  npm run dev
+  ```
 
-        # Chaves de configuração do Firebase para o Storage
-        EXPO_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
-        EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
-        EXPO_PUBLIC_FIREBASE_PROJECT_ID=your_firebase_project_id
-        EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
-        EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_firebase_Messaginger_id
-        EXPO_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
-        EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id
-        ```
+- **Apenas o Mobile**:
+  ```bash
+  npm run dev:mobile
+  ```
 
-          * **Obtendo as chaves do Firebase:** Para obter as chaves do Firebase, você precisará criar um projeto no [Console do Firebase](https://console.firebase.google.com/). Após criar o projeto, vá em "Configurações do projeto" (Project settings) \> "Geral" (General) e copie as chaves de configuração do seu aplicativo web. Estas chaves serão utilizadas para inicializar o SDK do Firebase em seu aplicativo React Native.
+- **Apenas a API (Docker)**:
+  ```bash
+  npm run dev:api
+  ```
 
-4.  **Inicie o ambiente de desenvolvimento:**
+- **Parando o ambiente Docker**:
+  ```bash
+  npm run dev:stop
+  ```
 
-    - **Ambiente Completo (API + Mobile):**
-      Para subir a API GraphQL (com Docker) e todas as aplicações de mobile, execute:
+### 4. Testando a Aplicação
 
-      ```bash
-      npm run dev
-      ```
+Após executar `npm run dev:mobile`, você pode:
+- Escanear o QR Code com o aplicativo Expo Go no seu dispositivo móvel
+- Pressionar 'a' para abrir no emulador Android
+- Pressionar 'i' para abrir no simulador iOS (macOS apenas)
+- Pressionar 'w' para abrir no navegador
 
-      > ⚠️ **Nota Importante sobre a API:** A url da API GraphQL é definida no arquivo `.env` e é utilizada para configurar o Apollo Client. Caso use o Docker, a url da API GraphQL será `http://10.0.2.2:3000/graphql` (emuladores Android) ou `http://localhost:3000/graphql` (emuladores iOS).
-
-    - **Apenas o Mobile:**
-      Se a API já estiver em execução ou se você estiver usando uma API remota, inicie apenas o Mobile:
-
-      ```bash
-      npm run dev:mobile
-      ```
-
-      Isso abrirá o Metro Bundler no seu navegador. Você pode então:
-
-        * Escanear o QR Code com o aplicativo Expo Go no seu dispositivo móvel.
-        * Pressionar 'a' para abrir no emulador Android.
-        * Pressionar 'i' para abrir no simulador iOS (macOS apenas).
-        * Pressionar 'w' para abrir no navegador.
-
-    - **Apenas a API (Docker):**
-      Para iniciar somente a API GraphQL e o banco de dados MongoDB com Docker, use:
-      ```bash
-      npm run dev:api
-      ```
-
-5.  **Parando o ambiente Docker:**
-    Para derrubar os contêineres da API, execute:
-
-    ```bash
-    npm run dev:stop
-    ```
-
----
-
-## 💡 Recomendações para uso de emulador Android no ambiente local
-
-Embora o Android Studio **não seja obrigatório** para rodar o projeto, ele é recomendado para quem deseja desenvolver e testar no Android. 
-Para facilitar o uso do emulador sem precisar abrir o Android Studio toda vez, siga estas dicas:
-
-1. **Instale o Android Studio** e configure pelo menos um emulador (AVD).
-2. **Adicione as ferramentas do Android ao PATH** do seu sistema operacional para acessar o comando `emulator` pelo terminal.
-3. **Comandos úteis:**
-    - Liste os emuladores disponíveis:
-      ```bash
-      emulator -list-avds
-      ```
-    - Inicie um emulador específico (lembre-se que o terminal irá se bloquear até o emulador ser fechado):
-      ```bash
-      emulator -avd <nome-do-emulador>
-      ```
-4. Após iniciar o emulador, execute o projeto normalmente:
-    - Rode `npm run dev:mobile` ou `npm run dev`
-    - No terminal do Expo, pressione `a` para abrir o app no emulador Android.
+> 💡 **Dica para Emulador Android**: Para facilitar o uso sem abrir o Android Studio, adicione as ferramentas do Android ao PATH e use `emulator -avd <nome-do-emulador>` para iniciar emuladores pelo terminal.
 
 ---
 
 ## ☁️ Implantação (Deploy)
 
-A aplicação mobile pode ser construída para produção através do Expo CLI. O projeto está configurado para gerar **APKs** ao invés de AABs, permitindo instalação direta em dispositivos Android.
+### Build APK
 
-Para gerar os builds, deve ter o EAS CLI instalado globalmente:
+O projeto está configurado para gerar **APKs** através do EAS Build. Para builds de produção:
 
 ```bash
+# Instalar EAS CLI
 npm install -g eas-cli
+
+# Build de preview (para testes)
+eas build --platform android --profile preview
+
+# Build de produção
+eas build --platform android --profile production
 ```
 
-### 📱 Configuração de Build APK
+### Configuração
 
-O projeto está configurado para gerar APKs através das seguintes configurações no arquivo `eas.json`:
+O arquivo `eas.json` está configurado para gerar APKs:
 
 ```json
 {
@@ -267,113 +220,59 @@ O projeto está configurado para gerar APKs através das seguintes configuraçõ
 }
 ```
 
-> ⚠️ **Nota**: O projeto não possui mais suporte a builds de desenvolvimento (`development`). Para desenvolvimento local, utilize o Expo Go ou emuladores com `npm run dev:mobile`.
+> ⚠️ **Nota**: Para publicar na Google Play Store, altere temporariamente `"buildType": "aab"` no `eas.json`.
 
-### 🔄 Diferenças entre APK e AAB
+### APK para Testes
 
-| Formato | Uso | Instalação | Tamanho |
-|---------|-----|------------|---------|
-| **APK** | Distribuição interna, testes, instalação direta | Pode ser instalado diretamente | Maior |
-| **AAB** | Google Play Store (obrigatório) | Não pode ser instalado diretamente | Menor |
+Uma versão do APK está disponível para download direto:
 
-### 🚀 Comandos para Gerar APKs
+📱 **[Download do APK - Bytebank Mobile](https://drive.google.com/file/d/1iEcP9nUOgD6KUkHsdRYQj4n9mUDX8s3n/view?usp=sharing)**
 
-```bash
-# Build de preview (para testes internos e demonstrações)
-eas build --platform android --profile preview
-
-# Build de produção (para distribuição final)
-eas build --platform android --profile production
-```
-
-> ⚠️ **Nota**: Builds de desenvolvimento não estão mais disponíveis. Para desenvolvimento local, use `npm run dev:mobile` com Expo Go ou emuladores.
-
-### 📋 Considerações Importantes
-
-1. **Google Play Store**: Para publicar na Google Play Store, você precisará gerar AABs. Para isso, altere temporariamente `"buildType": "aab"` no `eas.json`.
-
-2. **Distribuição**: APKs são ideais para:
-   - Testes internos (usando o perfil `preview`)
-   - Distribuição direta
-   - Instalação em dispositivos físicos
-   - Demonstrações
-
-3. **Tamanho**: APKs podem ser maiores que AABs devido ao formato universal.
-
-4. **Desenvolvimento Local**: Para desenvolvimento e testes locais, utilize:
-   - `npm run dev:mobile` com Expo Go
-   - Emuladores Android/iOS
-   - Não é necessário gerar builds para desenvolvimento
-
-### 🛠️ Build Local (Opcional)
-
-Para builds locais sem usar os servidores do Expo:
-
-```bash
-# Build local para Android (preview ou production)
-eas build --platform android --profile preview --local
-eas build --platform android --profile production --local
-```
-
-> ⚠️ **Nota**: Builds locais requerem Android Studio e podem demorar mais tempo. **Não é recomendado para desenvolvimento diário.** Use apenas quando necessário para builds específicos ou quando os servidores do Expo não estiverem disponíveis.
-
-Para mais detalhes sobre as opções de build e deploy com Expo, consulte a [documentação oficial do EAS Build](https://docs.expo.dev/build/introduction/).
-
----
-
-## 🔗 Links Úteis
-
-  * **Bytebank API GraphQL (Backend)**: O código-fonte da API que serve como backend para este aplicativo está disponível em um [repositório separado](https://github.com/Brendhon/bytebank-api).
-  * **Bytebank PRO (Microfrontends)**: O projeto da fase anterior, que utiliza microfrontends, está disponível [aqui](https://github.com/Brendhon/bytebank-pro).
-  * **Bytebank (Web)**: O projeto da fase 1, desenvolvido em Next.js, está disponível [aqui](https://github.com/Brendhon/Bytebank).
+> 💡 **Dica**: Este APK pode ser instalado diretamente em emuladores Android ou dispositivos físicos para testes rápidos, sem necessidade de gerar builds locais.
 
 ---
 
 ## 📎 Funcionalidade de Upload de Recibos
 
-O Bytebank Mobile oferece uma funcionalidade completa para anexar recibos às suas transações, permitindo manter um registro organizado e seguro de todos os seus documentos financeiros.
+### Como Funciona
 
-### 🎯 Como Funciona
+1. **Seleção de Arquivo**: Ao criar ou editar uma transação, você pode anexar um recibo PDF
+2. **Upload Automático**: O arquivo é enviado para o Firebase Storage após a transação ser salva
+3. **Visualização**: Recibos anexados aparecem na lista de transações com ícone de documento
+4. **Acesso Externo**: Clique no ícone do recibo para abri-lo no visualizador de PDF padrão
 
-1. **Seleção de Arquivo**: Ao criar ou editar uma transação, você pode anexar um recibo PDF através do botão "Selecionar Arquivo".
-2. **Upload Automático**: O arquivo é armazenado temporariamente e enviado para o Firebase Storage após a transação ser salva.
-3. **Visualização**: Recibos anexados aparecem na lista de transações com um ícone de documento, permitindo visualização rápida.
-4. **Acesso Externo**: Clique no ícone do recibo para abri-lo em seu visualizador de PDF padrão.
+### Restrições
 
-### 📋 Restrições e Limitações
-
-- **Formato**: Apenas arquivos PDF são aceitos
+- **Formato**: Apenas arquivos PDF
 - **Tamanho**: Máximo de 5MB por arquivo
 - **Quantidade**: Um recibo por transação
-- **Armazenamento**: Arquivos são organizados por usuário e transação
+- **Armazenamento**: Arquivos organizados por usuário e transação
 
-### 🔒 Segurança
+### Segurança
 
 - **Isolamento por Usuário**: Cada usuário tem sua própria área de armazenamento
-- **Limpeza Automática**: Recibos são automaticamente removidos quando a transação é deletada
+- **Limpeza Automática**: Recibos são removidos automaticamente quando a transação é deletada
 - **URLs Seguras**: Links de download são autenticados e temporários
-- **Firebase Storage**: Utiliza infraestrutura segura do Google Cloud
-
-### 💡 Dicas de Uso
-
-- **Organização**: Use nomes descritivos para seus arquivos antes do upload
-- **Backup**: Mantenha cópias importantes em outro local
-- **Conectividade**: Certifique-se de ter uma conexão estável para uploads
-- **Visualização**: Os recibos podem ser visualizados offline após o download inicial
 
 ---
 
 ## 💡 Melhorias Futuras
 
-Este projeto está em constante evolução. Abaixo estão algumas ideias e sugestões para futuras melhorias:
+- **Otimização de Performance**: Melhorar carregamento de dados e renderização de componentes
+- **Testes**: Implementar testes unitários e de integração
+- **Notificações Push**: Integrar notificações para lembretes e alertas
+- **Modo Offline**: Implementar capacidades offline para visualização e sincronização
+- **Internacionalização**: Adicionar suporte a múltiplos idiomas
+- **Biometria**: Implementar autenticação por biometria (Face ID/Touch ID)
+- **Analytics**: Integrar Firebase Analytics para dados de uso
 
-  * **Otimização de Performance**: Continuar otimizando o carregamento de dados e a renderização de componentes para garantir uma experiência fluida em todos os dispositivos.
-  * **Testes Unitários e de Integração**: Implementar testes abrangentes para os componentes, hooks e serviços para garantir a robustez da aplicação.
-  * **Notificações Push**: Integrar notificações push para lembretes de transações, alertas de saldo, etc.
-  * **Modo Offline**: Implementar capacidades offline para visualização e talvez registro de transações, que seriam sincronizadas quando a conexão for restabelecida.
-  * **Internacionalização**: Adicionar suporte a múltiplos idiomas.
-  * **Biometria**: Implementar autenticação por biometria (Face ID/Touch ID) para maior segurança e conveniência.
-  * **Integração com Firebase Analytics**: Para coletar dados de uso e comportamento do usuário.
+---
+
+## 🔗 Links Úteis
+
+- **Bytebank API GraphQL (Backend)**: [Repositório da API](https://github.com/Brendhon/bytebank-api)
+- **Bytebank PRO (Microfrontends)**: [Projeto da fase anterior](https://github.com/Brendhon/bytebank-pro)
+- **Bytebank (Web)**: [Projeto da fase 1](https://github.com/Brendhon/Bytebank)
 
 ---
 
