@@ -1,11 +1,10 @@
-import React from 'react';
 import { Text } from 'react-native';
 
 interface InputLabelProps {
   label: string;
 }
 
-const InputLabel: React.FC<InputLabelProps> = ({ label }) => {
+const InputLabel = ({ label }: InputLabelProps) => {
   return <Text className={styles.label} accessibilityRole="text"> {label} </Text>;
 };
 
