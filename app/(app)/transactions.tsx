@@ -14,7 +14,7 @@ const PAGE_SIZE = 10;
 
 export default function TransactionsScreen() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [modalVisible, setModalVisible] = useState(false);
@@ -110,8 +110,8 @@ export default function TransactionsScreen() {
   }, [openCreateModal]);
 
   const renderEmptyState = useCallback(() => {
-    return <EmptyState onNewTransaction={handleNewTransaction} />;
-  }, [handleNewTransaction]);
+    return loading ? null : <EmptyState onNewTransaction={handleNewTransaction} />;
+  }, [handleNewTransaction, loading]);
 
   const handleSaved = useCallback((saved: Transaction) => {
     setTransactions((prev) => {
