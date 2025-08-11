@@ -41,7 +41,7 @@ You are an expert in TypeScript, React Native, Expo, and Mobile App Development.
 
 ## Documentation
 - All documentation must be stored in the `docs` directory.
-- Write all documentation in English.
+- Write all documentation and comments in English.
 - Only create documentation for reusable, common components (such as buttons, inputs, modals, etc.). Do not document pages or single-use components.
 - For "usages", only document shared features like APIs, Firebase services, custom hooks, and similar utilities. Do not create usage documentation for features that are specific to a single page or component.
 - Do not include code examples in documentation files.
