@@ -43,7 +43,7 @@ await tokenManager.removeToken();
 Created `useAuthService` hook for operations that require authentication:
 
 ```typescript
-import { useAuthService } from '@/hooks/useAuthService';
+import { useAuthService } from '@/hooks/auth';
 
 const { updateUser, deleteUser, validatePassword, isUpdatingUser } = useAuthService();
 ```
@@ -79,7 +79,7 @@ await signUp({
 ### 2. User Operations
 
 ```typescript
-import { useAuthService } from '@/hooks/useAuthService';
+import { useAuthService } from '@/hooks/auth';
 
 const { updateUser, deleteUser, isUpdatingUser } = useAuthService();
 

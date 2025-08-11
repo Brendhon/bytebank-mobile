@@ -3,7 +3,7 @@ import FileUpload from '@/components/form/FileUpload';
 import Input from '@/components/form/Input';
 import Modal from '@/components/modal/Modal';
 import { useAuth } from '@/contexts/AuthContext';
-import { useReceiptUpload } from '@/hooks/useReceiptUpload';
+import { useReceiptUpload } from '@/hooks/storage';
 import {
   Transaction,
   TransactionDesc,

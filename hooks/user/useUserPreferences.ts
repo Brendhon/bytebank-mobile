@@ -1,4 +1,4 @@
-import { useStorageState } from './useStorageState';
+import { useStorageState } from '../storage';
 
 interface UserPreferences {
   theme: 'light' | 'dark';

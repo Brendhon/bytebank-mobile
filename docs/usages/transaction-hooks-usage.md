@@ -13,7 +13,7 @@ The transaction hooks provide a clean interface for interacting with the GraphQL
 Fetches the transaction summary including balance and breakdown by transaction type.
 
 ```typescript
-import { useTransactionSummary } from '@/hooks/useTransactionSummary';
+import { useTransactionSummary } from '@/hooks/transaction';
 
 const { summary, loading, error, refetch } = useTransactionSummary();
 ```
@@ -45,7 +45,7 @@ const breakdown = summary?.breakdown;
 Fetches a paginated list of transactions.
 
 ```typescript
-import { useTransactions } from '@/hooks/useTransactions';
+import { useTransactions } from '@/hooks/transaction';
 
 const { transactions, loading, error, refetch, fetchMore } = useTransactions(10, 1);
 ```
@@ -81,7 +81,7 @@ const handleLoadMore = () => {
 Creates a new transaction.
 
 ```typescript
-import { useCreateTransaction } from '@/hooks/useTransactionMutations';
+import { useCreateTransaction } from '@/hooks/transaction';
 
 const { createTransaction, loading, error } = useCreateTransaction();
 ```
@@ -118,7 +118,7 @@ const handleCreateTransaction = async () => {
 Updates an existing transaction.
 
 ```typescript
-import { useUpdateTransaction } from '@/hooks/useTransactionMutations';
+import { useUpdateTransaction } from '@/hooks/transaction';
 
 const { updateTransaction, loading, error } = useUpdateTransaction();
 ```
@@ -152,7 +152,7 @@ const handleUpdateTransaction = async (transactionId: string) => {
 Deletes a transaction.
 
 ```typescript
-import { useDeleteTransaction } from '@/hooks/useTransactionMutations';
+import { useDeleteTransaction } from '@/hooks/transaction';
 
 const { deleteTransaction, loading, error } = useDeleteTransaction();
 ```

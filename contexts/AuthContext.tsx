@@ -1,4 +1,4 @@
-import { useStorageState } from '@/hooks/useStorageState';
+import { useStorageState } from '@/hooks/storage';
 import { User } from '@/models/user';
 import { AuthService } from '@/services/api/auth.service';
 import { tokenManager, cacheManager } from '@/services/api/client';

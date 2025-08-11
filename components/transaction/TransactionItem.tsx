@@ -5,7 +5,7 @@ import { Transaction, TransactionDesc, TransactionType } from '@/models/transact
 import { formatCurrencyWithSign } from '@/utils/currency';
 import { formatDateWithRelative } from '@/utils/date';
 import { useAuth } from '@/contexts/AuthContext';
-import { useReceiptUpload } from '@/hooks/useReceiptUpload';
+import { useReceiptUpload } from '@/hooks/storage';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
 

@@ -2,7 +2,7 @@ import Button from '@/components/form/Button';
 import Input from '@/components/form/Input';
 import Modal from '@/components/modal/Modal';
 import { useAuth } from '@/contexts/AuthContext';
-import { useAuthService } from '@/hooks/useAuthService';
+import { useAuthService } from '@/hooks/auth';
 import { colors } from '@/utils/colors';
 import { AlertTriangle } from 'lucide-react-native';
 import { useState } from 'react';

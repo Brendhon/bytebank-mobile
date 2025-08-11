@@ -4,7 +4,7 @@ import Input from '@/components/form/Input';
 import { GradientContainer } from '@/components/layout/GradientContainer';
 import DeleteAccountModal from '@/components/modal/DeleteAccountModal';
 import { useAuth } from '@/contexts/AuthContext';
-import { useAuthService } from '@/hooks/useAuthService';
+import { useAuthService } from '@/hooks/auth';
 import { SettingsFormData, settingsSchema } from '@/schemas/index';
 import { colors } from '@/utils/colors';
 import { zodResolver } from '@hookform/resolvers/zod';

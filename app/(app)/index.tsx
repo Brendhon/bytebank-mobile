@@ -2,7 +2,7 @@ import { AnimatedView } from '@/components/animation/AnimatedComponents';
 import { Spinner } from '@/components/animation/Spinner';
 import { GradientContainer } from '@/components/layout/GradientContainer';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTransactionSummary } from '@/hooks/useTransactionSummary';
+import { useTransactionSummary } from '@/hooks/transaction';
 import { colors } from '@/utils/colors';
 import { formatCurrency } from '@/utils/currency';
 import { formatDate } from '@/utils/date';

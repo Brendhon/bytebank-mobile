@@ -16,7 +16,7 @@ The hook is built to provide a consistent API for data storage, using **`expo-se
 To use the hook, import `useStorageState` and provide a unique key for the data you want to store. The hook will return the current state and a function to update it.
 
 ```typescript
-import { useStorageState } from '../hooks/useStorageState';
+import { useStorageState } from '@/hooks/storage';
 
 function MyComponent() {
   const [[isLoading, value], setValue] = useStorageState('my_key');
