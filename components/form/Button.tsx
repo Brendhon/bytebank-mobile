@@ -1,3 +1,4 @@
+import { colors } from '@/utils/colors';
 import React from 'react';
 import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 
@@ -52,7 +53,7 @@ const Button = ({
       accessibilityState={{ disabled: isDisabled }}
       {...props}>
       <Text className={textClass}>{children}</Text>
-      {loading && <ActivityIndicator size="small" color="#FFFFFF" className={styles.loader} />}
+      {loading && <ActivityIndicator size="small" color={colors.white} className={styles.loader} />}
     </TouchableOpacity>
   );
 };

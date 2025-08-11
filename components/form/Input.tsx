@@ -140,12 +140,12 @@ function Input({
     setShowPassword((prev) => !prev);
   }, []);
 
-  // Ícone clonado memoizado para não recriar a cada render
+  // Cloned icon memoized to avoid recreating it on every render
   const clonedIcon = useMemo(() => {
     if (!icon || !React.isValidElement(icon)) return null;
     return cloneElement(icon, {
       size: 20,
-      color: '#004D61',
+      color: colors.blue,
       ...(icon.props || {}),
     } as any);
   }, [icon]);
