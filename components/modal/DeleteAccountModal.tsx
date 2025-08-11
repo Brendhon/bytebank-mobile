@@ -101,7 +101,7 @@ export default function DeleteAccountModal({ visible, onClose }: DeleteAccountMo
 }
 
 const styles = {
-  container: 'gap-6',
+  container: 'gap-6 pb-8',
   illustration: 'items-center justify-center',
   warningSection: 'bg-orange/10 border border-orange/20 rounded-xl p-4 gap-2',
   warningTitle: 'text-orange text-lg font-semibold text-center',

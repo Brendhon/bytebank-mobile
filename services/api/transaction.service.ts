@@ -27,6 +27,9 @@ import {
   TransactionDesc,
   TransactionType,
 } from '@/models/transaction';
+import { 
+  deleteTransactionReceiptService
+} from '@/services/firebase/storage.service';
 
 /**
  * Transaction service for financial transaction operations
@@ -157,10 +160,14 @@ export class TransactionService {
   }
 
   /**
-   * Delete a transaction
+   * Delete a transaction and its associated receipts
    */
   static async deleteTransaction(id: string): Promise<boolean> {
     try {
+      // Get the transaction to get user ID for receipt deletion
+      const transaction = await this.getTransaction(id);
+      
+      // Delete the transaction from the database
       const { data } = await apolloClient.mutate<
         DeleteTransactionResponse,
         DeleteTransactionVariables
@@ -174,7 +181,19 @@ export class TransactionService {
         awaitRefetchQueries: true,
       });
 
-      return data?.deleteTransaction ?? false;
+      const deleted = data?.deleteTransaction ?? false;
+      
+      // If transaction was deleted successfully, delete its receipt from storage
+      if (deleted && transaction?.user) {
+        try {
+          await deleteTransactionReceiptService(transaction.user, id);
+        } catch (storageError) {
+          // Log error but don't fail the transaction deletion
+          console.error('Failed to delete transaction receipt:', storageError);
+        }
+      }
+
+      return deleted;
     } catch (error) {
       console.error('Delete transaction error:', error);
       throw new Error('Failed to delete transaction.');

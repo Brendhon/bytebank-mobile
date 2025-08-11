@@ -1,6 +1,9 @@
 import Button from '@/components/form/Button';
+import FileUpload from '@/components/form/FileUpload';
 import Input from '@/components/form/Input';
 import Modal from '@/components/modal/Modal';
+import { useAuth } from '@/contexts/AuthContext';
+import { useReceiptUpload } from '@/hooks/useReceiptUpload';
 import {
   Transaction,
   TransactionDesc,
@@ -37,6 +40,20 @@ export default function TransactionModal({
   onSubmitRequest,
 }: TransactionModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pendingFile, setPendingFile] = useState<Blob | null>(null);
+  const [pendingFileName, setPendingFileName] = useState<string | null>(null);
+  const [isReceiptRemoved, setIsReceiptRemoved] = useState<boolean>(false);
+  const { user } = useAuth();
+
+  const {
+    receiptUrl,
+    isUploading,
+    uploadError,
+    uploadReceipt,
+    deleteReceipt,
+    getReceiptUrl,
+    clearReceipt
+  } = useReceiptUpload();
 
   const title = transaction ? 'Editar Transação' : 'Nova Transação';
 
@@ -71,7 +88,22 @@ export default function TransactionModal({
 
   // Reset form values only when modal becomes visible
   useEffect(() => {
-    if (visible) reset(defaultValues);
+    if (visible) {
+      reset(defaultValues);
+      setPendingFile(null);
+      setPendingFileName(null);
+      setIsReceiptRemoved(false);
+
+      // If editing, try to get receipt URL
+      if (transaction?._id && user?._id) {
+        getReceiptUrl(user._id, transaction._id);
+      }
+    } else {
+      clearReceipt();
+      setPendingFile(null);
+      setPendingFileName(null);
+      setIsReceiptRemoved(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
@@ -97,9 +129,34 @@ export default function TransactionModal({
     setValue('type', deriveTypeFromDesc(v), { shouldValidate: true });
   }, [setValue]);
 
+  // Handle file upload
+  const handleFileUpload = useCallback(async (file: Blob, fileName: string): Promise<string> => {
+    // Store file for later upload after transaction is saved
+    setPendingFile(file);
+    setPendingFileName(fileName);
+
+    // Return a temporary URL for UI purposes
+    return 'pending://' + fileName;
+  }, []);
+
+  // Handle file removal
+  const handleFileRemove = useCallback(() => {
+    // If user selected a new file in this session, just clear the pending state
+    if (pendingFile || pendingFileName) {
+      setPendingFile(null);
+      setPendingFileName(null);
+      return;
+    }
+
+    // If there is an existing receipt, mark it as removed and only delete on save
+    if (receiptUrl) {
+      setIsReceiptRemoved(true);
+    }
+  }, [pendingFile, pendingFileName, receiptUrl]);
+
   // Save transaction
   const handleSave = async (data: TransactionFormData) => {
-    if (isSubmitting) return;
+    if (isSubmitting || isUploading) return;
 
     try {
       setIsSubmitting(true);
@@ -113,6 +170,30 @@ export default function TransactionModal({
       };
 
       const saved = await onSubmitRequest(payload, transaction?._id);
+
+      // If user marked existing receipt for deletion, delete it now (before potential re-upload)
+      if (isReceiptRemoved && user?._id) {
+        try {
+          await deleteReceipt(user._id, saved._id);
+          clearReceipt();
+        } catch (deleteError) {
+          console.error('Failed to delete receipt:', deleteError);
+        }
+      }
+
+      // Upload receipt after transaction is saved
+      if (pendingFile && user?._id) {
+        try {
+          await uploadReceipt(pendingFile, user._id, saved._id);
+        } catch (uploadError) {
+          console.error('Failed to upload receipt:', uploadError);
+          Alert.alert(
+            'Aviso',
+            'Transação salva com sucesso, mas houve um problema ao fazer upload do recibo.'
+          );
+        }
+      }
+
       onSaved(saved);
       handleClose();
     } catch (error) {
@@ -167,7 +248,7 @@ export default function TransactionModal({
     { label: 'Saída', value: TransactionType.OUTFLOW },
   ];
 
-  const illustration = useMemo(() => <TransactionIllustration />, []);
+  const illustration = useMemo(() => <TransactionIllustration height={150} />, []);
   const dollarIcon = useMemo(() => <DollarSign />, []);
   const calendarIcon = useMemo(() => <Calendar />, []);
 
@@ -217,12 +298,27 @@ export default function TransactionModal({
           icon={calendarIcon}
         />
 
+        <FileUpload
+          label="Recibo/Comprovante"
+          value={
+            pendingFileName
+              ? `pending://${pendingFileName}`
+              : isReceiptRemoved
+                ? null
+                : receiptUrl
+          }
+          onUpload={handleFileUpload}
+          onRemove={handleFileRemove}
+          loading={isUploading}
+          error={uploadError || undefined}
+        />
+
         <View className={styles.buttonContainer}>
           <Button
             variant="green"
             onPress={handleSubmit(handleSave)}
-            loading={isSubmitting}
-            disabled={isSubmitting}
+            loading={isSubmitting || isUploading}
+            disabled={isSubmitting || isUploading}
             className="w-full"
           >
             {isSubmitting ? 'Salvando...' : 'Salvar'}
@@ -235,7 +331,7 @@ export default function TransactionModal({
 
 const styles = {
   formContainer: 'gap-4',
-  buttonContainer: 'flex-col items-center gap-6 pt-4',
+  buttonContainer: 'flex-col items-center gap-6 pt-1 pb-8',
   segmentLabel: 'text-dark text-lg font-bold',
   segmentGroup: 'flex-row flex-wrap gap-2',
   segmentButton: 'h-10',

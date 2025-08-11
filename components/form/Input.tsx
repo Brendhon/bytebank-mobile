@@ -140,12 +140,12 @@ function Input({
     setShowPassword((prev) => !prev);
   }, []);
 
-  // Ícone clonado memoizado para não recriar a cada render
+  // Cloned icon memoized to avoid recreating it on every render
   const clonedIcon = useMemo(() => {
     if (!icon || !React.isValidElement(icon)) return null;
     return cloneElement(icon, {
       size: 20,
-      color: '#004D61',
+      color: colors.blue,
       ...(icon.props || {}),
     } as any);
   }, [icon]);
@@ -168,6 +168,7 @@ function Input({
             value={value}
             onChangeText={handleMaskedChange}
             placeholder={placeholder || 'DD/MM/AAAA'}
+            placeholderTextColor={colors.gray}
             mask={dateMask}
             keyboardType={keyboardTypeValue}
             autoCapitalize={autoCapitalizeValue}
@@ -186,6 +187,7 @@ function Input({
             value={value}
             onChangeText={handleMaskedChange}
             placeholder={placeholder}
+            placeholderTextColor={colors.gray}
             mask={phoneMask}
             keyboardType={keyboardTypeValue}
             autoCapitalize={autoCapitalizeValue}
@@ -204,6 +206,7 @@ function Input({
             value={value}
             onChangeText={onChangeText}
             placeholder={placeholder}
+            placeholderTextColor={colors.gray}
             secureTextEntry={secureTextEntryValue}
             keyboardType={keyboardTypeValue}
             autoCapitalize={autoCapitalizeValue}
@@ -246,9 +249,9 @@ function Input({
             accessibilityState={{ disabled }}
           >
             {showPassword ? (
-              <EyeOff size={20} color="#004D61" />
+              <EyeOff size={20} color={colors.blue} />
             ) : (
-              <Eye size={20} color="#004D61" />
+              <Eye size={20} color={colors.blue} />
             )}
           </TouchableOpacity>
         )}

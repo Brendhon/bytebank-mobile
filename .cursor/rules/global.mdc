@@ -40,14 +40,16 @@ You are an expert in TypeScript, React Native, Expo, and Mobile App Development.
 - For icons, always use the `lucide-react-native` library.
 
 ## Documentation
-- Store all documentation in the `docs` directory.
+- All documentation must be stored in the `docs` directory.
 - Write all documentation in English.
-- Do not include examples in documentation files.
-- Place all component usage in `docs/components`.
+- Only create documentation for reusable, common components (such as buttons, inputs, modals, etc.). Do not document pages or single-use components.
+- For "usages", only document shared features like APIs, Firebase services, custom hooks, and similar utilities. Do not create usage documentation for features that are specific to a single page or component.
+- Do not include code examples in documentation files.
+- Place all component usage documentation in `docs/components`.
 - Place all guidelines in `docs/guidelines`.
-- Place usage for non-component features in `docs/usages`.
-- When updating a documented component or usage, also update the documentation in the `docs` directory.
-- Name documentation files clearly, e.g., `docs/components/button-usage.md`, `docs/guidelines/button-guidelines.md` or `docs/usages/button-usage.md`.
+- Place all shared feature usage documentation in `docs/usages`.
+- Whenever you update a documented component or usage, also update its documentation in the `docs` directory.
+- Use clear and descriptive file names, e.g., `docs/components/button-usage.md`, `docs/guidelines/button-guidelines.md`, or `docs/usages/firebase-usage.md`.
 
 ## Best Practices
 - Respect React Native threading for smooth UI.

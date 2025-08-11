@@ -1,5 +1,6 @@
-import { AnimatedView } from '@/components/animation/AnimatedComponents';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
+import { AnimatedView } from '../animation/AnimatedComponents';
+import { Spinner } from '../animation/Spinner';
 
 interface LoadingFooterProps {
   loading: boolean;
@@ -13,12 +14,16 @@ export const LoadingFooter = ({ loading }: LoadingFooterProps) => {
 
   return (
     <AnimatedView delay={300} className={styles.container}>
-      <Text className={styles.text}>Carregando mais transações...</Text>
+      <View className={styles.loaderContainer}>
+        <Spinner color="dark-gray" size={16} />
+        <Text className={styles.text}>Carregando mais transações...</Text>
+      </View>
     </AnimatedView>
   );
 };
 
 const styles = {
-  container: 'py-4 items-center',
-  text: 'text-gray text-sm',
+  container: 'items-center flex-row justify-center mb-4',
+  text: 'text-dark-gray text-sm font-semibold',
+  loaderContainer: 'flex-row items-center gap-2 bg-white rounded-lg border border-light-green px-4 py-2',
 };

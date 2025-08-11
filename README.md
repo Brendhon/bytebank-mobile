@@ -16,7 +16,17 @@ Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida com
   - [🚀 Ambiente de Desenvolvimento](#-ambiente-de-desenvolvimento)
   - [💡 Recomendações para uso de emulador Android no ambiente local](#-recomendações-para-uso-de-emulador-android-no-ambiente-local)
   - [☁️ Implantação (Deploy)](#️-implantação-deploy)
+    - [📱 Configuração de Build APK](#-configuração-de-build-apk)
+    - [🔄 Diferenças entre APK e AAB](#-diferenças-entre-apk-e-aab)
+    - [🚀 Comandos para Gerar APKs](#-comandos-para-gerar-apks)
+    - [📋 Considerações Importantes](#-considerações-importantes)
+    - [🛠️ Build Local (Opcional)](#️-build-local-opcional)
   - [🔗 Links Úteis](#-links-úteis)
+  - [📎 Funcionalidade de Upload de Recibos](#-funcionalidade-de-upload-de-recibos)
+    - [🎯 Como Funciona](#-como-funciona)
+    - [📋 Restrições e Limitações](#-restrições-e-limitações)
+    - [🔒 Segurança](#-segurança)
+    - [💡 Dicas de Uso](#-dicas-de-uso)
   - [💡 Melhorias Futuras](#-melhorias-futuras)
   - [👥 Autor](#-autor)
 
@@ -50,7 +60,7 @@ O **Bytebank Mobile** é um aplicativo completo para o gerenciamento das suas fi
       * Visualização detalhada das transações, com filtros avançados (por data, categoria, etc.) e paginação.
       * Modal dedicado para criar e editar transações.
       * Validação rigorosa dos campos para garantir a qualidade dos dados.
-      * Upload seguro de recibos e documentos relacionados a cada transação.
+      * **Upload de Recibos**: Anexe recibos PDF às suas transações para manter um registro completo das suas movimentações financeiras.
   * **Armazenamento em Nuvem**: Utiliza MongoDB para armazenar os dados das transações (via API) e Firebase Storage para os recibos.
   * **Atualização Automática de Dados**: Informações do usuário, como nome e saldo, são atualizadas automaticamente por meio de queries GraphQL.
 
@@ -159,6 +169,7 @@ Para configurar e executar o projeto localmente, siga os passos abaixo:
         EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
         EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_firebase_Messaginger_id
         EXPO_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
+        EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id
         ```
 
           * **Obtendo as chaves do Firebase:** Para obter as chaves do Firebase, você precisará criar um projeto no [Console do Firebase](https://console.firebase.google.com/). Após criar o projeto, vá em "Configurações do projeto" (Project settings) \> "Geral" (General) e copie as chaves de configuração do seu aplicativo web. Estas chaves serão utilizadas para inicializar o SDK do Firebase em seu aplicativo React Native.
@@ -227,16 +238,84 @@ Para facilitar o uso do emulador sem precisar abrir o Android Studio toda vez, s
 
 ## ☁️ Implantação (Deploy)
 
-A aplicação mobile pode ser construída para produção através do Expo CLI. Para gerar um build de produção (APK/IPA), você pode utilizar os comandos do Expo:
+A aplicação mobile pode ser construída para produção através do Expo CLI. O projeto está configurado para gerar **APKs** ao invés de AABs, permitindo instalação direta em dispositivos Android.
 
-  * **Build para Android:**
-    ```bash
-    eas build --platform android --profile production
-    ```
-  * **Build para iOS:** (macOS apenas)
-    ```bash
-    eas build --platform ios --profile production
-    ```
+Para gerar os builds, deve ter o EAS CLI instalado globalmente:
+
+```bash
+npm install -g eas-cli
+```
+
+### 📱 Configuração de Build APK
+
+O projeto está configurado para gerar APKs através das seguintes configurações no arquivo `eas.json`:
+
+```json
+{
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "apk"
+      }
+    }
+  }
+}
+```
+
+> ⚠️ **Nota**: O projeto não possui mais suporte a builds de desenvolvimento (`development`). Para desenvolvimento local, utilize o Expo Go ou emuladores com `npm run dev:mobile`.
+
+### 🔄 Diferenças entre APK e AAB
+
+| Formato | Uso | Instalação | Tamanho |
+|---------|-----|------------|---------|
+| **APK** | Distribuição interna, testes, instalação direta | Pode ser instalado diretamente | Maior |
+| **AAB** | Google Play Store (obrigatório) | Não pode ser instalado diretamente | Menor |
+
+### 🚀 Comandos para Gerar APKs
+
+```bash
+# Build de preview (para testes internos e demonstrações)
+eas build --platform android --profile preview
+
+# Build de produção (para distribuição final)
+eas build --platform android --profile production
+```
+
+> ⚠️ **Nota**: Builds de desenvolvimento não estão mais disponíveis. Para desenvolvimento local, use `npm run dev:mobile` com Expo Go ou emuladores.
+
+### 📋 Considerações Importantes
+
+1. **Google Play Store**: Para publicar na Google Play Store, você precisará gerar AABs. Para isso, altere temporariamente `"buildType": "aab"` no `eas.json`.
+
+2. **Distribuição**: APKs são ideais para:
+   - Testes internos (usando o perfil `preview`)
+   - Distribuição direta
+   - Instalação em dispositivos físicos
+   - Demonstrações
+
+3. **Tamanho**: APKs podem ser maiores que AABs devido ao formato universal.
+
+4. **Desenvolvimento Local**: Para desenvolvimento e testes locais, utilize:
+   - `npm run dev:mobile` com Expo Go
+   - Emuladores Android/iOS
+   - Não é necessário gerar builds para desenvolvimento
+
+### 🛠️ Build Local (Opcional)
+
+Para builds locais sem usar os servidores do Expo:
+
+```bash
+# Build local para Android (preview ou production)
+eas build --platform android --profile preview --local
+eas build --platform android --profile production --local
+```
+
+> ⚠️ **Nota**: Builds locais requerem Android Studio e podem demorar mais tempo. **Não é recomendado para desenvolvimento diário.** Use apenas quando necessário para builds específicos ou quando os servidores do Expo não estiverem disponíveis.
 
 Para mais detalhes sobre as opções de build e deploy com Expo, consulte a [documentação oficial do EAS Build](https://docs.expo.dev/build/introduction/).
 
@@ -247,6 +326,40 @@ Para mais detalhes sobre as opções de build e deploy com Expo, consulte a [doc
   * **Bytebank API GraphQL (Backend)**: O código-fonte da API que serve como backend para este aplicativo está disponível em um [repositório separado](https://github.com/Brendhon/bytebank-api).
   * **Bytebank PRO (Microfrontends)**: O projeto da fase anterior, que utiliza microfrontends, está disponível [aqui](https://github.com/Brendhon/bytebank-pro).
   * **Bytebank (Web)**: O projeto da fase 1, desenvolvido em Next.js, está disponível [aqui](https://github.com/Brendhon/Bytebank).
+
+---
+
+## 📎 Funcionalidade de Upload de Recibos
+
+O Bytebank Mobile oferece uma funcionalidade completa para anexar recibos às suas transações, permitindo manter um registro organizado e seguro de todos os seus documentos financeiros.
+
+### 🎯 Como Funciona
+
+1. **Seleção de Arquivo**: Ao criar ou editar uma transação, você pode anexar um recibo PDF através do botão "Selecionar Arquivo".
+2. **Upload Automático**: O arquivo é armazenado temporariamente e enviado para o Firebase Storage após a transação ser salva.
+3. **Visualização**: Recibos anexados aparecem na lista de transações com um ícone de documento, permitindo visualização rápida.
+4. **Acesso Externo**: Clique no ícone do recibo para abri-lo em seu visualizador de PDF padrão.
+
+### 📋 Restrições e Limitações
+
+- **Formato**: Apenas arquivos PDF são aceitos
+- **Tamanho**: Máximo de 5MB por arquivo
+- **Quantidade**: Um recibo por transação
+- **Armazenamento**: Arquivos são organizados por usuário e transação
+
+### 🔒 Segurança
+
+- **Isolamento por Usuário**: Cada usuário tem sua própria área de armazenamento
+- **Limpeza Automática**: Recibos são automaticamente removidos quando a transação é deletada
+- **URLs Seguras**: Links de download são autenticados e temporários
+- **Firebase Storage**: Utiliza infraestrutura segura do Google Cloud
+
+### 💡 Dicas de Uso
+
+- **Organização**: Use nomes descritivos para seus arquivos antes do upload
+- **Backup**: Mantenha cópias importantes em outro local
+- **Conectividade**: Certifique-se de ter uma conexão estável para uploads
+- **Visualização**: Os recibos podem ser visualizados offline após o download inicial
 
 ---
 

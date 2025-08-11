@@ -136,5 +136,5 @@ export default function RegisterModal({ visible, onClose }: RegisterModalProps) 
 
 const styles = {
   formContainer: 'gap-4',
-  buttonContainer: 'flex-col items-center gap-6 pt-4',
+  buttonContainer: 'flex-col items-center gap-6 pt-4 pb-8',
 };
