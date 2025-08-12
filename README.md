@@ -21,6 +21,7 @@ Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida com
     - [Build APK](#build-apk)
     - [Configuração](#configuração)
     - [APK para Testes](#apk-para-testes)
+  - [▶️ Vídeo Demonstrativo](#️-vídeo-demonstrativo)
   - [📎 Funcionalidade de Upload de Recibos](#-funcionalidade-de-upload-de-recibos)
     - [Como Funciona](#como-funciona)
     - [Restrições](#restrições)
@@ -230,6 +231,14 @@ Uma versão do APK está disponível para download direto:
 📱 **[Download do APK - Bytebank Mobile](https://drive.google.com/file/d/1iEcP9nUOgD6KUkHsdRYQj4n9mUDX8s3n/view?usp=sharing)**
 
 > 💡 **Dica**: Este APK pode ser instalado diretamente em emuladores Android ou dispositivos físicos para testes rápidos, sem necessidade de gerar builds locais.
+
+---
+
+## ▶️ Vídeo Demonstrativo
+
+Assista a uma demonstração das principais funcionalidades do aplicativo:
+
+▶️ **[Vídeo Demonstrativo - Bytebank Mobile](https://drive.google.com/file/d/1KEbnzUHAtrvg1uI3nrsL283dIwuIow6D/view?usp=drive_link)**
 
 ---
 
