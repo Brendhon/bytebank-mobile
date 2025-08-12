@@ -7,17 +7,17 @@ export const colors = {
   blue: '#004D61',
   orange: '#FF5031',
   green: '#47A138',
-  
+
   // Background colors
   'light-green': '#E4EDE3',
   'light-gray': '#F9F9F9',
   white: '#FFFFFF',
-  
+
   // Text colors
   gray: '#888888',
   dark: '#212121',
   'dark-gray': '#444444',
-  
+
   // Status colors
   red: '#BF1313',
 } as const;
@@ -33,4 +33,4 @@ export const gradients = {
 } as const;
 
 export type ColorKey = keyof typeof colors;
-export type GradientKey = keyof typeof gradients; 
+export type GradientKey = keyof typeof gradients;

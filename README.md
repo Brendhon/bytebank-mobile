@@ -27,7 +27,6 @@ Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida com
     - [Configuração](#configuração)
     - [APK para Testes](#apk-para-testes)
   - [▶️ Vídeo Demonstrativo](#️-vídeo-demonstrativo)
-  - [🖼️ Telas da Aplicação](./assets/screenshots/README.md)
   - [💡 Melhorias Futuras](#-melhorias-futuras)
   - [🔗 Links Úteis](#-links-úteis)
   - [👥 Autor](#-autor)
@@ -99,7 +98,6 @@ O **Bytebank Mobile** é um aplicativo completo para o gerenciamento das suas fi
 - **Backend de Dados**: [MongoDB](https://www.mongodb.com/) (através da [Bytebank API GraphQL](https://github.com/Brendhon/bytebank-api))
 - **Armazenamento de Arquivos**: [Firebase Storage](https://firebase.google.com/docs/storage)
 - **Ferramentas de Qualidade**: ESLint, Prettier
-- **Monitoramento e Depuração**: [Flipper](https://fbflipper.com/)
 
 ---
 
@@ -264,7 +262,7 @@ Uma versão do APK está disponível para download direto:
 
 Assista a uma demonstração das principais funcionalidades do aplicativo:
 
-▶️ **[Vídeo Demonstrativo - Bytebank Mobile](https://drive.google.com/file/d/1KEbnzUHAtrvg1uI3nrsL283dIwuIow6D/view?usp=drive_link)**
+▶️ **[Vídeo Demonstrativo - Bytebank Mobile](https://drive.google.com/file/d/1YS4_w1ZcARnCgnf3DERwNugHmVUINlzC/view?usp=sharing)**
 
 ---
 

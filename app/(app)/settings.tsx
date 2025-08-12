@@ -17,7 +17,7 @@ import { Alert, ScrollView, Text, View } from 'react-native';
 const AnimatedText = ({
   children,
   className,
-  delay = 0
+  delay = 0,
 }: {
   children: React.ReactNode;
   className: string;
@@ -25,9 +25,7 @@ const AnimatedText = ({
 }) => {
   return (
     <AnimatedView delay={delay} className={className}>
-      <Text className={className}>
-        {children}
-      </Text>
+      <Text className={className}>{children}</Text>
     </AnimatedView>
   );
 };
@@ -55,43 +53,46 @@ export default function SettingsScreen() {
   const watchedValues = watch();
 
   // Function to save changes
-  const handleSaveChanges = useCallback(async (data: SettingsFormData) => {
-    try {
-      // Validate current password for any changes
-      if (!data.currentPassword || !data.currentPassword.trim()) {
-        Alert.alert('Erro', 'Senha atual é obrigatória para fazer alterações');
-        return;
+  const handleSaveChanges = useCallback(
+    async (data: SettingsFormData) => {
+      try {
+        // Validate current password for any changes
+        if (!data.currentPassword || !data.currentPassword.trim()) {
+          Alert.alert('Erro', 'Senha atual é obrigatória para fazer alterações');
+          return;
+        }
+
+        const isValidPassword = await validatePassword(data.currentPassword);
+        if (!isValidPassword) {
+          Alert.alert('Erro', 'Senha atual incorreta');
+          return;
+        }
+
+        // Prepare data for update
+        const updates: any = {
+          name: data.name,
+        };
+
+        if (data.newPassword) {
+          updates.password = data.newPassword;
+        }
+
+        // Update user
+        await updateUser(updates);
+
+        Alert.alert('Sucesso', 'Dados atualizados com sucesso!');
+
+        // Clear password fields
+        setValue('currentPassword', '');
+        setValue('newPassword', '');
+        setValue('confirmPassword', '');
+      } catch (error) {
+        console.log(error);
+        Alert.alert('Erro', 'Não foi possível atualizar os dados. Tente novamente.');
       }
-
-      const isValidPassword = await validatePassword(data.currentPassword);
-      if (!isValidPassword) {
-        Alert.alert('Erro', 'Senha atual incorreta');
-        return;
-      }
-
-      // Prepare data for update
-      const updates: any = {
-        name: data.name,
-      };
-
-      if (data.newPassword) {
-        updates.password = data.newPassword;
-      }
-
-      // Update user
-      await updateUser(updates);
-
-      Alert.alert('Sucesso', 'Dados atualizados com sucesso!');
-
-      // Clear password fields
-      setValue('currentPassword', '');
-      setValue('newPassword', '');
-      setValue('confirmPassword', '');
-
-    } catch (error) {
-      Alert.alert('Erro', 'Não foi possível atualizar os dados. Tente novamente.');
-    }
-  }, [validatePassword, updateUser, setValue]);
+    },
+    [validatePassword, updateUser, setValue]
+  );
 
   // Function to open account deletion modal
   const handleDeleteAccount = useCallback(() => {
@@ -188,11 +189,9 @@ export default function SettingsScreen() {
               loading={isUpdatingUser}
               className={styles.saveButton}
               accessibilityLabel="Salvar alterações da conta"
-              accessibilityHint="Salva as alterações feitas nos dados pessoais e senha"
-            >
+              accessibilityHint="Salva as alterações feitas nos dados pessoais e senha">
               Salvar alterações
             </Button>
-
           </AnimatedView>
         </AnimatedView>
 
@@ -205,8 +204,8 @@ export default function SettingsScreen() {
             </AnimatedText>
           </View>
           <AnimatedText className={styles.dangerDescription} delay={1800}>
-            A exclusão da conta é permanente e não pode ser desfeita.
-            Todos os seus dados serão perdidos.
+            A exclusão da conta é permanente e não pode ser desfeita. Todos os seus dados serão
+            perdidos.
           </AnimatedText>
 
           <Button
@@ -214,8 +213,7 @@ export default function SettingsScreen() {
             onPress={handleDeleteAccount}
             className={styles.deleteButton}
             accessibilityLabel="Excluir conta permanentemente"
-            accessibilityHint="Abre um modal para confirmar a exclusão da conta com validação de senha"
-          >
+            accessibilityHint="Abre um modal para confirmar a exclusão da conta com validação de senha">
             Excluir conta
           </Button>
         </AnimatedView>

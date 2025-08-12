@@ -35,7 +35,7 @@ export class AuthService {
         mutation: LOGIN,
         variables: {
           input: { email, password },
-        }
+        },
       });
 
       if (!data?.login) {

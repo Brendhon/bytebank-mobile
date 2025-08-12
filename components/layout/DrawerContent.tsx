@@ -17,10 +17,8 @@ export default function DrawerContent({ props }: DrawerContentProps) {
   return (
     <View className={styles.container}>
       <DrawerContentScrollView {...props}>
-
         {/* Header */}
         <View className={styles.header}>
-
           <View className={styles.headerContent}>
             <View className={styles.headerContentUser}>
               <User size={28} color={colors.dark} />
@@ -50,9 +48,7 @@ export default function DrawerContent({ props }: DrawerContentProps) {
 
       {/* Logout Button */}
       <View className={styles.logoutButton}>
-        <TouchableOpacity
-          onPress={handleLogout}
-          className={styles.logoutButtonContainer}>
+        <TouchableOpacity onPress={handleLogout} className={styles.logoutButtonContainer}>
           <LogOut size={20} color={colors.white} />
           <Text className={styles.logoutButtonText}>Sair</Text>
         </TouchableOpacity>
@@ -74,4 +70,4 @@ const styles = {
   logoutButton: 'border-dark-gray border-t p-8',
   logoutButtonText: 'text-white ml-3 font-semibold',
   logoutButtonContainer: 'flex-row items-center',
-}
+};

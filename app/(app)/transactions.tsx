@@ -44,6 +44,7 @@ export default function TransactionsScreen() {
       setPage(data?.page ?? nextPage);
       setTransactions((prev) => (append ? [...prev, ...data.items] : data.items));
     } catch (error) {
+      console.log(error);
       Alert.alert('Erro', 'Não foi possível carregar as transações.');
     } finally {
       setLoading(false);
@@ -62,44 +63,46 @@ export default function TransactionsScreen() {
     fetchTransactions(page + 1, true);
   }, [fetchTransactions, loading, hasMore, page]);
 
-  const handleEditTransaction = useCallback((transaction: Transaction) => {
-    openEditModal(transaction);
-  }, [openEditModal]);
+  const handleEditTransaction = useCallback(
+    (transaction: Transaction) => {
+      openEditModal(transaction);
+    },
+    [openEditModal]
+  );
 
   const handleDeleteTransaction = useCallback((transaction: Transaction) => {
-    Alert.alert(
-      'Excluir transação',
-      'Tem certeza que deseja excluir esta transação?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Excluir',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              const ok = await TransactionService.deleteTransaction(transaction._id);
-              if (ok) {
-                setTransactions((prev) => prev.filter((t) => t._id !== transaction._id));
-              }
-            } catch {
-              Alert.alert('Erro', 'Não foi possível excluir a transação.');
+    Alert.alert('Excluir transação', 'Tem certeza que deseja excluir esta transação?', [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Excluir',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            const ok = await TransactionService.deleteTransaction(transaction._id);
+            if (ok) {
+              setTransactions((prev) => prev.filter((t) => t._id !== transaction._id));
             }
-          },
+          } catch {
+            Alert.alert('Erro', 'Não foi possível excluir a transação.');
+          }
         },
-      ]
-    );
+      },
+    ]);
   }, []);
 
-  const renderTransactionItem = useCallback(({ item, index }: { item: Transaction, index: number }) => {
-    return (
-      <TransactionItem
-        transaction={item}
-        index={index}
-        onEdit={handleEditTransaction}
-        onDelete={handleDeleteTransaction}
-      />
-    );
-  }, [handleEditTransaction, handleDeleteTransaction]);
+  const renderTransactionItem = useCallback(
+    ({ item, index }: { item: Transaction; index: number }) => {
+      return (
+        <TransactionItem
+          transaction={item}
+          index={index}
+          onEdit={handleEditTransaction}
+          onDelete={handleDeleteTransaction}
+        />
+      );
+    },
+    [handleEditTransaction, handleDeleteTransaction]
+  );
 
   const renderFooter = useCallback(() => {
     return <LoadingFooter loading={loading} />;
@@ -120,12 +123,11 @@ export default function TransactionsScreen() {
     });
   }, []);
 
-  const submitTransactionRequest = useCallback(
-    async (payload: TransactionInput, id?: string) => {
-      return id ? TransactionService.updateTransaction(id, payload) : TransactionService.createTransaction(payload);
-    },
-    []
-  );
+  const submitTransactionRequest = useCallback(async (payload: TransactionInput, id?: string) => {
+    return id
+      ? TransactionService.updateTransaction(id, payload)
+      : TransactionService.createTransaction(payload);
+  }, []);
 
   return (
     <GradientContainer>

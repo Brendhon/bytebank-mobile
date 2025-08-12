@@ -9,10 +9,10 @@ import { Transaction } from '@/models/transaction';
 export const compareDates = (dateA: string, dateB: string): number => {
   const [dayA, monthA, yearA] = dateA.split('/').map(Number);
   const [dayB, monthB, yearB] = dateB.split('/').map(Number);
-  
+
   const dateObjA = new Date(yearA, monthA - 1, dayA);
   const dateObjB = new Date(yearB, monthB - 1, dayB);
-  
+
   // Sort in descending order (newest first)
   return dateObjB.getTime() - dateObjA.getTime();
 };
@@ -23,7 +23,10 @@ export const compareDates = (dateA: string, dateB: string): number => {
  * @param newTransaction Transaction to insert
  * @returns Index where the transaction should be inserted
  */
-export const findInsertPosition = (transactions: Transaction[], newTransaction: Transaction): number => {
+export const findInsertPosition = (
+  transactions: Transaction[],
+  newTransaction: Transaction
+): number => {
   for (let i = 0; i < transactions.length; i++) {
     if (compareDates(newTransaction.date, transactions[i].date) >= 0) {
       return i;
@@ -38,9 +41,16 @@ export const findInsertPosition = (transactions: Transaction[], newTransaction: 
  * @param newTransaction Transaction to insert
  * @returns New transactions array with the transaction inserted in correct position
  */
-export const insertTransactionInOrder = (transactions: Transaction[], newTransaction: Transaction): Transaction[] => {
+export const insertTransactionInOrder = (
+  transactions: Transaction[],
+  newTransaction: Transaction
+): Transaction[] => {
   const insertPosition = findInsertPosition(transactions, newTransaction);
-  return [...transactions.slice(0, insertPosition), newTransaction, ...transactions.slice(insertPosition)];
+  return [
+    ...transactions.slice(0, insertPosition),
+    newTransaction,
+    ...transactions.slice(insertPosition),
+  ];
 };
 
 /**
@@ -49,7 +59,12 @@ export const insertTransactionInOrder = (transactions: Transaction[], newTransac
  * @param updatedTransaction Updated transaction
  * @returns New transactions array with the transaction updated and reordered
  */
-export const updateTransactionInOrder = (transactions: Transaction[], updatedTransaction: Transaction): Transaction[] => {
-  const updated = transactions.map((t) => (t._id === updatedTransaction._id ? updatedTransaction : t));
+export const updateTransactionInOrder = (
+  transactions: Transaction[],
+  updatedTransaction: Transaction
+): Transaction[] => {
+  const updated = transactions.map((t) =>
+    t._id === updatedTransaction._id ? updatedTransaction : t
+  );
   return updated.sort((a, b) => compareDates(a.date, b.date));
 };

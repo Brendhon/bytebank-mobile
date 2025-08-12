@@ -22,8 +22,7 @@ export const TransactionsHeader = ({ onNewTransaction }: TransactionsHeaderProps
             className={styles.newTransactionButton}
             onPress={onNewTransaction}
             accessibilityLabel="Nova transação"
-            accessibilityHint="Toque duas vezes para criar uma nova transação"
-          >
+            accessibilityHint="Toque duas vezes para criar uma nova transação">
             <Text>Nova transação</Text>
           </Button>
         </View>

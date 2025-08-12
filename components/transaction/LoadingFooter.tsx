@@ -25,5 +25,6 @@ export const LoadingFooter = ({ loading }: LoadingFooterProps) => {
 const styles = {
   container: 'items-center flex-row justify-center mb-4',
   text: 'text-dark-gray text-sm font-semibold',
-  loaderContainer: 'flex-row items-center gap-2 bg-white rounded-lg border border-light-green px-4 py-2',
+  loaderContainer:
+    'flex-row items-center gap-2 bg-white rounded-lg border border-light-green px-4 py-2',
 };

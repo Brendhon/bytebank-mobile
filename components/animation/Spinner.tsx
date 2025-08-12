@@ -1,5 +1,10 @@
 import { useEffect } from 'react';
-import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 import { Loader2 } from 'lucide-react-native';
 import { colors, ColorKey } from '@/utils/colors';
 

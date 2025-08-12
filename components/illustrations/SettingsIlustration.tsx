@@ -1,4 +1,4 @@
-import Svg, { ClipPath, Defs, G, Path, SvgProps } from "react-native-svg"
+import Svg, { ClipPath, Defs, G, Path, SvgProps } from 'react-native-svg';
 
 export default function SettingsIllustration(props: SvgProps) {
   return (
@@ -7,8 +7,7 @@ export default function SettingsIllustration(props: SvgProps) {
       height={props.height || 382}
       viewBox="0 0 447 382"
       fill="none"
-      {...props}
-    >
+      {...props}>
       <G clipPath="url(#clip0_13035_11712)">
         <Path d="M377.551 268.745H.097V.298h377.454v268.447z" fill="#fff" />
         <Path
@@ -35,10 +34,7 @@ export default function SettingsIllustration(props: SvgProps) {
           d="M356.651 190.739l-25.705-12.731-18.139-30.822-12.679 6.14 16.454 35.607 41.567 24.024-1.498-22.218z"
           fill="#004D61"
         />
-        <Path
-          d="M298.119 350.122l-.001 22.327-7.157-.001-3.68-22.326h10.838z"
-          stroke="#212121"
-        />
+        <Path d="M298.119 350.122l-.001 22.327-7.157-.001-3.68-22.326h10.838z" stroke="#212121" />
         <Path
           d="M300.678 380.791l-26.055-.001v-.33c0-2.693 1.069-5.275 2.971-7.179a10.133 10.133 0 017.17-2.974h15.915l-.001 10.484z"
           fill="#212121"
@@ -86,13 +82,9 @@ export default function SettingsIllustration(props: SvgProps) {
       </G>
       <Defs>
         <ClipPath id="clip0_13035_11712">
-          <Path
-            fill="#fff"
-            transform="translate(.097 .298)"
-            d="M0 0H446V381H0z"
-          />
+          <Path fill="#fff" transform="translate(.097 .298)" d="M0 0H446V381H0z" />
         </ClipPath>
       </Defs>
     </Svg>
-  )
+  );
 }

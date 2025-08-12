@@ -29,5 +29,3 @@ export function useUserStorageCleanup(): UseUserStorageCleanupReturn {
 
   return { isCleaning, error, deleteUserFolder };
 }
-
-

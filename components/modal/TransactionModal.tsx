@@ -52,7 +52,7 @@ export default function TransactionModal({
     uploadReceipt,
     deleteReceipt,
     getReceiptUrl,
-    clearReceipt
+    clearReceipt,
   } = useReceiptUpload();
 
   const title = transaction ? 'Editar Transação' : 'Nova Transação';
@@ -108,26 +108,38 @@ export default function TransactionModal({
   }, [visible]);
 
   // Handle alias change
-  const handleAliasChange = useCallback((t: string) => {
-    setValue('alias', t, { shouldValidate: true });
-  }, [setValue]);
+  const handleAliasChange = useCallback(
+    (t: string) => {
+      setValue('alias', t, { shouldValidate: true });
+    },
+    [setValue]
+  );
 
   // Handle value change
-  const handleValueChange = useCallback((t: string) => {
-    const numeric = t.trim() === '' ? 0 : Number(t);
-    setValue('value', Number.isFinite(numeric) ? numeric : 0, { shouldValidate: true });
-  }, [setValue]);
+  const handleValueChange = useCallback(
+    (t: string) => {
+      const numeric = t.trim() === '' ? 0 : Number(t);
+      setValue('value', Number.isFinite(numeric) ? numeric : 0, { shouldValidate: true });
+    },
+    [setValue]
+  );
 
   // Handle date change
-  const handleDateChange = useCallback((t: string) => {
-    setValue('date', t, { shouldValidate: true });
-  }, [setValue]);
+  const handleDateChange = useCallback(
+    (t: string) => {
+      setValue('date', t, { shouldValidate: true });
+    },
+    [setValue]
+  );
 
   // Handle description change
-  const handleDescChange = useCallback((v: TransactionDesc) => {
-    setValue('desc', v, { shouldValidate: true });
-    setValue('type', deriveTypeFromDesc(v), { shouldValidate: true });
-  }, [setValue]);
+  const handleDescChange = useCallback(
+    (v: TransactionDesc) => {
+      setValue('desc', v, { shouldValidate: true });
+      setValue('type', deriveTypeFromDesc(v), { shouldValidate: true });
+    },
+    [setValue]
+  );
 
   // Handle file upload
   const handleFileUpload = useCallback(async (file: Blob, fileName: string): Promise<string> => {
@@ -197,6 +209,7 @@ export default function TransactionModal({
       onSaved(saved);
       handleClose();
     } catch (error) {
+      console.log(error);
       Alert.alert('Erro', 'Não foi possível salvar a transação. Tente novamente.');
     } finally {
       setIsSubmitting(false);
@@ -207,34 +220,36 @@ export default function TransactionModal({
   const handleClose = useCallback(() => onClose(), [onClose]);
 
   // Render segment
-  const renderSegment = useCallback(<T extends string>(
-    label: string,
-    options: { label: string; value: T }[],
-    selected: T,
-    onSelect: (v: T) => void,
-    disabled?: boolean
-  ) => {
-    return (
-      <View className="gap-2">
-        <Text className={styles.segmentLabel}>{label}</Text>
-        <View className={styles.segmentGroup}>
-          {options.map((opt) => (
-            <Button
-              key={opt.value}
-              onPress={() => !disabled && onSelect(opt.value)}
-              disabled={disabled}
-              variant={selected === opt.value ? 'green' : 'outlineGreen'}
-              className={styles.segmentButton}
-              accessibilityLabel={`Selecionar ${opt.label}`}
-              accessibilityHint={disabled ? 'Campo desativado' : undefined}
-            >
-              {opt.label}
-            </Button>
-          ))}
+  const renderSegment = useCallback(
+    <T extends string>(
+      label: string,
+      options: { label: string; value: T }[],
+      selected: T,
+      onSelect: (v: T) => void,
+      disabled?: boolean
+    ) => {
+      return (
+        <View className="gap-2">
+          <Text className={styles.segmentLabel}>{label}</Text>
+          <View className={styles.segmentGroup}>
+            {options.map((opt) => (
+              <Button
+                key={opt.value}
+                onPress={() => !disabled && onSelect(opt.value)}
+                disabled={disabled}
+                variant={selected === opt.value ? 'green' : 'outlineGreen'}
+                className={styles.segmentButton}
+                accessibilityLabel={`Selecionar ${opt.label}`}
+                accessibilityHint={disabled ? 'Campo desativado' : undefined}>
+                {opt.label}
+              </Button>
+            ))}
+          </View>
         </View>
-      </View>
-    );
-  }, []);
+      );
+    },
+    []
+  );
 
   const descOptions: { label: string; value: TransactionDesc }[] = [
     { label: 'Depósito', value: TransactionDesc.DEPOSIT },
@@ -255,20 +270,9 @@ export default function TransactionModal({
   return (
     <Modal visible={visible} onClose={handleClose} title={title} illustration={illustration}>
       <View className={styles.formContainer}>
-        {renderSegment<TransactionDesc>(
-          'Descrição',
-          descOptions,
-          watchedDesc,
-          handleDescChange
-        )}
+        {renderSegment<TransactionDesc>('Descrição', descOptions, watchedDesc, handleDescChange)}
 
-        {renderSegment<TransactionType>(
-          'Tipo',
-          typeOptions,
-          watchedType,
-          () => { },
-          true
-        )}
+        {renderSegment<TransactionType>('Tipo', typeOptions, watchedType, () => {}, true)}
 
         <Input
           label="Apelido"
@@ -301,11 +305,7 @@ export default function TransactionModal({
         <FileUpload
           label="Recibo/Comprovante"
           value={
-            pendingFileName
-              ? `pending://${pendingFileName}`
-              : isReceiptRemoved
-                ? null
-                : receiptUrl
+            pendingFileName ? `pending://${pendingFileName}` : isReceiptRemoved ? null : receiptUrl
           }
           onUpload={handleFileUpload}
           onRemove={handleFileRemove}
@@ -319,8 +319,7 @@ export default function TransactionModal({
             onPress={handleSubmit(handleSave)}
             loading={isSubmitting || isUploading}
             disabled={isSubmitting || isUploading}
-            className="w-full"
-          >
+            className="w-full">
             {isSubmitting ? 'Salvando...' : 'Salvar'}
           </Button>
         </View>
@@ -336,5 +335,3 @@ const styles = {
   segmentGroup: 'flex-row flex-wrap gap-2',
   segmentButton: 'h-10',
 };
-
-

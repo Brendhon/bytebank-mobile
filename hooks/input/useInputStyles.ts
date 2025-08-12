@@ -17,15 +17,19 @@ export const useInputStyles = ({
   className = '',
 }: UseInputStylesProps) => {
   // Compute the input class name
-  const inputClassName = useMemo(() => (
-    [
-      'w-full h-13 bg-white border-2 border-gray rounded-md px-4 text-dark text-lg',
-      (icon || isPassword) && 'pr-12',
-      error ? 'border-red border-2' : 'border-gray',
-      disabled && 'opacity-50',
-      className
-    ].filter(Boolean).join(' ')
-  ), [icon, isPassword, error, disabled, className]);
+  const inputClassName = useMemo(
+    () =>
+      [
+        'w-full h-13 bg-white border-2 border-gray rounded-md px-4 text-dark text-lg',
+        (icon || isPassword) && 'pr-12',
+        error ? 'border-red border-2' : 'border-gray',
+        disabled && 'opacity-50',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' '),
+    [icon, isPassword, error, disabled, className]
+  );
 
   // Compute the masked input style
   const maskedInputStyle = useMemo(
@@ -44,12 +48,14 @@ export const useInputStyles = ({
       (icon || isPassword) && {
         paddingRight: 48,
       },
-      error ? {
-        borderColor: colors.red,
-        borderWidth: 2,
-      } : {
-        borderColor: colors.gray,
-      },
+      error
+        ? {
+            borderColor: colors.red,
+            borderWidth: 2,
+          }
+        : {
+            borderColor: colors.gray,
+          },
       disabled && {
         opacity: 0.5,
       },

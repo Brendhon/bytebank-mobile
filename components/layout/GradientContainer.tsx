@@ -18,18 +18,14 @@ type GradientContainerProps = {
  * A reusable gradient container component that wraps LinearGradient
  * with predefined gradient configurations from the design system
  */
-export const GradientContainer = ({ 
-  gradient = 'primary', 
-  children 
-}: GradientContainerProps) => {
+export const GradientContainer = ({ gradient = 'primary', children }: GradientContainerProps) => {
   const gradientConfig = gradients[gradient];
 
   return (
     <LinearGradient
       colors={gradientConfig.colors}
       locations={gradientConfig.locations}
-      style={{ flex: 1 }}
-    >
+      style={{ flex: 1 }}>
       {children}
     </LinearGradient>
   );

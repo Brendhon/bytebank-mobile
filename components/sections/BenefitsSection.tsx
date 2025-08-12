@@ -1,4 +1,3 @@
-
 import HomeIllustration from '@/components/illustrations/HomeIllustration';
 import { Image, ScrollView, Text, View } from 'react-native';
 import { AnimatedView } from '../animation/AnimatedComponents';
@@ -15,7 +14,7 @@ interface BenefitItemProps {
 const AnimatedText = ({
   children,
   className,
-  delay = 0
+  delay = 0,
 }: {
   children: React.ReactNode;
   className: string;
@@ -23,9 +22,7 @@ const AnimatedText = ({
 }) => {
   return (
     <AnimatedView delay={delay} className={className}>
-      <Text className={className}>
-        {children}
-      </Text>
+      <Text className={className}>{children}</Text>
     </AnimatedView>
   );
 };
@@ -73,7 +70,9 @@ export const BenefitsSection = () => {
           Vantagens do nosso banco:
         </AnimatedText>
         <View className={styles.sectionBenefits}>
-          {benefits.map((item, idx) => <BenefitItem key={idx} item={{ ...item, index: idx }} />)}
+          {benefits.map((item, idx) => (
+            <BenefitItem key={idx} item={{ ...item, index: idx }} />
+          ))}
         </View>
       </View>
     </ScrollView>

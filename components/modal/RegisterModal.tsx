@@ -124,8 +124,7 @@ export default function RegisterModal({ visible, onClose }: RegisterModalProps) 
             onPress={handleSubmit(onSubmit)}
             loading={isLoading || isSubmitting}
             disabled={isLoading || isSubmitting}
-            className="w-full"
-          >
+            className="w-full">
             {isLoading || isSubmitting ? 'Criando conta...' : 'Criar Conta'}
           </Button>
         </View>

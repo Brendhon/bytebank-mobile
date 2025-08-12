@@ -8,7 +8,14 @@ import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
  * This provides a way to define different styles based on the variant prop passed to the Button component.
  * The variant styles are defined in the styles object at the end of the file.
  */
-type ButtonVariant = 'dark' | 'blue' | 'green' | 'orange' | 'outlineGreen' | 'outlineOrange' | 'outlineBlue';
+type ButtonVariant =
+  | 'dark'
+  | 'blue'
+  | 'green'
+  | 'orange'
+  | 'outlineGreen'
+  | 'outlineOrange'
+  | 'outlineBlue';
 
 /**
  * Button props
@@ -74,7 +81,7 @@ const styles = {
   outlineGreen: `bg-transparent border-2 border-green`,
   outlineOrange: `bg-transparent border-2 border-orange`,
   outlineBlue: `bg-transparent border-2 border-blue`,
-  
+
   // Text styles
   text: {
     base: `text-base font-semibold px-3`,

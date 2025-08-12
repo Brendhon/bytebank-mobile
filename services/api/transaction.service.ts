@@ -27,9 +27,7 @@ import {
   TransactionDesc,
   TransactionType,
 } from '@/models/transaction';
-import { 
-  deleteTransactionReceiptService
-} from '@/services/firebase/storage.service';
+import { deleteTransactionReceiptService } from '@/services/firebase/storage.service';
 
 /**
  * Transaction service for financial transaction operations
@@ -107,9 +105,7 @@ export class TransactionService {
           input: transactionData,
         },
         // Ensure dashboard summary is refreshed after creating a transaction
-        refetchQueries: [
-          { query: GET_TRANSACTION_SUMMARY },
-        ],
+        refetchQueries: [{ query: GET_TRANSACTION_SUMMARY }],
         awaitRefetchQueries: true,
       });
 
@@ -142,9 +138,7 @@ export class TransactionService {
           input: updates,
         },
         // Ensure dashboard summary is refreshed after updating a transaction
-        refetchQueries: [
-          { query: GET_TRANSACTION_SUMMARY },
-        ],
+        refetchQueries: [{ query: GET_TRANSACTION_SUMMARY }],
         awaitRefetchQueries: true,
       });
 
@@ -166,7 +160,7 @@ export class TransactionService {
     try {
       // Get the transaction to get user ID for receipt deletion
       const transaction = await this.getTransaction(id);
-      
+
       // Delete the transaction from the database
       const { data } = await apolloClient.mutate<
         DeleteTransactionResponse,
@@ -175,14 +169,12 @@ export class TransactionService {
         mutation: DELETE_TRANSACTION,
         variables: { id },
         // Ensure dashboard summary is refreshed after deleting a transaction
-        refetchQueries: [
-          { query: GET_TRANSACTION_SUMMARY },
-        ],
+        refetchQueries: [{ query: GET_TRANSACTION_SUMMARY }],
         awaitRefetchQueries: true,
       });
 
       const deleted = data?.deleteTransaction ?? false;
-      
+
       // If transaction was deleted successfully, delete its receipt from storage
       if (deleted && transaction?.user) {
         try {

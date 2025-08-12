@@ -1,14 +1,14 @@
 import { X } from 'lucide-react-native';
 import { memo, ReactNode } from 'react';
-import { 
-  Modal as RNModal, 
-  ScrollView, 
-  Text, 
-  TouchableOpacity, 
+import {
+  Modal as RNModal,
+  ScrollView,
+  Text,
+  TouchableOpacity,
   View,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 
 interface ModalProps {
@@ -30,11 +30,11 @@ function Modal({ visible, onClose, title, children, illustration }: ModalProps) 
       presentationStyle="fullScreen"
       onRequestClose={onClose}>
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-        <KeyboardAvoidingView 
+        <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}>
-          <ScrollView 
+          <ScrollView
             className={styles.container}
             contentContainerStyle={{ flexGrow: 1 }}
             showsVerticalScrollIndicator={false}
@@ -52,9 +52,7 @@ function Modal({ visible, onClose, title, children, illustration }: ModalProps) 
             {illustration && <View className={styles.illustration}>{illustration}</View>}
 
             {/* Content */}
-            <View className={styles.content}>
-              {children}
-            </View>
+            <View className={styles.content}>{children}</View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
@@ -72,4 +70,4 @@ const styles = {
   content: 'flex-1 mb-8',
 };
 
-export default memo(Modal);  
+export default memo(Modal);

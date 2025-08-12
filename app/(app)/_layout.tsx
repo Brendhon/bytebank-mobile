@@ -75,4 +75,4 @@ export default function AppLayout() {
 const styles = {
   headerRight: 'flex-row items-center justify-between gap-2 mr-4',
   logoText: 'text-orange text-2xl font-bold italic',
-}
+};

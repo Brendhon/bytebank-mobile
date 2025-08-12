@@ -1,10 +1,13 @@
-import { TransactionType } from "../models";
+import { TransactionType } from '../models';
 
 export const formatCurrency = (value: number) => {
-  return 'R$ ' + value.toLocaleString('pt-BR', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  return (
+    'R$ ' +
+    value.toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+  );
 };
 
 export const formatCurrencyWithSign = (type: TransactionType, value: number): string => {

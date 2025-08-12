@@ -41,13 +41,10 @@ export default function FileUpload({
       if (result.canceled) return;
 
       const file = result.assets[0];
-      
+
       // Validate file size
       if (file.size && file.size > maxSize * 1024 * 1024) {
-        Alert.alert(
-          'Arquivo muito grande',
-          `O arquivo deve ter no máximo ${maxSize}MB.`
-        );
+        Alert.alert('Arquivo muito grande', `O arquivo deve ter no máximo ${maxSize}MB.`);
         return;
       }
 
@@ -57,22 +54,19 @@ export default function FileUpload({
       // Convert URI to Blob
       const response = await fetch(file.uri);
       const blob = await response.blob();
-      
+
       // Add name property to blob for file extension extraction
       (blob as any).name = file.name;
 
       // Upload file
       const url = await onUpload(blob, file.name);
-      
+
       if (!url) {
         throw new Error('Failed to get upload URL');
       }
     } catch (err) {
       console.error('File upload error:', err);
-      Alert.alert(
-        'Erro no Upload',
-        'Não foi possível fazer o upload do arquivo. Tente novamente.'
-      );
+      Alert.alert('Erro no Upload', 'Não foi possível fazer o upload do arquivo. Tente novamente.');
       setFileName(null);
     } finally {
       setIsUploading(false);
@@ -81,25 +75,21 @@ export default function FileUpload({
 
   const handleRemoveFile = useCallback(() => {
     if (isUploading || loading) return;
-    
-    Alert.alert(
-      'Remover Arquivo',
-      'Tem certeza que deseja remover o arquivo anexado?',
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
+
+    Alert.alert('Remover Arquivo', 'Tem certeza que deseja remover o arquivo anexado?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+      {
+        text: 'Remover',
+        style: 'destructive',
+        onPress: () => {
+          setFileName(null);
+          onRemove?.();
         },
-        {
-          text: 'Remover',
-          style: 'destructive',
-          onPress: () => {
-            setFileName(null);
-            onRemove?.();
-          },
-        },
-      ]
-    );
+      },
+    ]);
   }, [isUploading, loading, onRemove]);
 
   const isLoading = isUploading || loading;
@@ -107,17 +97,14 @@ export default function FileUpload({
 
   return (
     <View className={styles.container}>
-      {label && (
-        <Text className={styles.label}>{label}</Text>
-      )}
-      
+      {label && <Text className={styles.label}>{label}</Text>}
+
       {!hasFile ? (
         <TouchableOpacity
           onPress={handleSelectFile}
           disabled={isLoading}
           className={styles.uploadButton}
-          activeOpacity={0.7}
-        >
+          activeOpacity={0.7}>
           {isLoading ? (
             <ActivityIndicator size="small" color={colors.green} />
           ) : (
@@ -139,20 +126,15 @@ export default function FileUpload({
             onPress={handleRemoveFile}
             disabled={isLoading}
             className={styles.removeButton}
-            activeOpacity={0.7}
-          >
+            activeOpacity={0.7}>
             <Trash2 size={18} color={colors.white} />
           </TouchableOpacity>
         </View>
       )}
 
-      {error && (
-        <Text className={styles.error}>{error}</Text>
-      )}
-      
-      <Text className={styles.helperText}>
-        Apenas PDF (máx. {maxSize}MB)
-      </Text>
+      {error && <Text className={styles.error}>{error}</Text>}
+
+      <Text className={styles.helperText}>Apenas PDF (máx. {maxSize}MB)</Text>
     </View>
   );
 }
@@ -160,9 +142,11 @@ export default function FileUpload({
 const styles = {
   container: 'gap-2',
   label: 'text-dark text-lg font-bold',
-  uploadButton: 'flex-row items-center justify-center gap-2 p-4 border-2 border-dashed border-green rounded-lg bg-green/10',
+  uploadButton:
+    'flex-row items-center justify-center gap-2 p-4 border-2 border-dashed border-green rounded-lg bg-green/10',
   uploadText: 'text-green font-medium',
-  fileContainer: 'flex-row items-center justify-between p-3 border-2 border-blue rounded-lg bg-blue/10',
+  fileContainer:
+    'flex-row items-center justify-between p-3 border-2 border-blue rounded-lg bg-blue/10',
   fileInfo: 'flex-row items-center gap-2 flex-1',
   fileName: 'text-blue flex-1',
   removeButton: 'p-2 bg-blue rounded-lg',

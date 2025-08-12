@@ -1,4 +1,4 @@
-import Svg, { Path, SvgProps } from "react-native-svg"
+import Svg, { Path, SvgProps } from 'react-native-svg';
 
 export default function RegisterIllustration(props: SvgProps) {
   return (
@@ -7,8 +7,7 @@ export default function RegisterIllustration(props: SvgProps) {
       height={props.height || 266}
       viewBox="0 0 362 266"
       fill="none"
-      {...props}
-    >
+      {...props}>
       <Path
         d="M351.944 234.8H76.061a9.25 9.25 0 01-9.25-9.251c100.007-11.623 198.135-11.623 294.384 0a9.25 9.25 0 01-9.251 9.251z"
         fill="#444"
@@ -25,10 +24,7 @@ export default function RegisterIllustration(props: SvgProps) {
         d="M113.37 176.032a1.632 1.632 0 00-1.483.95l-10.513 22.854a1.625 1.625 0 00.108 1.563 1.638 1.638 0 001.375.752h221.079a1.631 1.631 0 001.46-2.363l-11.427-22.854a1.628 1.628 0 00-1.46-.902H113.37z"
         fill="#444"
       />
-      <Path
-        d="M213.187 35.914a2.448 2.448 0 100-4.896 2.448 2.448 0 000 4.896z"
-        fill="#fff"
-      />
+      <Path d="M213.187 35.914a2.448 2.448 0 100-4.896 2.448 2.448 0 000 4.896z" fill="#fff" />
       <Path
         d="M191.456 206.504a1.635 1.635 0 00-1.576 1.208l-2.637 9.794a1.632 1.632 0 001.576 2.057h50.151a1.638 1.638 0 001.329-.685 1.631 1.631 0 00.213-1.481l-3.391-9.795a1.632 1.632 0 00-1.542-1.098h-44.123zM325.281 165.965v2.176H100.929l.169-.272v-1.904h224.183z"
         fill="#444"
@@ -102,5 +98,5 @@ export default function RegisterIllustration(props: SvgProps) {
         stroke="#212121"
       />
     </Svg>
-  )
+  );
 }

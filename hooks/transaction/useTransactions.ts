@@ -23,4 +23,4 @@ export const useTransactions = (limit?: number, page?: number) => {
     refetch,
     fetchMore,
   };
-}; 
+};

@@ -10,12 +10,11 @@ import { AlertCircle, Eye, EyeOff } from 'lucide-react-native';
 import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-
 // Animated text component
 const AnimatedText = ({
   children,
   className,
-  delay = 0
+  delay = 0,
 }: {
   children: React.ReactNode;
   className: string;
@@ -23,9 +22,7 @@ const AnimatedText = ({
 }) => {
   return (
     <AnimatedView delay={delay} className={className}>
-      <Text className={className}>
-        {children}
-      </Text>
+      <Text className={className}>{children}</Text>
     </AnimatedView>
   );
 };
@@ -39,9 +36,8 @@ type Movement = {
 };
 
 // Memoized icon components for better performance
-const VisibilityIcon = ({ isVisible }: { isVisible: boolean }) => isVisible
-  ? <EyeOff size={28} color={colors.dark} />
-  : <Eye size={28} color={colors.dark} />;
+const VisibilityIcon = ({ isVisible }: { isVisible: boolean }) =>
+  isVisible ? <EyeOff size={28} color={colors.dark} /> : <Eye size={28} color={colors.dark} />;
 
 export default function DashboardScreen() {
   const { user } = useAuth();
@@ -88,10 +84,13 @@ export default function DashboardScreen() {
   const formattedDate = useMemo(() => formatDate(), []);
 
   // Memoize toggle function to prevent recreation on every render
-  const toggleBalanceVisibility = useCallback(() => setIsBalanceVisible(prev => !prev), []);
+  const toggleBalanceVisibility = useCallback(() => setIsBalanceVisible((prev) => !prev), []);
 
   // Memoize accessibility label to prevent string recreation
-  const visibilityAccessibilityLabel = useMemo(() => isBalanceVisible ? 'Ocultar saldo' : 'Mostrar saldo', [isBalanceVisible]);
+  const visibilityAccessibilityLabel = useMemo(
+    () => (isBalanceVisible ? 'Ocultar saldo' : 'Mostrar saldo'),
+    [isBalanceVisible]
+  );
 
   // Memoize balance display value based on real data
   const balanceDisplayValue = useMemo(() => {
@@ -140,8 +139,7 @@ export default function DashboardScreen() {
               accessibilityLabel={visibilityAccessibilityLabel}
               accessibilityHint="Toque para alternar a visibilidade do saldo da conta"
               accessibilityRole="button"
-              accessibilityState={{ checked: isBalanceVisible }}
-            >
+              accessibilityState={{ checked: isBalanceVisible }}>
               <VisibilityIcon isVisible={isBalanceVisible} />
             </TouchableOpacity>
           </View>
@@ -164,8 +162,7 @@ export default function DashboardScreen() {
                 className={styles.balanceValue}
                 numberOfLines={1}
                 ellipsizeMode="tail"
-                style={{ maxWidth: 220 }}
-              >
+                style={{ maxWidth: 220 }}>
                 {balanceDisplayValue}
               </Text>
             </View>
@@ -181,19 +178,15 @@ export default function DashboardScreen() {
               {movements.map((movement, index) => (
                 <AnimatedView
                   key={movement.id}
-                  delay={1650 + (index * 150)}
-                  className={`${styles.movementCard} ${movement.color}`}
-                >
+                  delay={1650 + index * 150}
+                  className={`${styles.movementCard} ${movement.color}`}>
                   <View
                     accessibilityLabel={`${movement.type}: ${formatCurrency(movement.value)}`}
-                    accessibilityRole="summary"
-                  >
+                    accessibilityRole="summary">
                     <Text className={styles.movementValue}>
                       {isBalanceVisible ? formatCurrency(movement.value) : '••••••'}
                     </Text>
-                    <Text className={styles.movementType}>
-                      {movement.type}
-                    </Text>
+                    <Text className={styles.movementType}>{movement.type}</Text>
                   </View>
                 </AnimatedView>
               ))}

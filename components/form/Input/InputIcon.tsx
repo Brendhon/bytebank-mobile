@@ -25,10 +25,9 @@ const InputIcon = ({ icon, onIconClick, disabled = false, label }: InputIconProp
       onPress={onIconClick}
       disabled={!onIconClick || disabled}
       accessibilityLabel={`Botão ${label || 'do campo'}`}
-      accessibilityHint={onIconClick ? "Toque para executar ação" : "Botão desabilitado"}
+      accessibilityHint={onIconClick ? 'Toque para executar ação' : 'Botão desabilitado'}
       accessibilityRole="button"
-      accessibilityState={{ disabled: !onIconClick || disabled }}
-    >
+      accessibilityState={{ disabled: !onIconClick || disabled }}>
       {clonedIcon}
     </TouchableOpacity>
   );
@@ -36,6 +35,6 @@ const InputIcon = ({ icon, onIconClick, disabled = false, label }: InputIconProp
 
 const styles = {
   icon: 'absolute right-3 top-2 p-2',
-}
+};
 
 export default memo(InputIcon);

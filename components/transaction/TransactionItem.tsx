@@ -24,8 +24,9 @@ export const TransactionItem = ({ transaction, index, onEdit, onDelete }: Transa
   const { user } = useAuth();
   const { receiptUrl, getReceiptUrl } = useReceiptUpload();
 
-  const valueClass = `${styles.transactionValue} ${transaction.type === TransactionType.INFLOW ? styles.positiveValue : styles.negativeValue
-    }`;
+  const valueClass = `${styles.transactionValue} ${
+    transaction.type === TransactionType.INFLOW ? styles.positiveValue : styles.negativeValue
+  }`;
 
   // Try to get receipt URL when component mounts
   useEffect(() => {
@@ -48,27 +49,17 @@ export const TransactionItem = ({ transaction, index, onEdit, onDelete }: Transa
 
       <View>
         {receiptUrl && (
-          <ReceiptViewer
-            className={styles.receipt}
-            receiptUrl={receiptUrl}
-            variant="button"
-          />
+          <ReceiptViewer className={styles.receipt} receiptUrl={receiptUrl} variant="button" />
         )}
       </View>
 
       <View className={styles.footer}>
         <View className={styles.footerLeft}>
           <View className={styles.typeContainer}>
-            <Text className={styles.typeText}>
-              {getTransactionDescription(transaction.desc)}
-            </Text>
+            <Text className={styles.typeText}>{getTransactionDescription(transaction.desc)}</Text>
           </View>
         </View>
-        <TransactionActions
-          transaction={transaction}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
+        <TransactionActions transaction={transaction} onEdit={onEdit} onDelete={onDelete} />
       </View>
     </AnimatedView>
   );

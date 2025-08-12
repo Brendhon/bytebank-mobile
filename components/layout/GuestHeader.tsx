@@ -16,7 +16,7 @@ export const GuestHeader = ({ onOpenAccount, onLogin }: HeaderProps) => {
         <Animated.View entering={FadeIn.delay(0).springify()}>
           <LogoIllustration width={24} height={24} color={colors.green} />
         </Animated.View>
-        
+
         <Animated.View entering={SlideInRight} className={styles.buttonContainer}>
           <Button
             variant="green"
@@ -46,4 +46,4 @@ const styles = {
   buttonContainer: 'flex-row gap-4',
   loginButton: 'w-20 h-10',
   registerButton: 'w-24 h-10',
-}; 
+};

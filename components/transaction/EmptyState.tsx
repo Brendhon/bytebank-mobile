@@ -41,8 +41,7 @@ export const EmptyState = memo(({ onNewTransaction }: EmptyStateProps) => {
               onPress={handleButtonPress}
               className={styles.button}
               accessibilityLabel="Criar nova transação"
-              accessibilityHint="Toque para adicionar uma nova transação à sua lista"
-            >
+              accessibilityHint="Toque para adicionar uma nova transação à sua lista">
               Criar primeira transação
             </Button>
           </AnimatedView>

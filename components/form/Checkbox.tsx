@@ -31,14 +31,12 @@ export const Checkbox: React.FC<CheckboxProps> = ({
             onPress={() => field.onChange(!field.value)}
             className={styles.checkbox}
             accessibilityRole="checkbox"
-            accessibilityState={{ checked: field.value }}
-          >
-            <View className={`${styles.checkboxInner} ${field.value ? styles.checkboxChecked : ''}`}>
+            accessibilityState={{ checked: field.value }}>
+            <View
+              className={`${styles.checkboxInner} ${field.value ? styles.checkboxChecked : ''}`}>
               {field.value && <Text className={styles.checkmark}>✓</Text>}
             </View>
-            <Text className={`${styles.label} ${labelClassName}`}>
-              {label}
-            </Text>
+            <Text className={`${styles.label} ${labelClassName}`}>{label}</Text>
           </TouchableOpacity>
           {(fieldState.error || error) && (
             <Text className={`${styles.errorText} ${errorClassName}`}>
@@ -49,7 +47,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       )}
     />
   );
-}; 
+};
 
 const styles = {
   container: 'flex items-start gap-2',

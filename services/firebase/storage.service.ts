@@ -1,10 +1,4 @@
-import { 
-  ref, 
-  uploadBytes, 
-  getDownloadURL, 
-  deleteObject,
-  listAll 
-} from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, deleteObject, listAll } from 'firebase/storage';
 import { firebaseStorage } from './config';
 
 /**
@@ -15,7 +9,7 @@ import { firebaseStorage } from './config';
  * @returns The download URL of the uploaded file.
  */
 export const uploadReceiptService = async (
-  file: Blob, 
+  file: Blob,
   userId: string,
   transactionId: string
 ): Promise<string> => {
@@ -40,10 +34,8 @@ export const deleteReceiptService = async (receiptUrl: string): Promise<void> =>
   try {
     // Extract the path from the download URL
     const baseUrl = `https://firebasestorage.googleapis.com/v0/b/${process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET}/o/`;
-    const path = decodeURIComponent(
-      receiptUrl.replace(baseUrl, '').split('?')[0]
-    );
-    
+    const path = decodeURIComponent(receiptUrl.replace(baseUrl, '').split('?')[0]);
+
     const storageRef = ref(firebaseStorage, path);
     await deleteObject(storageRef);
   } catch (error) {
@@ -64,7 +56,7 @@ export const deleteTransactionReceiptService = async (
   try {
     const filePath = `${userId}/${transactionId}.pdf`;
     const storageRef = ref(firebaseStorage, filePath);
-    
+
     try {
       await deleteObject(storageRef);
     } catch (error) {
@@ -86,13 +78,13 @@ export const deleteTransactionReceiptService = async (
  * @returns The download URL of the receipt or null if not found.
  */
 export const getReceiptUrlService = async (
-  userId: string, 
+  userId: string,
   transactionId: string
 ): Promise<string | null> => {
   try {
     const filePath = `${userId}/${transactionId}.pdf`;
     const storageRef = ref(firebaseStorage, filePath);
-    
+
     try {
       const downloadUrl = await getDownloadURL(storageRef);
       return downloadUrl;

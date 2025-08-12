@@ -9,11 +9,7 @@ interface PasswordToggleProps {
   onToggle: (nextShowPassword: boolean) => void;
 }
 
-const PasswordToggle = ({ 
-  disabled = false,
-  showPassword,
-  onToggle,
-}: PasswordToggleProps) => {
+const PasswordToggle = ({ disabled = false, showPassword, onToggle }: PasswordToggleProps) => {
   const handlePress = useCallback(() => {
     onToggle(!showPassword);
   }, [showPassword, onToggle]);
@@ -26,15 +22,18 @@ const PasswordToggle = ({
       accessibilityLabel={`${showPassword ? 'Ocultar' : 'Mostrar'} senha`}
       accessibilityHint={`Toque para ${showPassword ? 'ocultar' : 'mostrar'} a senha`}
       accessibilityRole="button"
-      accessibilityState={{ disabled }}
-    >
-      {showPassword ? <EyeOff size={20} color={colors.blue} /> : <Eye size={20} color={colors.blue} />}
+      accessibilityState={{ disabled }}>
+      {showPassword ? (
+        <EyeOff size={20} color={colors.blue} />
+      ) : (
+        <Eye size={20} color={colors.blue} />
+      )}
     </TouchableOpacity>
   );
 };
 
 const styles = {
   toggle: 'absolute right-3 top-2 p-2',
-}
+};
 
 export default memo(PasswordToggle);

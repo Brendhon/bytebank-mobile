@@ -95,8 +95,7 @@ export default function LoginModal({ visible, onClose }: LoginModalProps) {
             onPress={handleSubmit(onSubmit)}
             loading={isLoading || isSubmitting}
             disabled={isLoading || isSubmitting}
-            className="w-full"
-          >
+            className="w-full">
             {isLoading || isSubmitting ? 'Entrando...' : 'Acessar'}
           </Button>
         </View>

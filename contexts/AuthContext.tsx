@@ -127,7 +127,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       await tokenManager.removeToken();
       setSession(null);
       setUser(null);
-      
+
       // Clear Apollo Client cache to remove all cached data
       await cacheManager.clearCache();
     } catch (error) {

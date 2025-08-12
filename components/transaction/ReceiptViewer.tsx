@@ -10,30 +10,23 @@ interface ReceiptViewerProps {
   className?: string;
 }
 
-export default function ReceiptViewer({ 
-  receiptUrl, 
+export default function ReceiptViewer({
+  receiptUrl,
   variant = 'button',
-  className = '' 
+  className = '',
 }: ReceiptViewerProps) {
-  
   const handleOpenReceipt = useCallback(async () => {
     try {
       const supported = await Linking.canOpenURL(receiptUrl);
-      
+
       if (supported) {
         await Linking.openURL(receiptUrl);
       } else {
-        Alert.alert(
-          'Erro',
-          'Não foi possível abrir o recibo. Tente novamente mais tarde.'
-        );
+        Alert.alert('Erro', 'Não foi possível abrir o recibo. Tente novamente mais tarde.');
       }
     } catch (error) {
       console.error('Error opening receipt:', error);
-      Alert.alert(
-        'Erro',
-        'Ocorreu um erro ao abrir o recibo.'
-      );
+      Alert.alert('Erro', 'Ocorreu um erro ao abrir o recibo.');
     }
   }, [receiptUrl]);
 
@@ -44,8 +37,7 @@ export default function ReceiptViewer({
         onPress={handleOpenReceipt}
         className={`${styles.container} ${className}`}
         accessibilityLabel="Abrir recibo"
-        accessibilityHint="Abre o recibo em uma nova janela"
-      >
+        accessibilityHint="Abre o recibo em uma nova janela">
         <View className={styles.button}>
           <FileText size={16} color={colors.blue} />
           <Text className={styles.buttonText}>Ver Recibo</Text>
@@ -58,8 +50,7 @@ export default function ReceiptViewer({
     <TouchableOpacity
       onPress={handleOpenReceipt}
       className={`${styles.inline} ${className}`}
-      activeOpacity={0.7}
-    >
+      activeOpacity={0.7}>
       <FileText size={16} color={colors.blue} />
       <Text className={styles.inlineText}>Recibo anexado</Text>
     </TouchableOpacity>

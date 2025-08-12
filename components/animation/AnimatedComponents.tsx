@@ -18,7 +18,10 @@ interface AnimatedTextProps {
  */
 export const AnimatedView = ({ children, className, delay = 0 }: AnimatedViewProps) => {
   return (
-    <Animated.View entering={FadeInUp.delay(delay).springify()} className={className} exiting={FadeOut}>
+    <Animated.View
+      entering={FadeInUp.delay(delay).springify()}
+      className={className}
+      exiting={FadeOut}>
       {children}
     </Animated.View>
   );
@@ -30,9 +33,7 @@ export const AnimatedView = ({ children, className, delay = 0 }: AnimatedViewPro
 export const AnimatedText = ({ children, className, delay = 0 }: AnimatedTextProps) => {
   return (
     <AnimatedView delay={delay} className={className}>
-      <Text className={className}>
-        {children}
-      </Text>
+      <Text className={className}>{children}</Text>
     </AnimatedView>
   );
 };

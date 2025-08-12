@@ -39,4 +39,4 @@ export default function HomeScreen() {
 
 const styles = {
   container: 'flex-1',
-}; 
+};

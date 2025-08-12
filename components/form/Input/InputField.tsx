@@ -46,7 +46,10 @@ const InputField = ({
   isPhone,
   isPassword,
 }: InputFieldProps) => {
-  const handleMaskedChange = useCallback((text: string, _rawText: string) => onChangeText?.(text), [onChangeText]);
+  const handleMaskedChange = useCallback(
+    (text: string, _rawText: string) => onChangeText?.(text),
+    [onChangeText]
+  );
 
   if (isDate) {
     return (

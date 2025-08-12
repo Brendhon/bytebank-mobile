@@ -26,10 +26,7 @@ export const useCreateTransaction = () => {
     CreateTransactionVariables
   >(CREATE_TRANSACTION, {
     // Refetch queries to update the UI
-    refetchQueries: [
-      { query: GET_TRANSACTIONS },
-      { query: GET_TRANSACTION_SUMMARY },
-    ],
+    refetchQueries: [{ query: GET_TRANSACTIONS }, { query: GET_TRANSACTION_SUMMARY }],
   });
 
   const createTransaction = async (input: TransactionInput) => {
@@ -59,10 +56,7 @@ export const useUpdateTransaction = () => {
     UpdateTransactionVariables
   >(UPDATE_TRANSACTION, {
     // Refetch queries to update the UI
-    refetchQueries: [
-      { query: GET_TRANSACTIONS },
-      { query: GET_TRANSACTION_SUMMARY },
-    ],
+    refetchQueries: [{ query: GET_TRANSACTIONS }, { query: GET_TRANSACTION_SUMMARY }],
   });
 
   const updateTransaction = async (id: string, input: TransactionUpdateInput) => {
@@ -92,10 +86,7 @@ export const useDeleteTransaction = () => {
     DeleteTransactionVariables
   >(DELETE_TRANSACTION, {
     // Refetch queries to update the UI
-    refetchQueries: [
-      { query: GET_TRANSACTIONS },
-      { query: GET_TRANSACTION_SUMMARY },
-    ],
+    refetchQueries: [{ query: GET_TRANSACTIONS }, { query: GET_TRANSACTION_SUMMARY }],
   });
 
   const deleteTransaction = async (id: string) => {
@@ -114,4 +105,4 @@ export const useDeleteTransaction = () => {
     error,
     data: data?.deleteTransaction,
   };
-}; 
+};

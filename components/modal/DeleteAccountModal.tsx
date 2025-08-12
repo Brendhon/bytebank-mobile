@@ -50,11 +50,11 @@ export default function DeleteAccountModal({ visible, onClose }: DeleteAccountMo
 
       // Excluir conta
       await deleteUser();
-      
+
       // Sign out to clear all user data
       await signOut();
-
     } catch (error) {
+      console.log(error);
       Alert.alert('Erro', 'Não foi possível excluir a conta. Tente novamente.');
     } finally {
       setIsDeleting(false);
@@ -79,8 +79,7 @@ export default function DeleteAccountModal({ visible, onClose }: DeleteAccountMo
       visible={visible}
       onClose={handleClose}
       title="Excluir Conta"
-      illustration={illustration}
-    >
+      illustration={illustration}>
       <View className={styles.container}>
         <View className={styles.warningSection}>
           <Text className={styles.warningTitle}>Atenção!</Text>
@@ -103,8 +102,7 @@ export default function DeleteAccountModal({ visible, onClose }: DeleteAccountMo
           variant="orange"
           onPress={handleDeleteAccount}
           loading={isDeleting}
-          disabled={isDeleting || !password.trim()}
-        >
+          disabled={isDeleting || !password.trim()}>
           {isDeleting ? 'Excluindo...' : 'Excluir Conta'}
         </Button>
       </View>
@@ -118,5 +116,5 @@ const styles = {
   warningSection: 'bg-orange/10 border border-orange/20 rounded-xl p-4 gap-2',
   warningTitle: 'text-orange text-lg font-semibold text-center',
   warningText: 'text-gray text-base text-center',
-  formSection: 'gap-4', 
+  formSection: 'gap-4',
 };

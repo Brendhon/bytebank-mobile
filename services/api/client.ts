@@ -84,10 +84,10 @@ export const cacheManager = {
     try {
       // Clear the entire Apollo cache
       await apolloClient.clearStore();
-      
+
       // Reset the store to ensure complete cleanup
       await apolloClient.resetStore();
-      
+
       console.log('Apollo Client cache cleared successfully');
     } catch (error) {
       console.error('Error clearing Apollo Client cache:', error);

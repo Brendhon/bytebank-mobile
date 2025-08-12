@@ -20,8 +20,7 @@ export const TransactionActions = ({ transaction, onEdit, onDelete }: Transactio
         variant="outlineGreen"
         className={styles.iconButton}
         onPress={() => onEdit(transaction)}
-        accessibilityLabel="Editar transação"
-      >
+        accessibilityLabel="Editar transação">
         <View className={styles.actionContainer}>
           <Edit size={16} color={colors.green} />
           <Text className={styles.actionText}>Editar</Text>
@@ -31,8 +30,7 @@ export const TransactionActions = ({ transaction, onEdit, onDelete }: Transactio
         variant="outlineOrange"
         className={styles.iconButton}
         onPress={() => onDelete(transaction)}
-        accessibilityLabel="Excluir transação"
-      >
+        accessibilityLabel="Excluir transação">
         <View className={styles.actionContainer}>
           <Trash2 size={16} color={colors.red} />
           <Text className={styles.actionText}>Excluir</Text>
