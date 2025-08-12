@@ -8,27 +8,29 @@ Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida com
   - [📝 Sumário](#-sumário)
   - [📄 Desafio Original](#-desafio-original)
   - [✨ Visão Geral](#-visão-geral)
+  - [📎 Funcionalidade de Upload de Recibos](#-funcionalidade-de-upload-de-recibos)
+    - [Como Funciona](#como-funciona)
+    - [Restrições](#restrições)
+    - [Segurança](#segurança)
   - [📦 Tecnologias](#-tecnologias)
   - [📁 Estrutura do Projeto](#-estrutura-do-projeto)
+  - [🚀 Primeiros Passos](#-primeiros-passos)
+    - [📋 Pré-requisitos](#-pré-requisitos)
+    - [🚀 Ambiente de Desenvolvimento](#-ambiente-de-desenvolvimento)
+      - [1. Clone e Instalação](#1-clone-e-instalação)
+      - [2. Configuração do Ambiente](#2-configuração-do-ambiente)
+      - [3. Executando o Projeto](#3-executando-o-projeto)
+      - [4. Testando a Aplicação](#4-testando-a-aplicação)
   - [🚀 URLs de Acesso](#-urls-de-acesso)
-  - [📋 Pré-requisitos](#-pré-requisitos)
-  - [🚀 Ambiente de Desenvolvimento](#-ambiente-de-desenvolvimento)
-    - [1. Clone e Instalação](#1-clone-e-instalação)
-    - [2. Configuração do Ambiente](#2-configuração-do-ambiente)
-    - [3. Executando o Projeto](#3-executando-o-projeto)
-    - [4. Testando a Aplicação](#4-testando-a-aplicação)
   - [☁️ Implantação (Deploy)](#️-implantação-deploy)
     - [Build APK](#build-apk)
     - [Configuração](#configuração)
     - [APK para Testes](#apk-para-testes)
   - [▶️ Vídeo Demonstrativo](#️-vídeo-demonstrativo)
-  - [📎 Funcionalidade de Upload de Recibos](#-funcionalidade-de-upload-de-recibos)
-    - [Como Funciona](#como-funciona)
-    - [Restrições](#restrições)
-    - [Segurança](#segurança)
   - [💡 Melhorias Futuras](#-melhorias-futuras)
   - [🔗 Links Úteis](#-links-úteis)
   - [👥 Autor](#-autor)
+  - [📄 Licença](#-licença)
 
 ---
 
@@ -53,9 +55,32 @@ O **Bytebank Mobile** é um aplicativo completo para o gerenciamento das suas fi
   - **Scroll Infinito**: Carregamento automático de transações conforme o usuário rola a lista, otimizando a performance e experiência do usuário.
   - Modal dedicado para criar e editar transações.
   - Validação rigorosa dos campos para garantir a qualidade dos dados.
-  - **Upload de Recibos**: Anexe recibos PDF às suas transações para manter um registro completo das suas movimentações financeiras.
 - **Armazenamento em Nuvem**: Utiliza MongoDB para armazenar os dados das transações (via API) e Firebase Storage para os recibos.
 - **Atualização Automática de Dados**: Informações do usuário, como nome e saldo, são atualizadas automaticamente por meio de queries GraphQL.
+
+---
+
+## 📎 Funcionalidade de Upload de Recibos
+
+### Como Funciona
+
+1. **Seleção de Arquivo**: Ao criar ou editar uma transação, você pode anexar um recibo PDF
+2. **Upload Automático**: O arquivo é enviado para o Firebase Storage após a transação ser salva
+3. **Visualização**: Recibos anexados aparecem na lista de transações com ícone de documento
+4. **Acesso Externo**: Clique no ícone do recibo para abri-lo no visualizador de PDF padrão
+
+### Restrições
+
+- **Formato**: Apenas arquivos PDF
+- **Tamanho**: Máximo de 5MB por arquivo
+- **Quantidade**: Um recibo por transação
+- **Armazenamento**: Arquivos organizados por usuário e transação
+
+### Segurança
+
+- **Isolamento por Usuário**: Cada usuário tem sua própria área de armazenamento
+- **Limpeza Automática**: Recibos são removidos automaticamente quando a transação é deletada
+- **URLs Seguras**: Links de download são autenticados e temporários
 
 ---
 
@@ -102,15 +127,9 @@ bytebank-mobile/
 
 ---
 
-## 🚀 URLs de Acesso
+## 🚀 Primeiros Passos
 
-- **API GraphQL (Backend)**: [https://bytebank-api.onrender.com/graphql](https://bytebank-api.onrender.com/graphql)
-
-> ⚠️ **Nota sobre a API**: A API GraphQL está hospedada no Render utilizando o plano gratuito. Devido às limitações deste plano, a API pode demorar alguns segundos para responder na primeira requisição após um período de inatividade. As requisições subsequentes serão mais rápidas.
-
----
-
-## 📋 Pré-requisitos
+### 📋 Pré-requisitos
 
 - **[Git](https://git-scm.com/)**: Controle de versão do código
 - **[Node.js](https://nodejs.org/)**: Versão 18.x ou superior
@@ -120,9 +139,9 @@ bytebank-mobile/
 
 ---
 
-## 🚀 Ambiente de Desenvolvimento
+### 🚀 Ambiente de Desenvolvimento
 
-### 1. Clone e Instalação
+#### 1. Clone e Instalação
 
 ```bash
 git clone https://github.com/Brendhon/bytebank-mobile.git
@@ -130,7 +149,7 @@ cd bytebank-mobile
 npm install
 ```
 
-### 2. Configuração do Ambiente
+#### 2. Configuração do Ambiente
 
 Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 
@@ -150,7 +169,7 @@ EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id
 
 > 💡 **Obtendo as chaves do Firebase**: Crie um projeto no [Console do Firebase](https://console.firebase.google.com/), vá em "Configurações do projeto" > "Geral" e copie as chaves de configuração do seu aplicativo web.
 
-### 3. Executando o Projeto
+#### 3. Executando o Projeto
 
 - **Ambiente Completo (API + Mobile)**:
   ```bash
@@ -172,7 +191,7 @@ EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id
   npm run dev:stop
   ```
 
-### 4. Testando a Aplicação
+#### 4. Testando a Aplicação
 
 Após executar `npm run dev:mobile`, você pode:
 - Escanear o QR Code com o aplicativo Expo Go no seu dispositivo móvel
@@ -181,6 +200,13 @@ Após executar `npm run dev:mobile`, você pode:
 - Pressionar 'w' para abrir no navegador
 
 > 💡 **Dica para Emulador Android**: Para facilitar o uso sem abrir o Android Studio, adicione as ferramentas do Android ao PATH e use `emulator -avd <nome-do-emulador>` para iniciar emuladores pelo terminal.
+---
+
+## 🚀 URLs de Acesso
+
+- **API GraphQL (Backend)**: [https://bytebank-api.onrender.com/graphql](https://bytebank-api.onrender.com/graphql)
+
+> ⚠️ **Nota sobre a API**: A API GraphQL está hospedada no Render utilizando o plano gratuito. Devido às limitações deste plano, a API pode demorar alguns segundos para responder na primeira requisição após um período de inatividade. As requisições subsequentes serão mais rápidas.
 
 ---
 
@@ -231,7 +257,6 @@ Uma versão do APK está disponível para download direto:
 📱 **[Download do APK - Bytebank Mobile](https://drive.google.com/file/d/1iEcP9nUOgD6KUkHsdRYQj4n9mUDX8s3n/view?usp=sharing)**
 
 > 💡 **Dica**: Este APK pode ser instalado diretamente em emuladores Android ou dispositivos físicos para testes rápidos, sem necessidade de gerar builds locais.
-
 ---
 
 ## ▶️ Vídeo Demonstrativo
@@ -239,30 +264,6 @@ Uma versão do APK está disponível para download direto:
 Assista a uma demonstração das principais funcionalidades do aplicativo:
 
 ▶️ **[Vídeo Demonstrativo - Bytebank Mobile](https://drive.google.com/file/d/1KEbnzUHAtrvg1uI3nrsL283dIwuIow6D/view?usp=drive_link)**
-
----
-
-## 📎 Funcionalidade de Upload de Recibos
-
-### Como Funciona
-
-1. **Seleção de Arquivo**: Ao criar ou editar uma transação, você pode anexar um recibo PDF
-2. **Upload Automático**: O arquivo é enviado para o Firebase Storage após a transação ser salva
-3. **Visualização**: Recibos anexados aparecem na lista de transações com ícone de documento
-4. **Acesso Externo**: Clique no ícone do recibo para abri-lo no visualizador de PDF padrão
-
-### Restrições
-
-- **Formato**: Apenas arquivos PDF
-- **Tamanho**: Máximo de 5MB por arquivo
-- **Quantidade**: Um recibo por transação
-- **Armazenamento**: Arquivos organizados por usuário e transação
-
-### Segurança
-
-- **Isolamento por Usuário**: Cada usuário tem sua própria área de armazenamento
-- **Limpeza Automática**: Recibos são removidos automaticamente quando a transação é deletada
-- **URLs Seguras**: Links de download são autenticados e temporários
 
 ---
 
@@ -291,3 +292,9 @@ Assista a uma demonstração das principais funcionalidades do aplicativo:
 **Brendhon Moreira**
 
 [LinkedIn](https://www.linkedin.com/in/brendhon-moreira) | [GitHub](https://github.com/Brendhon)
+
+---
+
+## 📄 Licença
+
+Este projeto está licenciado sob a [MIT License](LICENSE).
