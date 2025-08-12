@@ -27,6 +27,7 @@ Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida com
     - [Configuração](#configuração)
     - [APK para Testes](#apk-para-testes)
   - [▶️ Vídeo Demonstrativo](#️-vídeo-demonstrativo)
+  - [🖼️ Telas da Aplicação](#️-telas-da-aplicação)
   - [💡 Melhorias Futuras](#-melhorias-futuras)
   - [🔗 Links Úteis](#-links-úteis)
   - [👥 Autor](#-autor)
