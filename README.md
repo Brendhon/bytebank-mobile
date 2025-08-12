@@ -105,23 +105,20 @@ O **Bytebank Mobile** é um aplicativo completo para o gerenciamento das suas fi
 
 ```
 bytebank-mobile/
-├── assets/                   # Imagens, ícones, fontes
-├── components/               # Componentes React Native reutilizáveis
-├── contexts/                 # Contextos para gerenciamento de estado (Context API)
-├── hooks/                    # Hooks personalizados
-├── app/                      # Configurações de navegação (Expo Router)
-│   ├── _layout.tsx           # Layout principal da aplicação
-│   ├── index.tsx             # Página inicial com login e cadastro
-│   ├── dashboard.tsx         # Página de dashboard com gráficos e análises
-│   ├── transactions.tsx      # Página de transações com criação, edição e upload de recibos
-│   └── settings.tsx          # Página de configurações
-├── services/                 # Funções para comunicação com API e Firebase
-├── utils/                    # Funções utilitárias diversas
-├── app.json
-├── babel.config.js
-├── package.json
-├── tailwind.config.js
-└── tsconfig.json
+├── app/                      # Definição das rotas e telas da aplicação (Expo Router)
+├── assets/                   # Arquivos estáticos como imagens, fontes e ícones
+├── components/               # Componentes React Native reutilizáveis e modularizados
+├── contexts/                 # Contextos React para gerenciamento de estado global
+├── docs/                     # Documentação do projeto, incluindo guias e exemplos de uso
+├── hooks/                    # Hooks personalizados para lógica reutilizável
+├── models/                   # Definições de tipos e interfaces TypeScript
+├── schemas/                  # Esquemas de validação (Zod) para formulários
+├── services/                 # Módulos de comunicação com APIs (GraphQL) e serviços externos (Firebase)
+├── utils/                    # Funções utilitárias
+├── .env                      # Arquivo para variáveis de ambiente (não versionado)
+├── app.json                  # Configurações do projeto Expo
+├── package.json              # Dependências e scripts do projeto
+└── tailwind.config.js        # Configurações do Tailwind CSS para NativeWind
 ```
 
 ---
