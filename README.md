@@ -27,7 +27,7 @@ Este repositório contém a aplicação mobile do **Bytebank**, desenvolvida com
     - [Configuração](#configuração)
     - [APK para Testes](#apk-para-testes)
   - [▶️ Vídeo Demonstrativo](#️-vídeo-demonstrativo)
-  - [🖼️ Telas da Aplicação](#️-telas-da-aplicação)
+  - [🖼️ Telas da Aplicação](./assets/screenshots/README.md)
   - [💡 Melhorias Futuras](#-melhorias-futuras)
   - [🔗 Links Úteis](#-links-úteis)
   - [👥 Autor](#-autor)
@@ -268,23 +268,7 @@ Assista a uma demonstração das principais funcionalidades do aplicativo:
 
 ---
 
-## 🖼️ Telas da Aplicação
-
-| Login | Cadastro | Home |
-| :---: | :---: | :---: |
-| <img src="./assets/screenshots/Login.png" alt="Tela de Login" width="250"/> | <img src="./assets/screenshots/Register.png" alt="Tela de Cadastro" width="250"/> | <img src="./assets/screenshots/Home.png" alt="Tela de Home" width="250"/> |
-
-| Dashboard | Menu | Transações |
-| :---: | :---: | :---: |
-| <img src="./assets/screenshots/Dashboard.png" alt="Tela de Dashboard" width="250"/> | <img src="./assets/screenshots/menu.png" alt="Tela de Menu" width="250"/> | <img src="./assets/screenshots/transactions.png" alt="Tela de Transações" width="250"/> |
-
-| Nova Transação | Atualizar Transação |
-| :---: | :---: |
-| <img src="./assets/screenshots/new-transaction.png" alt="Tela de Nova Transação" width="250"/> | <img src="./assets/screenshots/update-transactions.png" alt="Tela de Atualizar Transação" width="250"/> |
-
-| Configurações | Deletar Conta |
-| :---: | :---: |
-| <img src="./assets/screenshots/user-settings.png" alt="Tela de Configurações" width="250"/> | <img src="./assets/screenshots/delete-account.png" alt="Tela de Deletar Conta" width="250"/> |
+Para visualizar as telas da aplicação, acesse o [README.md](./assets/screenshots/README.md) na pasta de screenshots.
 
 ---
 
