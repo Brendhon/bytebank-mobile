@@ -49,6 +49,7 @@ O **Bytebank Mobile** é um aplicativo completo para o gerenciamento das suas fi
 - **Dashboard Interativo**: Painel financeiro com gráficos e análises dinâmicas das suas transações, incluindo animações para uma experiência visual agradável.
 - **Gestão de Transações**:
   - Visualização detalhada das transações, com filtros avançados (por data, categoria, etc.) e paginação.
+  - **Scroll Infinito**: Carregamento automático de transações conforme o usuário rola a lista, otimizando a performance e experiência do usuário.
   - Modal dedicado para criar e editar transações.
   - Validação rigorosa dos campos para garantir a qualidade dos dados.
   - **Upload de Recibos**: Anexe recibos PDF às suas transações para manter um registro completo das suas movimentações financeiras.
